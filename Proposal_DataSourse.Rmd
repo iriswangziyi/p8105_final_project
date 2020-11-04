@@ -1,0 +1,26 @@
+---
+title: "Proposal_DataSource"
+author: "Wenbo Fei"
+date: "11/3/2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(rvest)
+library(httr)
+
+```
+
+# Data 1
+Aggregated yearly beer statistics by state from 2008-2019[Beer Statistic -- Aggregated data: Tax Determined (in Barrels)](https://www.ttb.gov/beer/statistics)
+```{r read1}
+#install.packages("gdata")
+site1 <- "http://www.ttb.gov/images/pdfs/statistics/aggregated/aggr-data-beer_2008-2019.xlsx"
+data1  <- 
+  gdata::read.xls(site1, header = T, skip = 6, nrow = 52)
+#View(data1)
+
+```
+
