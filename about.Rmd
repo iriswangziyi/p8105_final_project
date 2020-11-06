@@ -1,0 +1,30 @@
+---
+title: "About us"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+
+We are all first year PhD students in the Biostatistics department! 
+
+# Amy Pitts 
+UNI: (ajp2257)
+
+Email: ajp2257@columbia.edu 
+
+# Ruiyang Li 
+UNI: (rl3034)
+
+Email: rl3034@columbia.edu
+
+# Wenbo Fei 
+UNI: (wf2270)
+
+Email: wf2270@columbia.edu
+
+# Ziyi Wang 
+UNI: (zw2716)
+
+Email: zw2716@columbia.edu

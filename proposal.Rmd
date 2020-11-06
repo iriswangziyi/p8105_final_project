@@ -1,0 +1,12 @@
+---
+title: "Proposal"
+author: "Amy Pitts, Ruiyang Li, Wenbo Fei, and Ziyi Wang"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+
+# Here is our poposal 
+
