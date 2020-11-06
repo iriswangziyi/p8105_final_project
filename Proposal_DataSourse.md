@@ -13,19 +13,27 @@ state in barrels.
 
 ``` r
 #install.packages("gdata")
-site1 <- "http://www.ttb.gov/images/pdfs/statistics/aggregated/aggr-data-beer_2008-2019.xlsx"
-data11  <- 
-  gdata::read.xls(site1, sheet = 1, header = T, skip = 6, nrow = 52) %>%
+site1 = "http://www.ttb.gov/images/pdfs/statistics/aggregated/aggr-data-beer_2008-2019.xlsx"
+
+#Tax Determined (in Barrels)
+tax_df  =  
+  gdata::read.xls(site1, sheet = 1, header = T, skip = 6, nrow = 52) %>% 
   janitor::clean_names()
-data12  <- 
-  gdata::read.xls(site1, sheet = 2, header = T, skip = 4, nrow = 52) %>%
+
+# Taxable Volume of Bottles and Cans* (in Barrels)
+taxable_cans_df  = 
+  gdata::read.xls(site1, sheet = 2, header = T, skip = 4, nrow = 52) %>% 
   janitor::clean_names()
-data13  <- 
+
+# Taxable Volume of Barrels and Kegs*
+taxable_barrels_df  = 
   gdata::read.xls(site1, sheet = 3, header = T, skip = 4, nrow = 52) %>%
   janitor::clean_names()
-#View(data11)
-#View(data12)
-#View(data13)
+
+
+#View(tax_df)
+#View(taxable_cans_df)
+#View(taxable_barrels_df)
 ```
 
 ## Data 2: Beer Product Information
@@ -38,7 +46,7 @@ its address and website, percentage of alcohol by volume, bitterness
 from hops in a beer, beer color, and description in text.
 
 ``` r
-data2 = 
+beer_specific = 
   read_delim("https://public-us.opendatasoft.com/explore/dataset/open-beer-database/download/?format=csv&timezone=America/New_York&lang=en&use_labels_for_header=true&csv_separator=%3B", delim = ";") %>%
   janitor::clean_names()
 ```
@@ -61,7 +69,7 @@ data2 =
     ## 3565 cat_id no trailing characters /22/10 08:00 PM 'https://public-us.opendatasoft.com/explore/dataset/open-beer-database/download/?format=csv&timezone=America/New_York&lang=en&use_labels_for_header=true&csv_separator=%3B'
 
 ``` r
-#View(data2)
+#View(beer_specific)
 ```
 
   - This dataset seems to have many missing values. Some of them don’t

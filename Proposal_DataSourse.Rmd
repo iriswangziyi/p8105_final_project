@@ -36,9 +36,9 @@ taxable_barrels_df  =
   janitor::clean_names()
 
 
-View(tax_df)
-View(taxable_cans_df)
-View(taxable_barrels_df)
+#View(tax_df)
+#View(taxable_cans_df)
+#View(taxable_barrels_df)
 ```
 
 ## Data 2: Beer Product Information
@@ -48,7 +48,7 @@ beer_specific =
   read_delim("https://public-us.opendatasoft.com/explore/dataset/open-beer-database/download/?format=csv&timezone=America/New_York&lang=en&use_labels_for_header=true&csv_separator=%3B", delim = ";") %>%
   janitor::clean_names()
 
-View(beer_specific)
+#View(beer_specific)
 ```
 
 * This dataset seems to have many missing values. Some of them don't have a description, many of them share a product code 0.
