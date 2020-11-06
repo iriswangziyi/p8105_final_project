@@ -1,8 +1,3 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 # Final Project Proposal -- An Exhaustive look at Beer data
 
 Author: Amy Pitts (ajp2257), Ruiyang Li (rl3034), Wenbo Fei (wf2270), Ziyi Wang (zw2716)
