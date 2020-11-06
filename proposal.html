@@ -9,10 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Amy Pitts, Ruiyang Li, Wenbo Fei, and Ziyi Wang" />
+<meta name="author" content="Amy Pitts (ajp2257), Ruiyang Li (rl3034), Wenbo Fei (wf2270), Ziyi Wang (zw2716)" />
 
 
-<title>Proposal</title>
+<title>Proposal: An Exhaustive look at Beer data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,9 +20,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -254,69 +251,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -324,16 +258,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -374,20 +298,58 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Proposal</h1>
-<h4 class="author">Amy Pitts, Ruiyang Li, Wenbo Fei, and Ziyi Wang</h4>
+<h1 class="title toc-ignore">Proposal: An Exhaustive look at Beer data</h1>
+<h4 class="author">Amy Pitts (ajp2257), Ruiyang Li (rl3034), Wenbo Fei (wf2270), Ziyi Wang (zw2716)</h4>
 
 </div>
 
 
-<div id="here-is-our-poposal" class="section level1">
-<h1>Here is our poposal</h1>
+<div id="motivation" class="section level2">
+<h2>Motivation</h2>
+<p>The American Government continues to control the consumption and production of Beer through regulations and taxes. The Alcohol and Tobacco Tax and Trade Bureau regulates people who engage in the alcohol beverage industry by requiring people to file an application before engaging in business (TTBGov - Beverage Alcohol, n.d.). For Breweries in particular they are required to file documents every year and the data is compiled into publicly available sources (TTBGov - Beer Statistics, n.d.). Through this reporting and taxation, the U.S. profits enormously off of Beer. Since beer plays such an important role in the U.S. economy it is important to analyze the publicly available government data all about taxation and production (TTBGov - Beverage Alcohol, n.d.). It is also equally interesting to look at the types of beer produced, location of breweries across the globe using an open-source API data set (Open Beer Database, n.d.). Our goal in this project is to get a better understanding of what kinds of beers are produced and how The U.S. economy profits off of it.</p>
+</div>
+<div id="the-intended-final-products" class="section level2">
+<h2>The intended final products</h2>
+<p>A written report, a Github website with a shiny/dashboard, and a 2min narrated screencast</p>
+</div>
+<div id="the-anticipated-data-sources" class="section level2">
+<h2>The anticipated data sources</h2>
+<ul>
+<li><p>Yearly Statistical Beer Data by State (2008 – 2019) from <a href="https://www.ttb.gov/beer/statistics">Alcohol and Tobacco Tax and Trade Bureau</a>. This aggregated data contained records on Tax Determined, Taxable Volume of Bottles and Cans, Taxable Volume of Barrels and Kegs each year for each state in barrels.</p></li>
+<li><p>Open Beer database from <a href="https://data.opendatasoft.com/explore/dataset/open-beer-database%40public-us/information/?rows=4588&amp;timezone=&amp;refine.country=United+States&amp;location=2,16.98232,9.498&amp;basemap=jawg.sunny&amp;dataChart=eyJxdWVyaWVzIjpbeyJjb25maWciOnsiZGF0YXNldCI6Im9wZW4tYmVlci1kYXRhYmFzZUBwdWJsaWMtdXMiLCJvcHRpb25zIjp7fX0sImNoYXJ0cyI6W3siYWxpZ25Nb250aCI6dHJ1ZSwidHlwZSI6ImxpbmUiLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJhYnYiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiIjMTQyRTdCIn1dLCJ4QXhpcyI6Imxhc3RfbW9kIiwibWF4cG9pbnRzIjoiIiwidGltZXNjYWxlIjoieWVhciIsInNvcnQiOiIifV0sImRpc3BsYXlMZWdlbmQiOnRydWUsImFsaWduTW9udGgiOnRydWV9">Opendatasoft</a>. This dataset contains information of each beer product, including product name, universal product code, style, category, brewer along with its address and website, percentage of alcohol by volume, bitterness from hops in a beer, beer color, and description in text.</p></li>
+</ul>
+</div>
+<div id="the-planned-analysesvisualizationscoding-challenges" class="section level2">
+<h2>The planned analyses/visualizations/coding challenges</h2>
+<ol style="list-style-type: decimal">
+<li>How much profit and product does each state in the US make each year?</li>
+<li>How does the tax rate change over time per state? Which state gives more beer tax? Any trends?</li>
+<li>What category/brewer/style of beer has the most Alcohol by volume (ABV)?</li>
+<li>Map location of each US brewer with category/style, size of marker showing ABV and interactive label showing the tax info by state.</li>
+</ol>
+</div>
+<div id="the-planned-timeline" class="section level2">
+<h2>The planned timeline</h2>
+<ul>
+<li><strong>Week 1: (10/30-11/7)</strong> -&gt; Start group Git repo, Establish proposal</li>
+<li><strong>Week 2 (11/8 - 11/14)</strong> -&gt; Prelim research, Tidy Data, and EDA</li>
+<li><strong>Week 3 (11/15-11/21)</strong> -&gt; Visualization and drafting website</li>
+<li><strong>Week 4 (11/22- 11/28)</strong> -&gt; Adding Dashboard/Shiny app to website</li>
+<li><strong>Week 5 (11/29-12/5)</strong> -&gt; Final touches to the website and report, Recording our Screen Recording</li>
+<li><strong>Week 6 (12/6-12/10)</strong> -&gt; (12/5) report, website, screen recording DUE, (12/10) in-class discussion</li>
+</ul>
+</div>
+<div id="resources" class="section level2">
+<h2>Resources</h2>
+<ul>
+<li>Open Beer Database. (n.d.). Retrieved November 6, 2020, from <a href="https://data.opendatasoft.com/explore/dataset/open-beer-database@public-us/table/" class="uri">https://data.opendatasoft.com/explore/dataset/open-beer-database@public-us/table/</a></li>
+<li>TTBGov—Beer Statistics. (n.d.). Retrieved November 6, 2020, from <a href="https://www.ttb.gov/beer/statistics" class="uri">https://www.ttb.gov/beer/statistics</a></li>
+<li>TTBGov—Beverage Alcohol. (n.d.). Retrieved November 6, 2020, from <a href="https://www.ttb.gov/alcohol/beverage-alcohol" class="uri">https://www.ttb.gov/alcohol/beverage-alcohol</a></li>
+</ul>
 </div>
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -420,32 +382,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
