@@ -2,7 +2,7 @@
 title: "Proposal: An Exhaustive look at Beer data"
 author: "Amy Pitts (ajp2257), Ruiyang Li (rl3034), Wenbo Fei (wf2270), Ziyi Wang (zw2716)"
 output: 
-  github_document:
+  html_document:
     toc: true
     toc_float: true
 ---
