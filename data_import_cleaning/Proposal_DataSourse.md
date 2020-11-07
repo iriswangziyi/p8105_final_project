@@ -18,22 +18,43 @@ site1 = "http://www.ttb.gov/images/pdfs/statistics/aggregated/aggr-data-beer_200
 #Tax Determined (in Barrels)
 tax_df  =  
   gdata::read.xls(site1, sheet = 1, header = T, skip = 6, nrow = 52) %>% 
-  janitor::clean_names()
+  janitor::clean_names() %>%
+  select(1:13) %>%
+  as_tibble() %>%
+  rename_with( ~ sub("x", "", .x)) %>% # rename column names
+  mutate(state = factor(state)) %>% #state as factor
+  mutate_at(vars(2:13), ~ gsub(",", "", .x)) %>% #remove , in tax values
+  mutate_at(vars(2:13), as.numeric) # tax values as numeric
 
 # Taxable Volume of Bottles and Cans* (in Barrels)
 taxable_cans_df  = 
   gdata::read.xls(site1, sheet = 2, header = T, skip = 4, nrow = 52) %>% 
-  janitor::clean_names()
+  janitor::clean_names() %>%
+  select(1:13) %>%
+  as_tibble() %>%
+  rename_with( ~ sub("x", "", .x)) %>%
+  mutate(state = factor(state)) %>%
+  mutate_at(vars(2:13), ~ gsub(",", "", .x)) %>%
+  mutate_at(vars(2:13), as.numeric)
 
 # Taxable Volume of Barrels and Kegs*
 taxable_barrels_df  = 
-  gdata::read.xls(site1, sheet = 3, header = T, skip = 4, nrow = 52) %>%
-  janitor::clean_names()
+  gdata::read.xls(site1, sheet = 3, header = T, skip = 4, nrow = 52) %>% 
+  janitor::clean_names() %>%
+  select(1:13) %>%
+  as_tibble() %>%
+  rename_with( ~ sub("x", "", .x)) %>%
+  mutate(state = factor(state)) %>%
+  mutate_at(vars(2:13), ~ gsub(",", "", .x)) %>%
+  mutate_at(vars(2:13), as.numeric)
 
 
 #View(tax_df)
 #View(taxable_cans_df)
 #View(taxable_barrels_df)
+write_csv(tax_df, "tax.csv")
+write_csv(taxable_cans_df, "tax_cans.csv")
+write_csv(taxable_barrels_df, "tax_barrels_df")
 ```
 
 ## Data 2: Beer Product Information
