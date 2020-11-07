@@ -49,12 +49,12 @@ taxable_barrels_df  =
   mutate_at(vars(2:13), as.numeric)
 
 
-#View(tax_df)
-#View(taxable_cans_df)
-#View(taxable_barrels_df)
-write_csv(tax_df, "tax.csv")
-write_csv(taxable_cans_df, "tax_cans.csv")
-write_csv(taxable_barrels_df, "tax_barrels_df")
+# View(tax_df)
+# View(taxable_cans_df)
+# View(taxable_barrels_df)
+# write_csv(tax_df, "tax.csv")
+# write_csv(taxable_cans_df, "tax_cans.csv")
+# write_csv(taxable_barrels_df, "tax_barrels_df")
 ```
 
 ## Data 2: Beer Product Information
@@ -69,7 +69,9 @@ from hops in a beer, beer color, and description in text.
 ``` r
 beer_specific = 
   read_delim("https://public-us.opendatasoft.com/explore/dataset/open-beer-database/download/?format=csv&timezone=America/New_York&lang=en&use_labels_for_header=true&csv_separator=%3B", delim = ";") %>%
-  janitor::clean_names()
+  janitor::clean_names() %>%
+  filter(country == "United States") %>%
+  separate(coordinates, c("latitude", "longitude"), sep = ",")
 ```
 
     ## Parsed with column specification:
@@ -90,8 +92,10 @@ beer_specific =
     ## 3565 cat_id no trailing characters /22/10 08:00 PM 'https://public-us.opendatasoft.com/explore/dataset/open-beer-database/download/?format=csv&timezone=America/New_York&lang=en&use_labels_for_header=true&csv_separator=%3B'
 
 ``` r
-#View(beer_specific)
+# View(beer_specific)
+# write_csv(beer_specific, "beer.csv")
 ```
 
-  - This dataset seems to have many missing values. Some of them don’t
-    have a description, many of them share a product code 0.
+  - This dataset seems to have many missing values while the website
+    didn’t give any explanation. Some of them don’t have a description,
+    many of them share a product code 0.
