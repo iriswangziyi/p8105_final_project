@@ -19,7 +19,7 @@ tax_cans_df    = read_csv("data_import_cleaning/tax_cans.csv")
 tax_barrels_df = read_csv("data_import_cleaning/tax_barrels_df.csv")
 ```
 
-
+### Looking at just the taxes collected by state 
 ```{r}
 tax_df %>%
   filter(state != "total") %>%
@@ -35,6 +35,8 @@ tax_df %>%
   layout( # adding a title 
     title = "Tax collected over the years by state")
 ```
+
+### looking at the amount Barrels produced by state 
 
 ```{r}
 tax_barrels_df %>%
@@ -52,6 +54,7 @@ tax_barrels_df %>%
     title = "Barrel production over the years by state")
 ```
 
+### looking at the amount of cans and bottles produced by state over years 
 ```{r}
 tax_cans_df %>%
   filter(state != "total") %>%
@@ -90,6 +93,8 @@ tibble(state, tax_rate_df) %>%
   layout( # adding a title 
     title = "Tax rate over the years by state")
 ```
+
+might want to go in an look at the data for errors, that one spike looks very odd... might be missing values for some inflating the rate... 
 
 
 
