@@ -59,7 +59,7 @@ taxable_barrels_df  =
 # View(taxable_barrels_df)
 # write_csv(tax_df, "tax.csv")
 # write_csv(taxable_cans_df, "tax_cans.csv")
-# write_csv(taxable_barrels_df, "tax_barrels_df")
+#write_csv(taxable_barrels_df, "tax_barrels_df.csv")
 ```
 
 ## Data 2: Beer Product Information

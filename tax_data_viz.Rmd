@@ -1,0 +1,19 @@
+---
+title: "tax_data_vis"
+author: "Amy Pitts"
+date: "11/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+### get the data! 
+```{r}
+tax_df         = read_csv( "data_import_cleaning/tax.csv")
+tax_cans_df    = read_csv("data_import_cleaning/tax_cans.csv")
+tax_barrels_df = read_csv("data_import_cleaning/tax_barrels_df.csv")
+```
+
