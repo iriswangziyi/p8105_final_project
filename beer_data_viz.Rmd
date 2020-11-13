@@ -1,0 +1,105 @@
+---
+title: "beer_data_viz"
+author: "Ruiyang Li"
+date: "11/13/2020"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Read in the beer data
+
+```{r read_df,collapse=TRUE}
+beer = 
+  read_csv("./data_import_cleaning/beer.csv")
+```
+
+## Alcohol by volume (ABV) pattern
+
+* What category/brewer/style of beer has the most Alcohol by volume (ABV)?
+
+### By category
+
+```{r cat_abv,collapse=TRUE}
+cat_abv = 
+  beer %>% 
+  replace_na(list(category = "NA", y = "unknown")) %>% 
+  group_by(category) %>% 
+  summarise(mean_abv = mean(alcohol_by_volume)) %>% 
+  arrange(desc(mean_abv)) 
+cat_abv
+
+cat_abv %>% 
+  mutate(category = fct_reorder(category, mean_abv)) %>% 
+  ggplot(aes(x = category, y = mean_abv)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.3, hjust = 1))
+```
+
+### By brewer
+
+* Top 20
+
+```{r brewer_abv,collapse=TRUE}
+brewer_abv = 
+  beer %>% 
+  group_by(brewer) %>% 
+  summarise(mean_abv = mean(alcohol_by_volume)) %>% 
+  arrange(desc(mean_abv))
+brewer_abv
+
+brewer_abv %>% 
+  slice(1:20) %>% 
+  mutate(brewer = fct_reorder(brewer, mean_abv)) %>% 
+  ggplot(aes(x = brewer, y = mean_abv)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.3, hjust = 1))
+```
+
+### By style
+
+* top 20
+
+```{r style_abv,collapse=TRUE}
+style_abv = 
+  beer %>% 
+  group_by(style) %>% 
+  summarise(mean_abv = mean(alcohol_by_volume)) %>% 
+  arrange(desc(mean_abv))
+style_abv
+
+style_abv %>% 
+  slice(1:20) %>% 
+  mutate(style = fct_reorder(style, mean_abv)) %>% 
+  ggplot(aes(x = style, y = mean_abv)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.3, hjust = 1))
+```
+
+
+## Location mapping
+
+* Map location of each US brewer with category/style, size of marker showing ABV and interactive label showing the tax info by state.
+
