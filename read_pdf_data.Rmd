@@ -13,12 +13,19 @@ library(tidyverse)
 
 ```
 
+This data is gotten from (link)[https://www.nbwa.org/resources/state-data]. Specifically the pdf files at 
+(Summary of Effective State Excise Tax Rates by State)[https://www.nbwa.org/sites/default/files/Beer%20Excise%20Tax%202019%20-%20Revised%20July%202020.pdf]
+
+(Shipments of Malt Beverages and Per Capita Consumption by State)[https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf]
+
+
+First we are looking at the Summary of Effective State Excise Tax Rates by State
 ```{r}
 PDF <- pdf_text("Beer Excise Tax 2019 - Revised July 2020.pdf") %>%
   readr::read_lines() #open the PDF inside your project folder
 ```
 
-
+This is just looking at the first year of data 
 ```{r}
 PDF.2009 <-PDF[6:56]  # remove lines
 #PDF.tax
@@ -27,6 +34,7 @@ all_stat_lines <- PDF.2009 %>%
   str_squish() %>%
   strsplit(split = " ") # remove empty spaces
 
+# here i am hard codign the lot of things. not good want to get rid 
 all_stat_lines[[9]] <- c( "DC", "$2.79"  , "44"   , "$2.79"  ,  "44"   ,  "$2.79"  ,  "45"   )  
 all_stat_lines[[30]] <- c("New_Hampshire","$9.30" , "15" , "$9.30" , "17",  "$9.30" , "18"  ) 
 all_stat_lines[[31]] <- c("New_Jersey"   ,"$3.72" , "39" , "$3.72" , "39",  "$3.72" , "40")
@@ -75,7 +83,7 @@ head(df2009)
 ```
 
 
-
+This is the loop that get data for all years 
 ```{r, message=FALSE, warning=FALSE}
 data_extract <- function(begin, end) {
   PDF.small <-PDF[begin:end]  # remove lines
@@ -109,4 +117,5 @@ df2017 = data_extract(502,552) #2017
 df2018 = data_extract(565,615) #2018
 df2019 = data_extract(628,678) #2019
 ```
+Notice that every single tibble has problems with the state name. I can not figure out how to get the states that have two words as a name into just the state column. This will also mean we need to shift all the data in the column over one. This is going to be extremely annoying and I fix the problem above by just hard coding it but that shouldn't be our solution there should be another way.
 
