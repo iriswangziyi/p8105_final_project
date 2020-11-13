@@ -1,0 +1,112 @@
+---
+title: "read pdf data"
+author: "Amy Pitts"
+date: "11/13/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(pdftools)
+library(plyr)
+library(tidyverse)
+
+```
+
+```{r}
+PDF <- pdf_text("Beer Excise Tax 2019 - Revised July 2020.pdf") %>%
+  readr::read_lines() #open the PDF inside your project folder
+```
+
+
+```{r}
+PDF.2009 <-PDF[6:56]  # remove lines
+#PDF.tax
+
+all_stat_lines <- PDF.2009 %>%
+  str_squish() %>%
+  strsplit(split = " ") # remove empty spaces
+
+all_stat_lines[[9]] <- c( "DC", "$2.79"  , "44"   , "$2.79"  ,  "44"   ,  "$2.79"  ,  "45"   )  
+all_stat_lines[[30]] <- c("New_Hampshire","$9.30" , "15" , "$9.30" , "17",  "$9.30" , "18"  ) 
+all_stat_lines[[31]] <- c("New_Jersey"   ,"$3.72" , "39" , "$3.72" , "39",  "$3.72" , "40")
+all_stat_lines[[32]] <- c("New_Mexico"   ,"$12.61", "10" , "$12.61", "11",  "$12.61", "12" )
+all_stat_lines[[33]] <- c("New_York"     ,"$4.26" , "38" , "$4.26" , "38",  "$5.55" ,"32" )
+all_stat_lines[[34]] <- c("North_Carolina","$17.81",   "6","$17.81",  "8" , "$17.81","9" )
+all_stat_lines[[35]] <- c("North_Dakota", "$4.67",  "34"  ,   "$4.67" , "35"  ,   "$4.67" , "37" )
+all_stat_lines[[40]] <- c( "Rhode_Island", "$3.00" , "43" ,    "$3.00" , "43"    , "$3.69" , "41"  )
+all_stat_lines[[41]] <- c("South_Carolina", "$23.81" ,  "4"  ,  "$23.81" ,  "5" ,  "$23.81",  "6")
+all_stat_lines[[42]] <- c("South_Dakota", "$8.50" , "17"   , "$8.50" , "19"   ,  "$8.50" , "20" )
+all_stat_lines[[49]] <- c("West_Virginia", "$5.50" ,  "30" ,  "$5.50", "31"   ,  "$5.50"  ,  "33" )
+
+
+df = all_stat_lines %>% reduce(rbind) 
+
+df2009 = tibble( 
+  "State" = df[,1], 
+   "Effective Excise Tax (Volume Adjusted)" = df[,2],
+   "Rank1" =df[,3], 
+   "Effective Excise Tax with Other State Taxes " = df[,4], 
+   "Rank2"= df[,5], 
+   "Effective Excise Tax with Other and Local Taxes " = df[,6],
+  "Rank3" = df[,7]
+  )
+
+head(df2009)
+
+# plus 8+3 and then plus 55-1
+#11, 54
+
+
+#PDF[67:118] #2010
+#PDF[128:178] #2011
+#PDF[190:240] #2012
+#PDF[252:302] #2013
+
+
+# PDF[311:365] #2014
+# PDF[372:427] #2015
+# PDF[435:490] #2016
+# PDF[498:553] #2017
+# PDF[561:616] #2018
+# PDF[624:679] #2019
+
+
+```
+
+
+
+```{r, message=FALSE, warning=FALSE}
+data_extract <- function(begin, end) {
+  PDF.small <-PDF[begin:end]  # remove lines
+  #PDF.tax
+  
+  df <- PDF.small %>%
+    str_squish() %>%
+    strsplit(split = " ") %>%# remove empty spaces
+    reduce(rbind) 
+  
+  data = tibble( 
+    "State" = df[,1], 
+     "Effective Excise Tax (Volume Adjusted)" = df[,2],
+     "Rank1" =df[,3], 
+     "Effective Excise Tax with Other State Taxes " = df[,4], 
+     "Rank2"= df[,5], 
+     "Effective Excise Tax with Other and Local Taxes " = df[,6],
+    "Rank3" = df[,7]
+    )
+  return(data)
+}
+df2009 = data_extract(6, 56)
+df2010 = data_extract(67, 118)
+df2011 = data_extract(128, 178)
+df2012 = data_extract(190,240) #2012
+df2013 = data_extract(252,302) #2013
+df2014 = data_extract(314,364) #2014
+df2015 = data_extract(375,426) #2015
+df2016 = data_extract(439,489) #2016
+df2017 = data_extract(502,552) #2017
+df2018 = data_extract(565,615) #2018
+df2019 = data_extract(628,678) #2019
+```
+
