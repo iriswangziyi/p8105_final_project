@@ -1,0 +1,47 @@
+---
+title: "viz_tax_statemap"
+author: "Wenbo Fei"
+date: "11/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(plotly)
+library(flexdashboard)
+```
+
+```{r read_data}
+tax_df = read_csv("../data_import_cleaning/tax.csv")
+# View(tax_df)
+```
+
+* Draw interactive plot showing the beer tax of U.S. for each state in choropleth map.
+```{r plot}
+state_df = 
+  tibble(
+    state = state.abb, # arrange row order according default state.abb
+    state.name = state.name
+  )
+
+tax <- 
+  left_join(state_df, tax_df, by = "state") %>% # arrange row order
+  pull(3) # take year 2008 record, MS has NA
+# View(density)
+
+g <- list(
+  scope = 'usa',
+  projection = list(type = 'albers usa'),
+  lakecolor = toRGB('white')
+)
+
+plot_geo() %>%
+  add_trace(
+    z = ~tax, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g)
+```
+
+To be continued: to draw all the years, change layout, deal with missing data ...
