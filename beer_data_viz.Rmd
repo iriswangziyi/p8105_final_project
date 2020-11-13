@@ -11,6 +11,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(plotly)
 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -53,9 +54,11 @@ cat_abv
 
 cat_abv %>% 
   mutate(category = fct_reorder(category, mean_abv)) %>% 
-  ggplot(aes(x = category, y = mean_abv)) + 
-  geom_point() + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.3, hjust = 1))
+  plot_ly(x = ~category, y = ~mean_abv, color = ~category, type = "bar", colors = "viridis")
+
+beer %>% 
+  mutate(category = fct_reorder(category, alcohol_by_volume)) %>% 
+  plot_ly(y = ~alcohol_by_volume, color = ~category, type = "box", colors = "viridis")
 ```
 
 ### By brewer
@@ -72,10 +75,15 @@ brewer_abv
 
 brewer_abv %>% 
   slice(1:20) %>% 
-  mutate(brewer = fct_reorder(brewer, mean_abv)) %>% 
-  ggplot(aes(x = brewer, y = mean_abv)) + 
-  geom_point() + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.3, hjust = 1))
+  mutate(brewer = fct_reorder(brewer, mean_abv)) %>%
+  plot_ly(x = ~brewer, y = ~mean_abv, color = ~brewer, type = "bar", colors = "viridis") %>% 
+  layout(yaxis = list(range = c(8, 11)))
+
+top_20_brewer = brewer_abv %>% slice(1:20) %>% select(brewer) %>% unlist()
+beer %>% 
+  filter(brewer %in% top_20_brewer) %>% 
+  mutate(brewer = fct_reorder(brewer, alcohol_by_volume)) %>% 
+  plot_ly(y = ~alcohol_by_volume, color = ~brewer, type = "box", colors = "viridis")
 ```
 
 ### By style
@@ -93,13 +101,21 @@ style_abv
 style_abv %>% 
   slice(1:20) %>% 
   mutate(style = fct_reorder(style, mean_abv)) %>% 
-  ggplot(aes(x = style, y = mean_abv)) + 
-  geom_point() + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.3, hjust = 1))
+  plot_ly(x = ~style, y = ~mean_abv, color = ~style, type = "bar", colors = "viridis") %>% 
+  layout(yaxis = list(range = c(5.5, 12)))
+
+top_20_style = style_abv %>% slice(1:20) %>% select(style) %>% unlist()
+beer %>% 
+  filter(style %in% top_20_style) %>% 
+  mutate(style = fct_reorder(style, alcohol_by_volume)) %>% 
+  plot_ly(y = ~alcohol_by_volume, color = ~style, type = "box", colors = "viridis")
 ```
 
 
 ## Location mapping
 
 * Map location of each US brewer with category/style, size of marker showing ABV and interactive label showing the tax info by state.
+
+
+
 
