@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Amy Pitts" />
+
+<meta name="date" content="2020-11-13" />
+
+<title>read pdf data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="proposal.html">Proposal</a>
+</li>
+<li>
+  <a href="https://github.com/iriswangziyi/p8105_final_project">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">read pdf data</h1>
+<h4 class="author">Amy Pitts</h4>
+<h4 class="date">11/13/2020</h4>
+
+</div>
+
+
+<p>This data is gotten from (link)[<a href="https://www.nbwa.org/resources/state-data" class="uri">https://www.nbwa.org/resources/state-data</a>]. Specifically the pdf files at (Summary of Effective State Excise Tax Rates by State)[<a href="https://www.nbwa.org/sites/default/files/Beer%20Excise%20Tax%202019%20-%20Revised%20July%202020.pdf" class="uri">https://www.nbwa.org/sites/default/files/Beer%20Excise%20Tax%202019%20-%20Revised%20July%202020.pdf</a>]</p>
+<p>(Shipments of Malt Beverages and Per Capita Consumption by State)[<a href="https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf" class="uri">https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf</a>]</p>
+<p>First we are looking at the Summary of Effective State Excise Tax Rates by State</p>
+<pre class="r"><code>PDF &lt;- pdf_text(&quot;Beer Excise Tax 2019 - Revised July 2020.pdf&quot;) %&gt;%
+  readr::read_lines() #open the PDF inside your project folder</code></pre>
+<p>This is just looking at the first year of data</p>
+<pre class="r"><code>PDF.2009 &lt;-PDF[6:56]  # remove lines
+#PDF.tax
+
+all_stat_lines &lt;- PDF.2009 %&gt;%
+  str_squish() %&gt;%
+  strsplit(split = &quot; &quot;) # remove empty spaces
+
+# here i am hard codign the lot of things. not good want to get rid 
+all_stat_lines[[9]] &lt;- c( &quot;DC&quot;, &quot;$2.79&quot;  , &quot;44&quot;   , &quot;$2.79&quot;  ,  &quot;44&quot;   ,  &quot;$2.79&quot;  ,  &quot;45&quot;   )  
+all_stat_lines[[30]] &lt;- c(&quot;New_Hampshire&quot;,&quot;$9.30&quot; , &quot;15&quot; , &quot;$9.30&quot; , &quot;17&quot;,  &quot;$9.30&quot; , &quot;18&quot;  ) 
+all_stat_lines[[31]] &lt;- c(&quot;New_Jersey&quot;   ,&quot;$3.72&quot; , &quot;39&quot; , &quot;$3.72&quot; , &quot;39&quot;,  &quot;$3.72&quot; , &quot;40&quot;)
+all_stat_lines[[32]] &lt;- c(&quot;New_Mexico&quot;   ,&quot;$12.61&quot;, &quot;10&quot; , &quot;$12.61&quot;, &quot;11&quot;,  &quot;$12.61&quot;, &quot;12&quot; )
+all_stat_lines[[33]] &lt;- c(&quot;New_York&quot;     ,&quot;$4.26&quot; , &quot;38&quot; , &quot;$4.26&quot; , &quot;38&quot;,  &quot;$5.55&quot; ,&quot;32&quot; )
+all_stat_lines[[34]] &lt;- c(&quot;North_Carolina&quot;,&quot;$17.81&quot;,   &quot;6&quot;,&quot;$17.81&quot;,  &quot;8&quot; , &quot;$17.81&quot;,&quot;9&quot; )
+all_stat_lines[[35]] &lt;- c(&quot;North_Dakota&quot;, &quot;$4.67&quot;,  &quot;34&quot;  ,   &quot;$4.67&quot; , &quot;35&quot;  ,   &quot;$4.67&quot; , &quot;37&quot; )
+all_stat_lines[[40]] &lt;- c( &quot;Rhode_Island&quot;, &quot;$3.00&quot; , &quot;43&quot; ,    &quot;$3.00&quot; , &quot;43&quot;    , &quot;$3.69&quot; , &quot;41&quot;  )
+all_stat_lines[[41]] &lt;- c(&quot;South_Carolina&quot;, &quot;$23.81&quot; ,  &quot;4&quot;  ,  &quot;$23.81&quot; ,  &quot;5&quot; ,  &quot;$23.81&quot;,  &quot;6&quot;)
+all_stat_lines[[42]] &lt;- c(&quot;South_Dakota&quot;, &quot;$8.50&quot; , &quot;17&quot;   , &quot;$8.50&quot; , &quot;19&quot;   ,  &quot;$8.50&quot; , &quot;20&quot; )
+all_stat_lines[[49]] &lt;- c(&quot;West_Virginia&quot;, &quot;$5.50&quot; ,  &quot;30&quot; ,  &quot;$5.50&quot;, &quot;31&quot;   ,  &quot;$5.50&quot;  ,  &quot;33&quot; )
+
+
+df = all_stat_lines %&gt;% reduce(rbind) 
+
+df2009 = tibble( 
+  &quot;State&quot; = df[,1], 
+   &quot;Effective Excise Tax (Volume Adjusted)&quot; = df[,2],
+   &quot;Rank1&quot; =df[,3], 
+   &quot;Effective Excise Tax with Other State Taxes &quot; = df[,4], 
+   &quot;Rank2&quot;= df[,5], 
+   &quot;Effective Excise Tax with Other and Local Taxes &quot; = df[,6],
+  &quot;Rank3&quot; = df[,7]
+  )
+
+head(df2009)</code></pre>
+<pre><code>## # A tibble: 6 x 7
+##   State  `Effective Excis… Rank1 `Effective Excis… Rank2 `Effective Excis… Rank3
+##   &lt;chr&gt;  &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;             &lt;chr&gt;
+## 1 Alaba… $32.65            1     $0.00             51    $32.65            2    
+## 2 Alaska $27.59            3     $27.59            4     $27.59            5    
+## 3 Arizo… $4.96             31    $4.96             32    $4.96             34   
+## 4 Arkan… $7.51             20    $7.75             22    $7.75             24   
+## 5 Calif… $6.20             23    $6.20             25    $6.20             26   
+## 6 Color… $2.48             48    $2.48             47    $2.48             48</code></pre>
+<pre class="r"><code># plus 8+3 and then plus 55-1
+#11, 54
+
+
+#PDF[67:118] #2010
+#PDF[128:178] #2011
+#PDF[190:240] #2012
+#PDF[252:302] #2013
+
+
+# PDF[311:365] #2014
+# PDF[372:427] #2015
+# PDF[435:490] #2016
+# PDF[498:553] #2017
+# PDF[561:616] #2018
+# PDF[624:679] #2019</code></pre>
+<p>This is the loop that get data for all years</p>
+<pre class="r"><code>data_extract &lt;- function(begin, end) {
+  PDF.small &lt;-PDF[begin:end]  # remove lines
+  #PDF.tax
+  
+  df &lt;- PDF.small %&gt;%
+    str_squish() %&gt;%
+    strsplit(split = &quot; &quot;) %&gt;%# remove empty spaces
+    reduce(rbind) 
+  
+  data = tibble( 
+    &quot;State&quot; = df[,1], 
+     &quot;Effective Excise Tax (Volume Adjusted)&quot; = df[,2],
+     &quot;Rank1&quot; =df[,3], 
+     &quot;Effective Excise Tax with Other State Taxes &quot; = df[,4], 
+     &quot;Rank2&quot;= df[,5], 
+     &quot;Effective Excise Tax with Other and Local Taxes &quot; = df[,6],
+    &quot;Rank3&quot; = df[,7]
+    )
+  return(data)
+}
+df2009 = data_extract(6, 56)
+df2010 = data_extract(67, 118)
+df2011 = data_extract(128, 178)
+df2012 = data_extract(190,240) #2012
+df2013 = data_extract(252,302) #2013
+df2014 = data_extract(314,364) #2014
+df2015 = data_extract(375,426) #2015
+df2016 = data_extract(439,489) #2016
+df2017 = data_extract(502,552) #2017
+df2018 = data_extract(565,615) #2018
+df2019 = data_extract(628,678) #2019</code></pre>
+<p>Notice that every single tibble has problems with the state name. I can not figure out how to get the states that have two words as a name into just the state column. This will also mean we need to shift all the data in the column over one. This is going to be extremely annoying and I fix the problem above by just hard coding it but that shouldn’t be our solution there should be another way.</p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
