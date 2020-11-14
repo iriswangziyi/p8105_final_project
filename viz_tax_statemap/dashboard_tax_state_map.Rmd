@@ -1,0 +1,177 @@
+---
+title: "Beer Tax by State"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(plotly)
+library(flexdashboard)
+```
+
+```{r}
+tax_df = read_csv("../data_import_cleaning/tax.csv")
+state_df = 
+  tibble(
+    state = state.abb, # arrange row order according default state.abb
+    state.name = state.name
+  )
+
+tax <- 
+  left_join(state_df, tax_df, by = "state")
+
+g <- list(
+  scope = 'usa',
+  projection = list(type = 'albers usa'),
+  lakecolor = toRGB('white')
+)
+
+tax_2008 <- tax %>% pull(3)
+tax_2009 <- tax %>% pull(4)
+tax_2010 <- tax %>% pull(5)
+tax_2011 <- tax %>% pull(6)
+tax_2012 <- tax %>% pull(7)
+tax_2013 <- tax %>% pull(8)
+tax_2014 <- tax %>% pull(9)
+tax_2015 <- tax %>% pull(10)
+tax_2016 <- tax %>% pull(11)
+tax_2017 <- tax %>% pull(12)
+tax_2018 <- tax %>% pull(13)
+tax_2019 <- tax %>% pull(14)
+```
+
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+### Year 2008
+```{r}
+plot_geo() %>%
+  add_trace(
+    z = ~tax_2008, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g)
+```
+
+### Year 2009
+```{r}
+plot_geo() %>%
+  add_trace(
+    z = ~tax_2009, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g) %>%
+  config( fillFrame = TRUE)
+```
+
+### Year 2010
+```{r}
+plot_geo() %>%
+  add_trace(
+    z = ~tax_2010, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g) %>%
+  config( fillFrame = TRUE)
+```
+
+### Year 2011
+```{r}
+plot_geo() %>%
+  add_trace(
+    z = ~tax_2011, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g) %>%
+  config( fillFrame = TRUE)
+```
+
+### Year 2012
+```{r}
+plot_geo() %>%
+  add_trace(
+    z = ~tax_2012, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g) %>%
+  config( fillFrame = TRUE)
+```
+
+### Year 2013
+```{r}
+plot_geo() %>%
+  add_trace(
+    z = ~tax_2013, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g) %>%
+  config( fillFrame = TRUE)
+```
+
+### Year 2014
+```{r}
+plot_geo() %>%
+  add_trace(
+    z = ~tax_2014, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g) %>%
+  config( fillFrame = TRUE)
+```
+
+### Year 2015
+```{r}
+plot_geo() %>%
+  add_trace(
+    z = ~tax_2015, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g) %>%
+  config( fillFrame = TRUE)
+```
+
+### Year 2016
+```{r}
+plot_geo() %>%
+  add_trace(
+    z = ~tax_2016, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g) %>%
+  config( fillFrame = TRUE)
+```
+
+### Year 2017
+```{r}
+plot_geo() %>%
+  add_trace(
+    z = ~tax_2017, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g) %>%
+  config( fillFrame = TRUE)
+```
+
+### Year 2018
+```{r}
+plot_geo() %>%
+  add_trace(
+    z = ~tax_2018, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g) %>%
+  config( fillFrame = TRUE)
+```
+
+### Year 2019
+```{r}
+plot_geo() %>%
+  add_trace(
+    z = ~tax_2019, text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g) %>%
+  config( fillFrame = TRUE)
+```
