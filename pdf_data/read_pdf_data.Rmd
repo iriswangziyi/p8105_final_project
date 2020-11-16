@@ -13,12 +13,12 @@ library(tidyverse)
 
 ```
 
-This data is gotten from (link)[https://www.nbwa.org/resources/state-data]. Specifically the pdf files at 
-(Summary of Effective State Excise Tax Rates by State)[https://www.nbwa.org/sites/default/files/Beer%20Excise%20Tax%202019%20-%20Revised%20July%202020.pdf]
+This data is gotten from [link](https://www.nbwa.org/resources/state-data). Specifically the pdf files at 
+[Summary of Effective State Excise Tax Rates by State](https://www.nbwa.org/sites/default/files/Beer%20Excise%20Tax%202019%20-%20Revised%20July%202020.pdf)
 
-(Shipments of Malt Beverages and Per Capita Consumption by State)[https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf]
+[Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf)
 
-
+# First Pdf
 First we are looking at the Summary of Effective State Excise Tax Rates by State
 ```{r}
 PDF <- pdf_text("Beer Excise Tax 2019 - Revised July 2020.pdf") %>%
@@ -111,11 +111,93 @@ df2011 = data_extract(128, 178)
 df2012 = data_extract(190,240) #2012
 df2013 = data_extract(252,302) #2013
 df2014 = data_extract(314,364) #2014
-df2015 = data_extract(375,426) #2015
+df2015 = data_extract(376,426) #2015 #check ##########
 df2016 = data_extract(439,489) #2016
 df2017 = data_extract(502,552) #2017
 df2018 = data_extract(565,615) #2018
 df2019 = data_extract(628,678) #2019
 ```
 Notice that every single tibble has problems with the state name. I can not figure out how to get the states that have two words as a name into just the state column. This will also mean we need to shift all the data in the column over one. This is going to be extremely annoying and I fix the problem above by just hard coding it but that shouldn't be our solution there should be another way.
+
+
+
+
+
+
+
+# First Pdf
+First we are looking at the Summary of Effective State Excise Tax Rates by State
+```{r}
+PDF <- pdf_text("2003 and 2019 State data Per Capita Sheets_1.pdf") %>%
+  readr::read_lines() #open the PDF inside your project folder
+```
+
+This is just looking at the first year of data 
+```{r}
+PDF.2003 <-PDF[6:56]  # remove lines
+#PDF.tax
+
+all_stat_lines <- PDF.2003 %>%
+  str_squish() %>%
+  strsplit(split = " ") # remove empty spaces
+
+
+df = all_stat_lines %>% reduce(rbind) 
+
+df2003_state = tibble( 
+  "State" = df[,1], 
+   "Shipments" = df[,2],
+   "Rank1" =df[,3], 
+   "Pop_21plus " = df[,4], 
+   "Per_Capita_Consumption"= df[,5], 
+   "Rank2" = df[,6]
+  )
+
+df2003_state
+```
+
+
+This is the loop that get data for all years 
+```{r, message=FALSE, warning=FALSE}
+data_extract <- function(begin, end) {
+  PDF.small <-PDF[begin:end]  # remove lines
+  #PDF.tax
+  
+  df <- PDF.small %>%
+    str_squish() %>%
+    strsplit(split = " ") %>%# remove empty spaces
+    reduce(rbind) 
+  
+  data = tibble( 
+    "State" = df[,1], 
+    "Shipments" = df[,2],
+    "Rank1" =df[,3], 
+    "Pop_21plus " = df[,4], 
+    "Per_Capita_Consumption"= df[,5], 
+    "Rank2" = df[,6]
+    )
+  return(data)
+}
+df2003_state = data_extract(6, 56)
+df2004_state = data_extract(65, 115)
+df2005_state = data_extract(124, 175)
+df2006_state = data_extract(183, 233) # 2006
+df2007_state = data_extract(242, 292) 
+df2008_state = data_extract(301, 351) # this will have a lot of 0
+df2009_state = data_extract(360, 410) # this will have a lot of 0 
+df2010_state = data_extract(419, 469) 
+df2011_state = data_extract(478, 528) 
+df2012_state = data_extract(537, 587) 
+df2013_state = data_extract(596, 646) 
+df2014_state = data_extract(655, 705) 
+df2015_state = data_extract(714, 764) 
+df2016_state = data_extract(773, 823) 
+df2017_state = data_extract(832, 882) 
+df2018_state = data_extract(891, 941) 
+df2019_state = data_extract(950, 1000) 
+```
+
+```{r}
+df2008_state
+```
 
