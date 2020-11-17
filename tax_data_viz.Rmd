@@ -20,6 +20,8 @@ tax_barrels_df = read_csv("data_import_cleaning/tax_barrels_df.csv")
 ```
 
 ### Looking at just the taxes collected by state 
+"Beer removed for consumption or sale including beer removed tax determined for consumption or sale in a tavern or on brewery premises"
+
 ```{r}
 tax_df %>%
   filter(state != "total") %>%
@@ -36,7 +38,7 @@ tax_df %>%
     title = "Tax collected over the years by state")
 ```
 
-### looking at the amount Barrels produced by state 
+### looking at the amount Barrels produced by state recorded in barrel units 
 
 ```{r}
 tax_barrels_df %>%
@@ -54,7 +56,8 @@ tax_barrels_df %>%
     title = "Barrel production over the years by state")
 ```
 
-### looking at the amount of cans and bottles produced by state over years 
+### looking at the amount of cans and bottles produced by state over years recorded in barel units 
+
 ```{r}
 tax_cans_df %>%
   filter(state != "total") %>%
@@ -73,6 +76,7 @@ tax_cans_df %>%
 
 ### Trying to find the tax rate per state 
 to find the tax rate I cam going to add up the barrel and can and bottle production then use this to divide by the tax collected 
+# This does not make sense!
 ```{r}
 state = tax_df %>% select(state) 
 tax_rate_df =  tax_df %>% select(-state) /
@@ -94,7 +98,10 @@ tibble(state, tax_rate_df) %>%
     title = "Tax rate over the years by state")
 ```
 
-might want to go in an look at the data for errors, that one spike looks very odd... might be missing values for some inflating the rate... 
+Instead we should use the tax rate per barrel found in the pdf document and then multiply this by the amount of barrel and cans and bottle produced by each state. this gives us the overall tax collected. then we should compare this to the first plot above and this will help us answer the question about how much tax is collected from people buying from brewerys directly vs how much tax was collected overall. it would be interesting to see if these datasources match up. 
+
+
+
 
 
 

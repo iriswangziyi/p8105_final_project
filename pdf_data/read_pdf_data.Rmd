@@ -12,6 +12,9 @@ library(plyr)
 library(tidyverse)
 library(readxl)
 
+
+library(plotly)
+library(flexdashboard)
 ```
 
 This data is gotten from [link](https://www.nbwa.org/resources/state-data). Specifically the pdf files at 
@@ -20,6 +23,24 @@ This data is gotten from [link](https://www.nbwa.org/resources/state-data). Spec
 [Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf)
 
 
+# Talking points:
+
+- talk about the visualization made from the pdf. what it adds 
+    - the rank
+    - the amount of shipments 
+    - the amount of consumption per state
+- talk about the government data set and how we could connect these two
+    - specifically use the tax rate by barrel and and then try to compare it to the overall tax collected from the government dataset 
+- talk about different ways to visualize this data. 
+    - right now i am just doing the line plot but that is boring 
+- maybe we could do something cool with the ranking, for example for each year we could print the 3 top ranking and 3 bottom ranking from each year. i am not sure how to do this 
+- i think we should put the consumption data, and shipment data, and population data on the map of the states. This would be a nice summary of all the information 
+
+
+
+
+
+# read the data 
 We then converted the pdf documents into excel documents using an online software. 
 ```{r messages = FALSE, warnings = FALSE }
 state_df = read_excel("2003_and_2019_State_data_Per_Capita_perpage.xlsx",
@@ -44,7 +65,7 @@ for( i in 2:17) {
 
 ```{r messages = FALSE, warnings = FALSE }
 state_tax_df = read_excel("Beer_Excise_Tax2019Revised_July_2020perpage.xlsx",
-                           sheet = 1, range = "A5:F56") %>%
+                           sheet = 1, range = "A5:G56") %>%
                 janitor::clean_names() %>%
                 mutate(
                   year = rep(2009, 51)
@@ -53,7 +74,7 @@ state_tax_df = read_excel("Beer_Excise_Tax2019Revised_July_2020perpage.xlsx",
 
 for( i in 2:11) {
   state_tax_df = rbind(state_tax_df, read_excel("Beer_Excise_Tax2019Revised_July_2020perpage.xlsx",
-                             sheet = i, range = "A5:F56") %>%
+                             sheet = i, range = "A5:G56") %>%
                   janitor::clean_names() %>%
                   mutate(
                     year = rep(2008+i, 51)
@@ -63,49 +84,152 @@ for( i in 2:11) {
 
 ```
 
+###  Weighted average state excise tax rates based on published excise tax rates for package types, on/off
+premise taxes, city/local taxes, and wholesale taxes. Estimates subject to change as new data become available. 
+
+
+
+# VIZ looking at the state_tax_df
+
+```{r}
+state_tax_df %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~adjusted, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Effective Excise Tax (Volume Adjusted) (Tax per Barrel)")
+```
+
+```{r}
+state_tax_df %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~rank_3, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Effective Excise Tax (Volume Adjusted) Rank ")
+```
+
+```{r}
+state_tax_df %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~state_taxes, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Effective Excise Tax with Other State Taxes (Tax per Barrel)")
+```
+
+```{r}
+state_tax_df %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~and_local_taxes, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Effective Excise Tax with Other and Local Taxes (Tax per Barrel)")
+```
+
+
+# VIZ looking at the state_df 
+```{r}
+state_df %>%
+  filter(year > 2009) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~shipments, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Shipments")
+```
+
+```{r}
+state_df %>%
+  filter(year > 2009) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~rank_3, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Shipments rank")
+```
+
+```{r}
+state_df %>%
+  filter(year > 2009) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~population, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "population above 21")
+```
+
+```{r}
+state_df %>%
+  filter(year > 2009) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~consumption, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Consumption")
+```
+
+```{r}
+state_df %>%
+  filter(year > 2009) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~rank_6, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Consumption Rank")
+```
 
 
 
 
-
+# you can ignore down here 
 # First Pdf
 First we are looking at the Summary of Effective State Excise Tax Rates by State. This is the loop that get data for all years 
 ```{r, message=FALSE, warning=FALSE}
 
-PDF <- pdf_text("Beer Excise Tax 2019 - Revised July 2020.pdf") %>%
-  readr::read_lines() #open the PDF inside your project folder
-
-data_extract <- function(begin, end) {
-  PDF.small <-PDF[begin:end]  # remove lines
-  #PDF.tax
-  
-  df <- PDF.small %>%
-    str_squish() %>%
-    strsplit(split = " ") %>%# remove empty spaces
-    reduce(rbind) 
-  
-  data = tibble( 
-    "State" = df[,1], 
-     "Effective Excise Tax (Volume Adjusted)" = df[,2],
-     "Rank1" =df[,3], 
-     "Effective Excise Tax with Other State Taxes " = df[,4], 
-     "Rank2"= df[,5], 
-     "Effective Excise Tax with Other and Local Taxes " = df[,6],
-    "Rank3" = df[,7]
-    )
-  return(data)
-}
-df2009 = data_extract(6, 56)
-df2010 = data_extract(67, 118)
-df2011 = data_extract(128, 178)
-df2012 = data_extract(190,240) #2012
-df2013 = data_extract(252,302) #2013
-df2014 = data_extract(314,364) #2014
-df2015 = data_extract(376,426) #2015 #check ##########
-df2016 = data_extract(439,489) #2016
-df2017 = data_extract(502,552) #2017
-df2018 = data_extract(565,615) #2018
-df2019 = data_extract(628,678) #2019
+# PDF <- pdf_text("Beer Excise Tax 2019 - Revised July 2020.pdf") %>%
+#   readr::read_lines() #open the PDF inside your project folder
+# 
+# data_extract <- function(begin, end) {
+#   PDF.small <-PDF[begin:end]  # remove lines
+#   #PDF.tax
+#   
+#   df <- PDF.small %>%
+#     str_squish() %>%
+#     strsplit(split = " ") %>%# remove empty spaces
+#     reduce(rbind) 
+#   
+#   data = tibble( 
+#     "State" = df[,1], 
+#      "Effective Excise Tax (Volume Adjusted)" = df[,2],
+#      "Rank1" =df[,3], 
+#      "Effective Excise Tax with Other State Taxes " = df[,4], 
+#      "Rank2"= df[,5], 
+#      "Effective Excise Tax with Other and Local Taxes " = df[,6],
+#     "Rank3" = df[,7]
+#     )
+#   return(data)
+# }
+# df2009 = data_extract(6, 56)
+# df2010 = data_extract(67, 118)
+# df2011 = data_extract(128, 178)
+# df2012 = data_extract(190,240) #2012
+# df2013 = data_extract(252,302) #2013
+# df2014 = data_extract(314,364) #2014
+# df2015 = data_extract(376,426) #2015 #check ##########
+# df2016 = data_extract(439,489) #2016
+# df2017 = data_extract(502,552) #2017
+# df2018 = data_extract(565,615) #2018
+# df2019 = data_extract(628,678) #2019
 ```
 Notice that every single tibble has problems with the state name. I can not figure out how to get the states that have two words as a name into just the state column. This will also mean we need to shift all the data in the column over one. This is going to be extremely annoying and I fix the problem above by just hard coding it but that shouldn't be our solution there should be another way.
 
@@ -113,45 +237,45 @@ Notice that every single tibble has problems with the state name. I can not figu
 # Second Pdf
 This is the loop that get data for all years 
 ```{r, message=FALSE, warning=FALSE}
-PDF <- pdf_text("2003 and 2019 State data Per Capita Sheets_1.pdf") %>%
-  readr::read_lines() #open the PDF inside your project folder
-
-data_extract <- function(begin, end) {
-  PDF.small <-PDF[begin:end]  # remove lines
-  #PDF.tax
-  
-  df <- PDF.small %>%
-    str_squish() %>%
-    strsplit(split = " ") %>%# remove empty spaces
-    reduce(rbind) 
-  
-  data = tibble( 
-    "State" = df[,1], 
-    "Shipments" = df[,2],
-    "Rank1" =df[,3], 
-    "Pop_21plus " = df[,4], 
-    "Per_Capita_Consumption"= df[,5], 
-    "Rank2" = df[,6]
-    )
-  return(data)
-}
-df2003_state = data_extract(6, 56)
-df2004_state = data_extract(65, 115)
-df2005_state = data_extract(124, 175)
-df2006_state = data_extract(183, 233) # 2006
-df2007_state = data_extract(242, 292) 
-df2008_state = data_extract(301, 351) # this will have a lot of 0
-df2009_state = data_extract(360, 410) # this will have a lot of 0 
-df2010_state = data_extract(419, 469) 
-df2011_state = data_extract(478, 528) 
-df2012_state = data_extract(537, 587) 
-df2013_state = data_extract(596, 646) 
-df2014_state = data_extract(655, 705) 
-df2015_state = data_extract(714, 764) 
-df2016_state = data_extract(773, 823) 
-df2017_state = data_extract(832, 882) 
-df2018_state = data_extract(891, 941) 
-df2019_state = data_extract(950, 1000) 
+# PDF <- pdf_text("2003 and 2019 State data Per Capita Sheets_1.pdf") %>%
+#   readr::read_lines() #open the PDF inside your project folder
+# 
+# data_extract <- function(begin, end) {
+#   PDF.small <-PDF[begin:end]  # remove lines
+#   #PDF.tax
+#   
+#   df <- PDF.small %>%
+#     str_squish() %>%
+#     strsplit(split = " ") %>%# remove empty spaces
+#     reduce(rbind) 
+#   
+#   data = tibble( 
+#     "State" = df[,1], 
+#     "Shipments" = df[,2],
+#     "Rank1" =df[,3], 
+#     "Pop_21plus " = df[,4], 
+#     "Per_Capita_Consumption"= df[,5], 
+#     "Rank2" = df[,6]
+#     )
+#   return(data)
+# }
+# df2003_state = data_extract(6, 56)
+# df2004_state = data_extract(65, 115)
+# df2005_state = data_extract(124, 175)
+# df2006_state = data_extract(183, 233) # 2006
+# df2007_state = data_extract(242, 292) 
+# df2008_state = data_extract(301, 351) # this will have a lot of 0
+# df2009_state = data_extract(360, 410) # this will have a lot of 0 
+# df2010_state = data_extract(419, 469) 
+# df2011_state = data_extract(478, 528) 
+# df2012_state = data_extract(537, 587) 
+# df2013_state = data_extract(596, 646) 
+# df2014_state = data_extract(655, 705) 
+# df2015_state = data_extract(714, 764) 
+# df2016_state = data_extract(773, 823) 
+# df2017_state = data_extract(832, 882) 
+# df2018_state = data_extract(891, 941) 
+# df2019_state = data_extract(950, 1000) 
 ```
 
 
