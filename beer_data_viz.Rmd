@@ -140,7 +140,6 @@ pal <- colorNumeric(
   domain = beer$alcohol_by_volume)
 
 beer %>% 
-  # na.omit(alcohol_by_volume) %>% 
   filter(alcohol_by_volume != 0) %>% 
   mutate(
     click_label = 
@@ -156,6 +155,27 @@ beer %>%
   addProviderTiles(providers$CartoDB.Positron) %>% 
   addCircleMarkers(~longitude, ~latitude,
                    clusterOptions = markerClusterOptions(),
+                   radius = 0.1, 
+                   color = ~pal(alcohol_by_volume), 
+                   popup = ~click_label)
+
+
+beer %>% 
+  filter(alcohol_by_volume != 0) %>% 
+  mutate(
+    click_label = 
+      str_c("<b>Brewer: ", name,
+            "<br>ABV: ", alcohol_by_volume, 
+            "</b><br>City: ", city, 
+            "<br>State: ", state
+            #, 
+            #"<br>Country: ", country
+            )
+  ) %>% 
+  leaflet() %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addCircleMarkers(~longitude, ~latitude,
+                   #clusterOptions = markerClusterOptions(),
                    radius = 0.1, 
                    color = ~pal(alcohol_by_volume), 
                    popup = ~click_label)
