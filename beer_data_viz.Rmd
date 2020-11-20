@@ -13,6 +13,9 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(plotly)
 library(leaflet)
+library(sf)
+library(mapview)
+# remotes::install_github("r-spatial/mapview") # use this if fails to knit the map
 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -149,5 +152,18 @@ beer %>%
                    color = ~pal(alcohol_by_volume), popup = ~click_label)
 ```
 
+* Map update
+  * need to adjust the location display
+
+```{r}
+location_df = 
+  beer %>% 
+  select(name, latitude, longitude) %>% 
+  na.omit()
+
+location <- st_as_sf(location_df, coords = c("longitude", "latitude"), crs = 4326)
+
+mapview(location)
+```
 
 
