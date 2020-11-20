@@ -113,6 +113,17 @@ beer %>%
 ```
 
 
+### By states
+
+```{r}
+beer %>% 
+  mutate(state = fct_reorder(state, alcohol_by_volume)) %>% 
+  plot_ly(y = ~alcohol_by_volume, color = ~state, type = "box", colors = "viridis")
+```
+
+
+
+
 ## Location mapping
 
 * Goal: Map location of each US brewer with category/style, size of marker showing ABV and interactive label showing the tax info by state.
