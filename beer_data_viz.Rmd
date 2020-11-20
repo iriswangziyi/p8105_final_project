@@ -131,39 +131,48 @@ beer %>%
 
 * Goal: Map location of each US brewer with category/style, size of marker showing ABV and interactive label showing the tax info by state.
 
-* map seems not working so well...
-
 ```{r map,collapse=TRUE}
+#install.packages("leaflet")
+library(leaflet)
+
 pal <- colorNumeric(
   palette = "viridis",
   domain = beer$alcohol_by_volume)
 
 beer %>% 
-  na.omit(alcohol_by_volume) %>% 
+  # na.omit(alcohol_by_volume) %>% 
+  filter(alcohol_by_volume != 0) %>% 
   mutate(
     click_label = 
-      str_c("<b>ABV: ", alcohol_by_volume, 
+      str_c("<b>Brewer: ", name,
+            "<br>ABV: ", alcohol_by_volume, 
             "</b><br>City: ", city, 
-            "<br>State: ", state, 
-            "<br>Country: ", country)) %>% 
+            "<br>State: ", state
+            #, 
+            #"<br>Country: ", country
+            )
+  ) %>% 
   leaflet() %>% 
   addProviderTiles(providers$CartoDB.Positron) %>% 
-  addCircleMarkers(~latitude, ~longitude, radius = .1, 
-                   color = ~pal(alcohol_by_volume), popup = ~click_label)
+  addCircleMarkers(~longitude, ~latitude,
+                   clusterOptions = markerClusterOptions(),
+                   radius = 0.1, 
+                   color = ~pal(alcohol_by_volume), 
+                   popup = ~click_label)
 ```
 
 * Map update
   * need to adjust the location display
 
 ```{r}
-location_df = 
-  beer %>% 
-  select(name, latitude, longitude) %>% 
-  na.omit()
-
-location <- st_as_sf(location_df, coords = c("longitude", "latitude"), crs = 4326)
-
-mapview(location)
+# location_df = 
+#   beer %>% 
+#   select(name, latitude, longitude) %>% 
+#   na.omit()
+# 
+# location <- st_as_sf(location_df, coords = c("longitude", "latitude"), crs = 4326)
+# 
+# mapview(location)
 ```
 
 
