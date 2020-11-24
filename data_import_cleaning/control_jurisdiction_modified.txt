@@ -1,0 +1,18 @@
+control
+Alabama
+Idaho
+Iowa
+Maine	
+Michigan
+Mississippi
+Montana
+New Hampshire	
+North Carolina
+Ohio
+Oregon
+Pennsylvania
+Utah	
+Vermont
+Virginia
+West Virginia
+Wyoming

@@ -1,7 +1,5 @@
 ---
 title: "Analysis"
-author: "Ruiyang Li"
-date: "11/24/2020"
 output: 
   html_document:
     toc: true
@@ -10,5 +8,43 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+```{r df_tidy, collapse=TRUE,message=FALSE}
+tax_df = read_csv( "data_import_cleaning/tax.csv")
+state_tax_df = read_csv("data_import_cleaning/state_tax_df.csv")
+
+# https://abbreviations.yourdictionary.com/articles/state-abbrev.html
+state_ref = 
+  read.delim("./data_import_cleaning/state_abbreviation.txt", header = F) %>%
+  separate(V1, into = c("state", "state_abbrv"), sep = " - ") 
+
+# jurisdiction informatiomn
+licence = 
+  read_table("./data_import_cleaning/licence_jurisdiction_modified.txt") %>%
+  unlist()
+control = 
+  read_table("./data_import_cleaning/control_jurisdiction_modified.txt") %>%
+  unlist()
+
+# tidy tax data: state with abbreviation + group
+tax_df_group =  
+  left_join(tax_df %>% rename(state_abbrv = state), 
+            state_ref, by = "state_abbrv") %>% 
+  mutate(
+    group = ifelse(state %in% licence, "licenced", 
+                   ifelse(state %in% control, "control", "NA"))
+  ) %>% 
+  relocate(state_abbrv, state, group)
+
+state_tax_df_group = 
+  left_join(state_tax_df, state_ref, by = "state") %>% 
+  mutate(
+    group = ifelse(state %in% licence, "licenced", 
+                   ifelse(state %in% control, "control", "NA"))
+  ) %>% 
+  relocate(state_abbrv, state, group)
 ```
 

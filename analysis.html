@@ -9,9 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Ruiyang Li" />
 
-<meta name="date" content="2020-11-24" />
 
 <title>Analysis</title>
 
@@ -388,13 +386,43 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Analysis</h1>
-<h4 class="author">Ruiyang Li</h4>
-<h4 class="date">11/24/2020</h4>
 
 </div>
 
 
+<pre class="r"><code>tax_df = read_csv( &quot;data_import_cleaning/tax.csv&quot;)
+state_tax_df = read_csv(&quot;data_import_cleaning/state_tax_df.csv&quot;)
 
+# https://abbreviations.yourdictionary.com/articles/state-abbrev.html
+state_ref = 
+  read.delim(&quot;./data_import_cleaning/state_abbreviation.txt&quot;, header = F) %&gt;%
+  separate(V1, into = c(&quot;state&quot;, &quot;state_abbrv&quot;), sep = &quot; - &quot;) 
+
+# jurisdiction informatiomn
+licence = 
+  read_table(&quot;./data_import_cleaning/licence_jurisdiction_modified.txt&quot;) %&gt;%
+  unlist()
+control = 
+  read_table(&quot;./data_import_cleaning/control_jurisdiction_modified.txt&quot;) %&gt;%
+  unlist()
+
+# tidy tax data: state with abbreviation + group
+tax_df_group =  
+  left_join(tax_df %&gt;% rename(state_abbrv = state), 
+            state_ref, by = &quot;state_abbrv&quot;) %&gt;% 
+  mutate(
+    group = ifelse(state %in% licence, &quot;licenced&quot;, 
+                   ifelse(state %in% control, &quot;control&quot;, &quot;NA&quot;))
+  ) %&gt;% 
+  relocate(state_abbrv, state, group)
+
+state_tax_df_group = 
+  left_join(state_tax_df, state_ref, by = &quot;state&quot;) %&gt;% 
+  mutate(
+    group = ifelse(state %in% licence, &quot;licenced&quot;, 
+                   ifelse(state %in% control, &quot;control&quot;, &quot;NA&quot;))
+  ) %&gt;% 
+  relocate(state_abbrv, state, group)</code></pre>
 
 
 
