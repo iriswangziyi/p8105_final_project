@@ -390,8 +390,11 @@ div.tocify {
 </div>
 
 
-<div id="tax-differences-by-jurisdiction-group" class="section level2">
-<h2>Tax differences by jurisdiction group</h2>
+<p>We focus on two analyses in this section. One is to perform t-tests comparing tax differences for each year by jurisdiction group. The other is regression analysis.</p>
+<div id="tax-differences-by-jurisdiction-group" class="section level1">
+<h1>Tax differences by jurisdiction group</h1>
+<div id="total-tax" class="section level2">
+<h2>Total tax</h2>
 <pre class="r"><code># tax
 year = colnames(tax_df_group)[-c(1:3)]
 t_test_output = NULL
@@ -399,34 +402,29 @@ for (i in 1:length(year)) {
   t_test = t.test(tax_df_group[[year[i]]]~group, data = tax_df_group) %&gt;% broom::tidy()
   t_test_output = rbind(t_test_output, t_test)
 }
-t_test_output %&gt;% 
+
+tax_group_result = 
+  t_test_output %&gt;% 
   mutate(year = year) %&gt;% 
   relocate(year) %&gt;% 
   rename(
     control_est = estimate1, 
     licensed_est = estimate2, 
-    control_minus_licenced = estimate) %&gt;% 
-  select(year, control_minus_licenced, p.value, conf.low, conf.high)
-## # A tibble: 12 x 5
-##    year  control_minus_licenced p.value conf.low conf.high
-##    &lt;chr&gt;                  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-##  1 2008                  -1685.   0.556   -7401.     4031.
-##  2 2009                  -1531.   0.596   -7312.     4251.
-##  3 2010                  -1278.   0.686   -7623.     5066.
-##  4 2011                  -1116.   0.757   -8354.     6122.
-##  5 2012                   -898.   0.807   -8258.     6463.
-##  6 2013                   -757.   0.841   -8349.     6835.
-##  7 2014                  -3659.   0.424  -12791.     5472.
-##  8 2015                   -170.   0.982  -15573.    15233.
-##  9 2016                    489.   0.967  -22908.    23885.
-## 10 2017                   1665.   0.912  -28563.    31892.
-## 11 2018                    501.   0.977  -34756.    35759.
-## 12 2019                    182.   0.993  -41063.    41427.</code></pre>
+    control_minus_licensed = estimate) %&gt;% 
+  select(year, control_minus_licensed, p.value, conf.low, conf.high) %&gt;% 
+  janitor::clean_names()
+
+tax_group_result %&gt;% 
+  mutate(year = as.character(year)) %&gt;% 
+  ggplot(aes(x = year, y = control_minus_licensed)) +
+  geom_point() + 
+  geom_errorbar(aes(ymin = conf_low, ymax = conf_high))</code></pre>
+<p><img src="analysis_files/figure-html/tax_group-1.png" width="672" /></p>
 </div>
-<div id="statelocal-tax-differences-by-jurisdiction-group" class="section level2">
-<h2>State/local tax differences by jurisdiction group</h2>
-<div id="state" class="section level3">
-<h3>State</h3>
+<div id="statelocal-tax" class="section level2">
+<h2>State/local tax</h2>
+<div id="state-level" class="section level3">
+<h3>State level</h3>
 <pre class="r"><code># state_tax
 
 state_tax_group_result = 
@@ -452,10 +450,10 @@ state_tax_group_result %&gt;%
   ggplot(aes(x = year, y = control_minus_licensed)) +
   geom_point() + 
   geom_errorbar(aes(ymin = conf_low, ymax = conf_high))</code></pre>
-<p><img src="analysis_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="analysis_files/figure-html/state_tax_group-1.png" width="672" /></p>
 </div>
-<div id="local" class="section level3">
-<h3>Local</h3>
+<div id="local-level" class="section level3">
+<h3>Local level</h3>
 <pre class="r"><code># local_tax
 
 local_tax_group_result = 
@@ -479,8 +477,12 @@ local_tax_group_result %&gt;%
   ggplot(aes(x = year, y = control_minus_licensed)) +
   geom_point() + 
   geom_errorbar(aes(ymin = conf_low, ymax = conf_high))</code></pre>
-<p><img src="analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="analysis_files/figure-html/local_tax_group-1.png" width="672" /></p>
 </div>
+</div>
+</div>
+<div id="regression-analysis" class="section level1">
+<h1>Regression analysis</h1>
 </div>
 
 
