@@ -52,12 +52,6 @@ state_tax_df_group =
 ## Tax differences by jurisdiction group
 
 ```{r collapse=TRUE}
-# state_tax
-#data = state_tax_df_group %>% filter(year == "2009") %>% select(state_taxes, group)
-#data %>% 
-#  mutate(
-#    t_test = map2(.x = state_taxes, .y = group, ~t.test(.x ~ .y)))
-
 # tax
 year = colnames(tax_df_group)[-c(1:3)]
 t_test_output = NULL
@@ -73,13 +67,65 @@ t_test_output %>%
     licensed_est = estimate2, 
     control_minus_licenced = estimate) %>% 
   select(year, control_minus_licenced, p.value, conf.low, conf.high)
+```
 
 
-#tax_df_group %>% 
-#  mutate(
-#    t_test = map2(~t.test(tax_df_group[[year[4]]]~group, data = tax_df_group))
-#  )
-#t.test(tax_df_group[[year[1]]]~group, data = tax_df_group)
+## State/local tax differences by jurisdiction group
 
+### State
+```{r}
+# state_tax
+
+state_tax_group_result = 
+  state_tax_df_group %>% 
+  nest(data = -year) %>% 
+  mutate(
+    t_test = map(.x = data, ~t.test(state_taxes ~ group, data = .x)),
+    result = map(t_test, broom::tidy)
+  ) %>% 
+  select(year, result) %>% 
+  unnest(result) %>% 
+  rename(control_est = estimate1, 
+         licensed_est = estimate2,
+         control_minus_licensed = estimate) %>% 
+  select(year, control_minus_licensed, p.value, conf.low, conf.high) %>% 
+  janitor::clean_names()
+
+#data = state_tax_df_group %>% filter(year == "2009") %>% select(state_taxes, group)
+#t.test(state_taxes ~ group, data = data)
+
+state_tax_group_result %>% 
+  mutate(year = as.character(year)) %>% 
+  ggplot(aes(x = year, y = control_minus_licensed)) +
+  geom_point() + 
+  geom_errorbar(aes(ymin = conf_low, ymax = conf_high))
+```
+
+### Local
+
+```{r}
+# local_tax
+
+local_tax_group_result = 
+  state_tax_df_group %>% 
+  rename(local_taxes = and_local_taxes) %>% 
+  nest(data = -year) %>% 
+  mutate(
+    t_test = map(.x = data, ~t.test(local_taxes ~ group, data = .x)),
+    result = map(t_test, broom::tidy)
+  ) %>% 
+  select(year, result) %>% 
+  unnest(result) %>% 
+  rename(control_est = estimate1, 
+         licensed_est = estimate2,
+         control_minus_licensed = estimate) %>% 
+  select(year, control_minus_licensed, p.value, conf.low, conf.high) %>% 
+  janitor::clean_names()
+
+local_tax_group_result %>% 
+  mutate(year = as.character(year)) %>% 
+  ggplot(aes(x = year, y = control_minus_licensed)) +
+  geom_point() + 
+  geom_errorbar(aes(ymin = conf_low, ymax = conf_high))
 ```
 
