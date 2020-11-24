@@ -390,39 +390,52 @@ div.tocify {
 </div>
 
 
-<pre class="r"><code>tax_df = read_csv( &quot;data_import_cleaning/tax.csv&quot;)
-state_tax_df = read_csv(&quot;data_import_cleaning/state_tax_df.csv&quot;)
+<div id="tax-differences-by-jurisdiction-group" class="section level2">
+<h2>Tax differences by jurisdiction group</h2>
+<pre class="r"><code># state_tax
+#data = state_tax_df_group %&gt;% filter(year == &quot;2009&quot;) %&gt;% select(state_taxes, group)
+#data %&gt;% 
+#  mutate(
+#    t_test = map2(.x = state_taxes, .y = group, ~t.test(.x ~ .y)))
 
-# https://abbreviations.yourdictionary.com/articles/state-abbrev.html
-state_ref = 
-  read.delim(&quot;./data_import_cleaning/state_abbreviation.txt&quot;, header = F) %&gt;%
-  separate(V1, into = c(&quot;state&quot;, &quot;state_abbrv&quot;), sep = &quot; - &quot;) 
+# tax
+year = colnames(tax_df_group)[-c(1:3)]
+t_test_output = NULL
+for (i in 1:length(year)) {
+  t_test = t.test(tax_df_group[[year[i]]]~group, data = tax_df_group) %&gt;% broom::tidy()
+  t_test_output = rbind(t_test_output, t_test)
+}
+t_test_output %&gt;% 
+  mutate(year = year) %&gt;% 
+  relocate(year) %&gt;% 
+  rename(
+    control_est = estimate1, 
+    licensed_est = estimate2, 
+    control_minus_licenced = estimate) %&gt;% 
+  select(year, control_minus_licenced, p.value, conf.low, conf.high)
+## # A tibble: 12 x 5
+##    year  control_minus_licenced p.value conf.low conf.high
+##    &lt;chr&gt;                  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+##  1 2008                  -1685.   0.556   -7401.     4031.
+##  2 2009                  -1531.   0.596   -7312.     4251.
+##  3 2010                  -1278.   0.686   -7623.     5066.
+##  4 2011                  -1116.   0.757   -8354.     6122.
+##  5 2012                   -898.   0.807   -8258.     6463.
+##  6 2013                   -757.   0.841   -8349.     6835.
+##  7 2014                  -3659.   0.424  -12791.     5472.
+##  8 2015                   -170.   0.982  -15573.    15233.
+##  9 2016                    489.   0.967  -22908.    23885.
+## 10 2017                   1665.   0.912  -28563.    31892.
+## 11 2018                    501.   0.977  -34756.    35759.
+## 12 2019                    182.   0.993  -41063.    41427.
 
-# jurisdiction informatiomn
-licence = 
-  read_table(&quot;./data_import_cleaning/licence_jurisdiction_modified.txt&quot;) %&gt;%
-  unlist()
-control = 
-  read_table(&quot;./data_import_cleaning/control_jurisdiction_modified.txt&quot;) %&gt;%
-  unlist()
 
-# tidy tax data: state with abbreviation + group
-tax_df_group =  
-  left_join(tax_df %&gt;% rename(state_abbrv = state), 
-            state_ref, by = &quot;state_abbrv&quot;) %&gt;% 
-  mutate(
-    group = ifelse(state %in% licence, &quot;licenced&quot;, 
-                   ifelse(state %in% control, &quot;control&quot;, &quot;NA&quot;))
-  ) %&gt;% 
-  relocate(state_abbrv, state, group)
-
-state_tax_df_group = 
-  left_join(state_tax_df, state_ref, by = &quot;state&quot;) %&gt;% 
-  mutate(
-    group = ifelse(state %in% licence, &quot;licenced&quot;, 
-                   ifelse(state %in% control, &quot;control&quot;, &quot;NA&quot;))
-  ) %&gt;% 
-  relocate(state_abbrv, state, group)</code></pre>
+#tax_df_group %&gt;% 
+#  mutate(
+#    t_test = map2(~t.test(tax_df_group[[year[4]]]~group, data = tax_df_group))
+#  )
+#t.test(tax_df_group[[year[1]]]~group, data = tax_df_group)</code></pre>
+</div>
 
 
 

@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-```{r df_tidy, collapse=TRUE,message=FALSE}
+```{r df_tidy, collapse=TRUE,message=FALSE, include=FALSE}
 tax_df = read_csv( "data_import_cleaning/tax.csv")
 state_tax_df = read_csv("data_import_cleaning/state_tax_df.csv")
 
@@ -37,7 +37,8 @@ tax_df_group =
     group = ifelse(state %in% licence, "licenced", 
                    ifelse(state %in% control, "control", "NA"))
   ) %>% 
-  relocate(state_abbrv, state, group)
+  relocate(state_abbrv, state, group) %>% 
+  slice(-52)
 
 state_tax_df_group = 
   left_join(state_tax_df, state_ref, by = "state") %>% 
@@ -46,5 +47,39 @@ state_tax_df_group =
                    ifelse(state %in% control, "control", "NA"))
   ) %>% 
   relocate(state_abbrv, state, group)
+```
+
+## Tax differences by jurisdiction group
+
+```{r collapse=TRUE}
+# state_tax
+#data = state_tax_df_group %>% filter(year == "2009") %>% select(state_taxes, group)
+#data %>% 
+#  mutate(
+#    t_test = map2(.x = state_taxes, .y = group, ~t.test(.x ~ .y)))
+
+# tax
+year = colnames(tax_df_group)[-c(1:3)]
+t_test_output = NULL
+for (i in 1:length(year)) {
+  t_test = t.test(tax_df_group[[year[i]]]~group, data = tax_df_group) %>% broom::tidy()
+  t_test_output = rbind(t_test_output, t_test)
+}
+t_test_output %>% 
+  mutate(year = year) %>% 
+  relocate(year) %>% 
+  rename(
+    control_est = estimate1, 
+    licensed_est = estimate2, 
+    control_minus_licenced = estimate) %>% 
+  select(year, control_minus_licenced, p.value, conf.low, conf.high)
+
+
+#tax_df_group %>% 
+#  mutate(
+#    t_test = map2(~t.test(tax_df_group[[year[4]]]~group, data = tax_df_group))
+#  )
+#t.test(tax_df_group[[year[1]]]~group, data = tax_df_group)
+
 ```
 
