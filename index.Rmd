@@ -6,9 +6,8 @@ output:
     toc_float: true
 ---
 
+# An Exhaustive look at US Beer data - P8105 Data Science I Project
 
-# Welcome!
-
-Please see the proposal page for a copy of our proposal 
+By: Amy Pitts (ajp2257) | Ruiyang Li (rl3034) | Wenbo Fei (wf2270) | Ziyi Wang (zw2716)
 
 
