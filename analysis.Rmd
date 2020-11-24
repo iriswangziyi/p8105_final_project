@@ -2,6 +2,7 @@
 title: "Analysis"
 output: 
   html_document:
+    code_folding: hide
     toc: true
     toc_float: true
 ---
@@ -143,9 +144,6 @@ local_tax_group_result %>%
   geom_errorbar(aes(ymin = conf_low, ymax = conf_high))
 ```
 
-
-
-# Regression analysis
 
 
 

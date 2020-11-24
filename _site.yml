@@ -5,6 +5,9 @@ navbar:
   left:
     - text: "Consumption"
       href: consumption.html
+      menu:
+        - text: "tab name"
+          href: dashborad.html
     - text: "Taxation"
       href: taxation.html
     - text: "Production"
@@ -14,8 +17,6 @@ navbar:
   right:
     - text: "Project Report"
       href: proposal.html
-    - text: "About Us"
-      href: about.htmls
     - text: "Contact Us"
       icon: fa-envelope fa-lg
       menu:
