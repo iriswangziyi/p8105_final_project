@@ -1,0 +1,83 @@
+---
+title: "Production"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(plotly)
+library(flexdashboard)
+
+tax_cans_df    = read_csv("data_import_cleaning/tax_cans.csv")
+tax_barrels_df = read_csv("data_import_cleaning/tax_barrels_df.csv")
+state_df = read_csv("data_import_cleaning/state_df.csv")
+```
+
+In this page we are going take an in-depth look at the production of beer across each state in the USA. 
+
+---
+
+## Production of Barrels 
+This line graph looks at the amount Barrels produced by state recorded in barrel units over the years. The data comes from the Alcohol and Tobacco Tax and Trade Bureau dataset. 
+
+```{r}
+tax_barrels_df %>%
+  filter(state != "total") %>%
+  pivot_longer(
+    c(`2008`:`2019`),
+    names_to = "year",
+    values_to = "barrels"
+  ) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~barrels, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Barrel production over the years by state")
+```
+
+### Analysis: 
+
+---
+
+
+## Production Cans and Bottles
+
+This line graph looks at the amount of cans and bottles produced by state recorded in barrel units over the years. The data comes from the Alcohol and Tobacco Tax and Trade Bureau dataset.
+
+```{r}
+tax_cans_df %>%
+  filter(state != "total") %>%
+  pivot_longer(
+    c(`2008`:`2019`),
+    names_to = "year",
+    values_to = "cans_bottles"
+  ) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~cans_bottles, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Can and Bottleproduction over the years by state")
+```
+
+### Analysis: 
+
+--- 
+
+## Shipments 
+This is the amount of money the United States has made off of the shipment of beers. The visualization is broken down by month shown in the various colors and we can see the trends across the years.
+
+```{r}
+state_df %>%
+  filter(year > 2009) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~shipments, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Shipments")
+```
+
+### Analysis: 

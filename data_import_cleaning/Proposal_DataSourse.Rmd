@@ -76,3 +76,53 @@ beer_specific =
 ```
 
 * This dataset seems to have many missing values while the website didn't give any explanation. Some of them don't have a description, many of them share a product code 0.
+
+
+## Data 3: 
+This data is gotten from [link](https://www.nbwa.org/resources/state-data). Specifically the pdf files at 
+[Summary of Effective State Excise Tax Rates by State](https://www.nbwa.org/sites/default/files/Beer%20Excise%20Tax%202019%20-%20Revised%20July%202020.pdf)
+
+[Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf)
+
+```{r messages = FALSE, warnings = FALSE }
+state_df = read_excel("2003_and_2019_State_data_Per_Capita_perpage.xlsx",
+                           sheet = 1, range = "A5:F56") %>%
+                janitor::clean_names() %>%
+                mutate(
+                  year = rep(2003, 51)
+                )
+
+for( i in 2:17) {
+  state_df = rbind(state_df, read_excel("2003_and_2019_State_data_Per_Capita_perpage.xlsx",
+                             sheet = i, range = "A5:F56") %>%
+                  janitor::clean_names() %>%
+                  mutate(
+                    year = rep(2002+i, 51)
+                  )
+             ) 
+}
+write_csv(state_df, "state_df.csv")
+```
+
+
+```{r message=TRUE, warning=FALSE}
+state_tax_df = read_excel("Beer_Excise_Tax2019Revised_July_2020perpage.xlsx",
+                           sheet = 1, range = "A5:G56") %>%
+                janitor::clean_names() %>%
+                mutate(
+                  year = rep(2009, 51)
+                )
+
+
+for( i in 2:11) {
+  state_tax_df = rbind(state_tax_df, read_excel("Beer_Excise_Tax2019Revised_July_2020perpage.xlsx",
+                             sheet = i, range = "A5:G56") %>%
+                  janitor::clean_names() %>%
+                  mutate(
+                    year = rep(2008+i, 51)
+                  )
+             ) 
+}
+write_csv(state_tax_df, "state_tax_df.csv")
+```
+
