@@ -38,6 +38,7 @@ tax_df %>%
     title = "Tax collected over the years by state")
 ```
 
+Analysis: 
 
 ---
 
@@ -57,6 +58,7 @@ state_tax_df %>%
 ```
 
 Analysis: 
+
 ---
 
 ## Adjusting for state and local taxes 
@@ -72,10 +74,11 @@ state_tax_df %>%
     title = "Effective Excise Tax with Other and Local Taxes (Tax per Barrel)")
 ```
 
+Analysis: 
 
 ---
 
-### Comparing the Local and State Tax to the Adjusted tax 
+## Comparing the Local and State Tax to the Adjusted tax 
 Now with these two tax measures it is interesting to see how they differ between state. Below we have took the difference between the local taxes and others with the adjusted. Most of the states have a value of just zero but the graph below just shows the states with a positive difference between the two measurements. 
 
 ```{r}
@@ -93,5 +96,7 @@ state_tax_df %>%
   layout( # adding a title 
     title = "Difference between local_taxes and adjusted")
 ```
+
+Analysis: 
 
 

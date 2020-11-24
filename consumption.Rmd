@@ -29,7 +29,7 @@ state_df %>%
     title = "Consumption")
 ```
 
-
+---
 
 ## Alcohol by volume (ABV) pattern
 
