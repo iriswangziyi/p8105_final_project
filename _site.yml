@@ -1,7 +1,7 @@
 name: "An Exhaustive look at Beer data"
 output_dir: "."
 navbar:
-  title: "Home/Project Name"
+  title: "Home"
   left:
     - text: "Consumption"
       href: consumption.html
@@ -27,10 +27,13 @@ navbar:
         - href: mailto:<wf2270@columbia.edu>
         - text: "Ziyi (Iris) Wang"
         - href: mailto:<ziyi.w@columbia.edu>
+    - icon: fa-youtube fa-lg
+      href: https://www.youtube.com/
     - icon: fa-github fa-lg
       href: https://github.com/iriswangziyi/p8105_final_project
+      
 output:
   html_document:
-    theme: Readable
+    theme: cosmo
     includes:
-      after_body: _suffix.html
+      after_body: footer.html
