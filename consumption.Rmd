@@ -7,6 +7,22 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(plotly)
+library(flexdashboard)
+
+state_df = read_csv("data_import_cleaning/state_df.csv")
 ```
 
 ## Consumption
+This graph shows data from the [Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf) document. This consumption is by captiate and only considers individuals who are 21 years old or older. 
+```{r warning=FALSE, message=FALSE}
+state_df %>%
+  filter(year > 2009) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~consumption, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Consumption")
+```

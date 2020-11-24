@@ -23,22 +23,6 @@ This data is gotten from [link](https://www.nbwa.org/resources/state-data). Spec
 [Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf)
 
 
-# Talking points:
-
-- talk about the visualization made from the pdf. what it adds 
-    - the rank
-    - the amount of shipments 
-    - the amount of consumption per state
-- talk about the government data set and how we could connect these two
-    - specifically use the tax rate by barrel and and then try to compare it to the overall tax collected from the government dataset 
-- talk about different ways to visualize this data. 
-    - right now i am just doing the line plot but that is boring 
-- maybe we could do something cool with the ranking, for example for each year we could print the 3 top ranking and 3 bottom ranking from each year. i am not sure how to do this 
-- i think we should put the consumption data, and shipment data, and population data on the map of the states. This would be a nice summary of all the information 
-
-
-
-
 
 # read the data 
 We then converted the pdf documents into excel documents using an online software. 

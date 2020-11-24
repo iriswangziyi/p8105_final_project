@@ -5,6 +5,75 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(plotly)
+library(flexdashboard)
+
+tax_df = read_csv( "data_import_cleaning/tax.csv")
+state_tax_df = read_csv("data_import_cleaning/state_tax_df.csv")
 ```
 
-## Taxation 
+## Cumulative Taxs Collected 
+Looking at just the taxes collected by each state over the years. This tax is specifically looking at the 
+"Beer removed for consumption or sale including beer removed tax determined for consumption or sale in a tavern or on brewery premises". This data is coming from the Alcohol and Tobacco Tax and Trade Bureau dataset.
+
+```{r}
+tax_df %>%
+  filter(state != "total") %>%
+  pivot_longer(
+    c(`2008`:`2019`),
+    names_to = "year",
+    values_to = "tax"
+  ) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( 
+    x = ~year, y = ~tax, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Tax collected over the years by state")
+```
+
+## Tax per Barrel 
+This next graphic is information collected from the Summary of Effective State Excise Tax Rates by State pdf document. 
+
+```{r}
+state_tax_df %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly(
+    x = ~year, y = ~adjusted, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Effective Excise Tax (Volume Adjusted) (Tax per Barrel)")
+```
+
+## Adjusting for state and local taxes 
+
+```{r}
+state_tax_df %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~and_local_taxes, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Effective Excise Tax with Other and Local Taxes (Tax per Barrel)")
+```
+
+### How do the two measurements differ? 
+
+```{r}
+state_tax_df %>%
+  select(state, adjusted, state_taxes, and_local_taxes, year) %>%
+  mutate(
+    diff_state_adj = state_taxes - adjusted,
+    diff_local_adj = and_local_taxes - adjusted
+  ) %>%
+  filter(diff_local_adj > 0) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~diff_local_adj, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Difference between local_taxes and adjusted")
+```
+
+

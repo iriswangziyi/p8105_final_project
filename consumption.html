@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Amy Pitts" />
+
+<meta name="date" content="2020-11-23" />
+
+<title>Consumption</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="consumption.html">Consumption</a>
+</li>
+<li>
+  <a href="taxation.html">Taxation</a>
+</li>
+<li>
+  <a href="production.html">Production</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="proposal.html">Proposal</a>
+</li>
+<li>
+  <a href="https://github.com/iriswangziyi/p8105_final_project">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Consumption</h1>
+<h4 class="author">Amy Pitts</h4>
+<h4 class="date">11/23/2020</h4>
+
+</div>
+
+
+<div id="consumption" class="section level2">
+<h2>Consumption</h2>
+<p>This graph shows data from the <a href="https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf">Shipments of Malt Beverages and Per Capita Consumption by State</a> document. This consumption is by captiate and only considers individuals who are 21 years old or older.</p>
+<pre class="r"><code>state_df %&gt;%
+  filter(year &gt; 2009) %&gt;%
+  mutate(text_label = str_c(&quot;state: &quot;, state)) %&gt;% # creating text label 
+  plot_ly( #using plotly to plot he tmax and tmin 
+    x = ~year, y = ~consumption, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = &quot;scatter&quot;, mode = &quot;lines&quot;, colors = &quot;viridis&quot;) %&gt;%
+  layout( # adding a title 
+    title = &quot;Consumption&quot;)</code></pre>
+<div id="htmlwidget-8f27e209c89643de5941" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8f27e209c89643de5941">{"x":{"visdat":{"6e27683698bd":["function () ","plotlyVisDat"]},"cur_data":"6e27683698bd","attrs":{"6e27683698bd":{"x":{},"y":{},"text":{},"mode":"lines","color":{},"colors":"viridis","alpha":0.5,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Consumption","xaxis":{"domain":[0,1],"automargin":true,"title":"year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"consumption"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[30.5,30.4,30.4,29,29.5,29.3,30,28.9,28.8,29],"text":["state: Alabama","state: Alabama","state: Alabama","state: Alabama","state: Alabama","state: Alabama","state: Alabama","state: Alabama","state: Alabama","state: Alabama"],"mode":"lines","type":"scatter","name":"Alabama","marker":{"color":"rgba(68,1,84,0.5)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,0.5)"},"error_y":{"color":"rgba(68,1,84,0.5)"},"error_x":{"color":"rgba(68,1,84,0.5)"},"line":{"color":"rgba(68,1,84,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[28.5,28.7,28.8,29,28.4,29,27.2,26.5,27,27.6],"text":["state: Alaska","state: Alaska","state: Alaska","state: Alaska","state: Alaska","state: Alaska","state: Alaska","state: Alaska","state: Alaska","state: Alaska"],"mode":"lines","type":"scatter","name":"Alaska","marker":{"color":"rgba(70,8,92,0.5)","line":{"color":"rgba(70,8,92,1)"}},"textfont":{"color":"rgba(70,8,92,0.5)"},"error_y":{"color":"rgba(70,8,92,0.5)"},"error_x":{"color":"rgba(70,8,92,0.5)"},"line":{"color":"rgba(70,8,92,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[30.9,29.8,29.5,29,28.8,27.4,27.2,26.6,26.2,25.6],"text":["state: Arizona","state: Arizona","state: Arizona","state: Arizona","state: Arizona","state: Arizona","state: Arizona","state: Arizona","state: Arizona","state: Arizona"],"mode":"lines","type":"scatter","name":"Arizona","marker":{"color":"rgba(71,16,99,0.5)","line":{"color":"rgba(71,16,99,1)"}},"textfont":{"color":"rgba(71,16,99,0.5)"},"error_y":{"color":"rgba(71,16,99,0.5)"},"error_x":{"color":"rgba(71,16,99,0.5)"},"line":{"color":"rgba(71,16,99,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[26.7,26.3,26.3,25.9,24.9,24.3,24,23.8,23.3,23.2],"text":["state: Arkansas","state: Arkansas","state: Arkansas","state: Arkansas","state: Arkansas","state: Arkansas","state: Arkansas","state: Arkansas","state: Arkansas","state: Arkansas"],"mode":"lines","type":"scatter","name":"Arkansas","marker":{"color":"rgba(72,23,105,0.5)","line":{"color":"rgba(72,23,105,1)"}},"textfont":{"color":"rgba(72,23,105,0.5)"},"error_y":{"color":"rgba(72,23,105,0.5)"},"error_x":{"color":"rgba(72,23,105,0.5)"},"line":{"color":"rgba(72,23,105,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[26.7,26.8,25.8,25.6,26,26,25.4,25.2,24.9,24.8],"text":["state: California","state: California","state: California","state: California","state: California","state: California","state: California","state: California","state: California","state: California"],"mode":"lines","type":"scatter","name":"California","marker":{"color":"rgba(72,30,111,0.5)","line":{"color":"rgba(72,30,111,1)"}},"textfont":{"color":"rgba(72,30,111,0.5)"},"error_y":{"color":"rgba(72,30,111,0.5)"},"error_x":{"color":"rgba(72,30,111,0.5)"},"line":{"color":"rgba(72,30,111,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[30.5,30.1,30,30,29.8,28.8,29,28.5,28.3,28.7],"text":["state: Colorado","state: Colorado","state: Colorado","state: Colorado","state: Colorado","state: Colorado","state: Colorado","state: Colorado","state: Colorado","state: Colorado"],"mode":"lines","type":"scatter","name":"Colorado","marker":{"color":"rgba(72,37,117,0.5)","line":{"color":"rgba(72,37,117,1)"}},"textfont":{"color":"rgba(72,37,117,0.5)"},"error_y":{"color":"rgba(72,37,117,0.5)"},"error_x":{"color":"rgba(72,37,117,0.5)"},"line":{"color":"rgba(72,37,117,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[22.7,22.1,22.4,21,21.1,21.2,21.2,20.4,20.1,19.9],"text":["state: Connecticut","state: Connecticut","state: Connecticut","state: Connecticut","state: Connecticut","state: Connecticut","state: Connecticut","state: Connecticut","state: Connecticut","state: Connecticut"],"mode":"lines","type":"scatter","name":"Connecticut","marker":{"color":"rgba(71,43,122,0.5)","line":{"color":"rgba(71,43,122,1)"}},"textfont":{"color":"rgba(71,43,122,0.5)"},"error_y":{"color":"rgba(71,43,122,0.5)"},"error_x":{"color":"rgba(71,43,122,0.5)"},"line":{"color":"rgba(71,43,122,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[34.5,34.1,33.5,32,30.9,30.3,30.3,29.6,28.1,28],"text":["state: Delaware","state: Delaware","state: Delaware","state: Delaware","state: Delaware","state: Delaware","state: Delaware","state: Delaware","state: Delaware","state: Delaware"],"mode":"lines","type":"scatter","name":"Delaware","marker":{"color":"rgba(70,49,126,0.5)","line":{"color":"rgba(70,49,126,1)"}},"textfont":{"color":"rgba(70,49,126,0.5)"},"error_y":{"color":"rgba(70,49,126,0.5)"},"error_x":{"color":"rgba(70,49,126,0.5)"},"line":{"color":"rgba(70,49,126,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[27.9,27.8,28.4,27.5,27.6,27.3,26.1,25.3,23.6,23.2],"text":["state: District of Columbia","state: District of Columbia","state: District of Columbia","state: District of Columbia","state: District of Columbia","state: District of Columbia","state: District of Columbia","state: District of Columbia","state: District of Columbia","state: District of Columbia"],"mode":"lines","type":"scatter","name":"District of Columbia","marker":{"color":"rgba(69,56,130,0.5)","line":{"color":"rgba(69,56,130,1)"}},"textfont":{"color":"rgba(69,56,130,0.5)"},"error_y":{"color":"rgba(69,56,130,0.5)"},"error_x":{"color":"rgba(69,56,130,0.5)"},"line":{"color":"rgba(69,56,130,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[28.3,28,27.8,27.4,27.3,27.3,26.8,26.3,25.5,25.1],"text":["state: Florida","state: Florida","state: Florida","state: Florida","state: Florida","state: Florida","state: Florida","state: Florida","state: Florida","state: Florida"],"mode":"lines","type":"scatter","name":"Florida","marker":{"color":"rgba(67,62,133,0.5)","line":{"color":"rgba(67,62,133,1)"}},"textfont":{"color":"rgba(67,62,133,0.5)"},"error_y":{"color":"rgba(67,62,133,0.5)"},"error_x":{"color":"rgba(67,62,133,0.5)"},"line":{"color":"rgba(67,62,133,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[26.4,25.7,25.7,25.5,25.3,24.6,25.1,24,23.5,23.3],"text":["state: Georgia","state: Georgia","state: Georgia","state: Georgia","state: Georgia","state: Georgia","state: Georgia","state: Georgia","state: Georgia","state: Georgia"],"mode":"lines","type":"scatter","name":"Georgia","marker":{"color":"rgba(65,68,135,0.5)","line":{"color":"rgba(65,68,135,1)"}},"textfont":{"color":"rgba(65,68,135,0.5)"},"error_y":{"color":"rgba(65,68,135,0.5)"},"error_x":{"color":"rgba(65,68,135,0.5)"},"line":{"color":"rgba(65,68,135,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[30.3,29.9,30.6,30.2,30.4,29.4,30.5,29.7,29.7,29.5],"text":["state: Hawaii","state: Hawaii","state: Hawaii","state: Hawaii","state: Hawaii","state: Hawaii","state: Hawaii","state: Hawaii","state: Hawaii","state: Hawaii"],"mode":"lines","type":"scatter","name":"Hawaii","marker":{"color":"rgba(62,73,137,0.5)","line":{"color":"rgba(62,73,137,1)"}},"textfont":{"color":"rgba(62,73,137,0.5)"},"error_y":{"color":"rgba(62,73,137,0.5)"},"error_x":{"color":"rgba(62,73,137,0.5)"},"line":{"color":"rgba(62,73,137,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[29.5,28.2,27.8,27.5,27,27,26.8,26.2,25.9,24.5],"text":["state: Idaho","state: Idaho","state: Idaho","state: Idaho","state: Idaho","state: Idaho","state: Idaho","state: Idaho","state: Idaho","state: Idaho"],"mode":"lines","type":"scatter","name":"Idaho","marker":{"color":"rgba(60,79,138,0.5)","line":{"color":"rgba(60,79,138,1)"}},"textfont":{"color":"rgba(60,79,138,0.5)"},"error_y":{"color":"rgba(60,79,138,0.5)"},"error_x":{"color":"rgba(60,79,138,0.5)"},"line":{"color":"rgba(60,79,138,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[29.9,28.9,29.1,28.3,28,28.5,28.3,27.5,27.1,26.7],"text":["state: Illinois","state: Illinois","state: Illinois","state: Illinois","state: Illinois","state: Illinois","state: Illinois","state: Illinois","state: Illinois","state: Illinois"],"mode":"lines","type":"scatter","name":"Illinois","marker":{"color":"rgba(58,84,140,0.5)","line":{"color":"rgba(58,84,140,1)"}},"textfont":{"color":"rgba(58,84,140,0.5)"},"error_y":{"color":"rgba(58,84,140,0.5)"},"error_x":{"color":"rgba(58,84,140,0.5)"},"line":{"color":"rgba(58,84,140,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[27.1,25.8,25.7,24.8,24,23.9,23.8,23.4,24.2,24],"text":["state: Indiana","state: Indiana","state: Indiana","state: Indiana","state: Indiana","state: Indiana","state: Indiana","state: Indiana","state: Indiana","state: Indiana"],"mode":"lines","type":"scatter","name":"Indiana","marker":{"color":"rgba(55,90,140,0.5)","line":{"color":"rgba(55,90,140,1)"}},"textfont":{"color":"rgba(55,90,140,0.5)"},"error_y":{"color":"rgba(55,90,140,0.5)"},"error_x":{"color":"rgba(55,90,140,0.5)"},"line":{"color":"rgba(55,90,140,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[35.2,33.9,33.9,33.3,33,32.7,32.7,31.7,31.2,30.6],"text":["state: Iowa","state: Iowa","state: Iowa","state: Iowa","state: Iowa","state: Iowa","state: Iowa","state: Iowa","state: Iowa","state: Iowa"],"mode":"lines","type":"scatter","name":"Iowa","marker":{"color":"rgba(53,96,141,0.5)","line":{"color":"rgba(53,96,141,1)"}},"textfont":{"color":"rgba(53,96,141,0.5)"},"error_y":{"color":"rgba(53,96,141,0.5)"},"error_x":{"color":"rgba(53,96,141,0.5)"},"line":{"color":"rgba(53,96,141,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[28.9,28,28.5,27,27.6,27.3,26.5,26.2,25.3,25.6],"text":["state: Kansas","state: Kansas","state: Kansas","state: Kansas","state: Kansas","state: Kansas","state: Kansas","state: Kansas","state: Kansas","state: Kansas"],"mode":"lines","type":"scatter","name":"Kansas","marker":{"color":"rgba(50,101,142,0.5)","line":{"color":"rgba(50,101,142,1)"}},"textfont":{"color":"rgba(50,101,142,0.5)"},"error_y":{"color":"rgba(50,101,142,0.5)"},"error_x":{"color":"rgba(50,101,142,0.5)"},"line":{"color":"rgba(50,101,142,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[25.6,23.6,24.4,24.2,23.8,25.1,24.5,23.6,22.7,23],"text":["state: Kentucky","state: Kentucky","state: Kentucky","state: Kentucky","state: Kentucky","state: Kentucky","state: Kentucky","state: Kentucky","state: Kentucky","state: Kentucky"],"mode":"lines","type":"scatter","name":"Kentucky","marker":{"color":"rgba(48,106,142,0.5)","line":{"color":"rgba(48,106,142,1)"}},"textfont":{"color":"rgba(48,106,142,0.5)"},"error_y":{"color":"rgba(48,106,142,0.5)"},"error_x":{"color":"rgba(48,106,142,0.5)"},"line":{"color":"rgba(48,106,142,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[34.8,33.9,33.8,32.7,32.2,31.3,30.2,29.2,28.3,28.3],"text":["state: Louisiana","state: Louisiana","state: Louisiana","state: Louisiana","state: Louisiana","state: Louisiana","state: Louisiana","state: Louisiana","state: Louisiana","state: Louisiana"],"mode":"lines","type":"scatter","name":"Louisiana","marker":{"color":"rgba(46,111,142,0.5)","line":{"color":"rgba(46,111,142,1)"}},"textfont":{"color":"rgba(46,111,142,0.5)"},"error_y":{"color":"rgba(46,111,142,0.5)"},"error_x":{"color":"rgba(46,111,142,0.5)"},"line":{"color":"rgba(46,111,142,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[34.7,35.2,34.5,34.4,33.8,34.2,33.8,33.8,33.7,33.1],"text":["state: Maine","state: Maine","state: Maine","state: Maine","state: Maine","state: Maine","state: Maine","state: Maine","state: Maine","state: Maine"],"mode":"lines","type":"scatter","name":"Maine","marker":{"color":"rgba(44,115,142,0.5)","line":{"color":"rgba(44,115,142,1)"}},"textfont":{"color":"rgba(44,115,142,0.5)"},"error_y":{"color":"rgba(44,115,142,0.5)"},"error_x":{"color":"rgba(44,115,142,0.5)"},"line":{"color":"rgba(44,115,142,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[24,23.1,23.2,22.3,21.5,21.1,20.7,20.1,19.5,19.3],"text":["state: Maryland","state: Maryland","state: Maryland","state: Maryland","state: Maryland","state: Maryland","state: Maryland","state: Maryland","state: Maryland","state: Maryland"],"mode":"lines","type":"scatter","name":"Maryland","marker":{"color":"rgba(42,120,142,0.5)","line":{"color":"rgba(42,120,142,1)"}},"textfont":{"color":"rgba(42,120,142,0.5)"},"error_y":{"color":"rgba(42,120,142,0.5)"},"error_x":{"color":"rgba(42,120,142,0.5)"},"line":{"color":"rgba(42,120,142,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[26.4,25.9,26.2,25.8,24.9,24.5,24.1,23.5,22.7,23],"text":["state: Massachusetts","state: Massachusetts","state: Massachusetts","state: Massachusetts","state: Massachusetts","state: Massachusetts","state: Massachusetts","state: Massachusetts","state: Massachusetts","state: Massachusetts"],"mode":"lines","type":"scatter","name":"Massachusetts","marker":{"color":"rgba(40,125,142,0.5)","line":{"color":"rgba(40,125,142,1)"}},"textfont":{"color":"rgba(40,125,142,0.5)"},"error_y":{"color":"rgba(40,125,142,0.5)"},"error_x":{"color":"rgba(40,125,142,0.5)"},"line":{"color":"rgba(40,125,142,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[27.5,27,27,26.5,26.3,26,25.7,25.2,24.5,23.9],"text":["state: Michigan","state: Michigan","state: Michigan","state: Michigan","state: Michigan","state: Michigan","state: Michigan","state: Michigan","state: Michigan","state: Michigan"],"mode":"lines","type":"scatter","name":"Michigan","marker":{"color":"rgba(38,130,142,0.5)","line":{"color":"rgba(38,130,142,1)"}},"textfont":{"color":"rgba(38,130,142,0.5)"},"error_y":{"color":"rgba(38,130,142,0.5)"},"error_x":{"color":"rgba(38,130,142,0.5)"},"line":{"color":"rgba(38,130,142,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[28.9,28.2,29.7,28.6,28,28.9,28.8,28.5,28.5,27.9],"text":["state: Minnesota","state: Minnesota","state: Minnesota","state: Minnesota","state: Minnesota","state: Minnesota","state: Minnesota","state: Minnesota","state: Minnesota","state: Minnesota"],"mode":"lines","type":"scatter","name":"Minnesota","marker":{"color":"rgba(36,134,142,0.5)","line":{"color":"rgba(36,134,142,1)"}},"textfont":{"color":"rgba(36,134,142,0.5)"},"error_y":{"color":"rgba(36,134,142,0.5)"},"error_x":{"color":"rgba(36,134,142,0.5)"},"line":{"color":"rgba(36,134,142,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[34.6,33.8,33.8,33.2,32.6,32.4,32.3,31,30.3,29.4],"text":["state: Mississippi","state: Mississippi","state: Mississippi","state: Mississippi","state: Mississippi","state: Mississippi","state: Mississippi","state: Mississippi","state: Mississippi","state: Mississippi"],"mode":"lines","type":"scatter","name":"Mississippi","marker":{"color":"rgba(34,139,141,0.5)","line":{"color":"rgba(34,139,141,1)"}},"textfont":{"color":"rgba(34,139,141,0.5)"},"error_y":{"color":"rgba(34,139,141,0.5)"},"error_x":{"color":"rgba(34,139,141,0.5)"},"line":{"color":"rgba(34,139,141,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[32,31,31,29.8,29.2,28.9,28.7,27.9,27.1,26.8],"text":["state: Missouri","state: Missouri","state: Missouri","state: Missouri","state: Missouri","state: Missouri","state: Missouri","state: Missouri","state: Missouri","state: Missouri"],"mode":"lines","type":"scatter","name":"Missouri","marker":{"color":"rgba(33,144,141,0.5)","line":{"color":"rgba(33,144,141,1)"}},"textfont":{"color":"rgba(33,144,141,0.5)"},"error_y":{"color":"rgba(33,144,141,0.5)"},"error_x":{"color":"rgba(33,144,141,0.5)"},"line":{"color":"rgba(33,144,141,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[41.5,40.4,41,40.6,40.2,40.7,40.2,40.2,41.5,39.8],"text":["state: Montana","state: Montana","state: Montana","state: Montana","state: Montana","state: Montana","state: Montana","state: Montana","state: Montana","state: Montana"],"mode":"lines","type":"scatter","name":"Montana","marker":{"color":"rgba(31,149,139,0.5)","line":{"color":"rgba(31,149,139,1)"}},"textfont":{"color":"rgba(31,149,139,0.5)"},"error_y":{"color":"rgba(31,149,139,0.5)"},"error_x":{"color":"rgba(31,149,139,0.5)"},"line":{"color":"rgba(31,149,139,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[35.7,34.4,35.2,34.2,34.5,34,34,33.3,32.4,32],"text":["state: Nebraska","state: Nebraska","state: Nebraska","state: Nebraska","state: Nebraska","state: Nebraska","state: Nebraska","state: Nebraska","state: Nebraska","state: Nebraska"],"mode":"lines","type":"scatter","name":"Nebraska","marker":{"color":"rgba(31,154,138,0.5)","line":{"color":"rgba(31,154,138,1)"}},"textfont":{"color":"rgba(31,154,138,0.5)"},"error_y":{"color":"rgba(31,154,138,0.5)"},"error_x":{"color":"rgba(31,154,138,0.5)"},"line":{"color":"rgba(31,154,138,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[37.5,36.3,35.8,34.9,34.9,34.3,33.3,32.9,32.6,32.4],"text":["state: Nevada","state: Nevada","state: Nevada","state: Nevada","state: Nevada","state: Nevada","state: Nevada","state: Nevada","state: Nevada","state: Nevada"],"mode":"lines","type":"scatter","name":"Nevada","marker":{"color":"rgba(31,159,136,0.5)","line":{"color":"rgba(31,159,136,1)"}},"textfont":{"color":"rgba(31,159,136,0.5)"},"error_y":{"color":"rgba(31,159,136,0.5)"},"error_x":{"color":"rgba(31,159,136,0.5)"},"line":{"color":"rgba(31,159,136,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[44.2,42.9,44,42.7,42.8,43,41.6,40.7,39.6,38.8],"text":["state: New Hampshire","state: New Hampshire","state: New Hampshire","state: New Hampshire","state: New Hampshire","state: New Hampshire","state: New Hampshire","state: New Hampshire","state: New Hampshire","state: New Hampshire"],"mode":"lines","type":"scatter","name":"New Hampshire","marker":{"color":"rgba(32,163,134,0.5)","line":{"color":"rgba(32,163,134,1)"}},"textfont":{"color":"rgba(32,163,134,0.5)"},"error_y":{"color":"rgba(32,163,134,0.5)"},"error_x":{"color":"rgba(32,163,134,0.5)"},"line":{"color":"rgba(32,163,134,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[23,22.1,22,21.4,21.2,21.4,21.1,20.5,20.3,20.9],"text":["state: New Jersey","state: New Jersey","state: New Jersey","state: New Jersey","state: New Jersey","state: New Jersey","state: New Jersey","state: New Jersey","state: New Jersey","state: New Jersey"],"mode":"lines","type":"scatter","name":"New Jersey","marker":{"color":"rgba(34,168,132,0.5)","line":{"color":"rgba(34,168,132,1)"}},"textfont":{"color":"rgba(34,168,132,0.5)"},"error_y":{"color":"rgba(34,168,132,0.5)"},"error_x":{"color":"rgba(34,168,132,0.5)"},"line":{"color":"rgba(34,168,132,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[33.6,32.5,32.5,30.9,31.4,30.6,29.1,28.8,28.2,27.4],"text":["state: New Mexico","state: New Mexico","state: New Mexico","state: New Mexico","state: New Mexico","state: New Mexico","state: New Mexico","state: New Mexico","state: New Mexico","state: New Mexico"],"mode":"lines","type":"scatter","name":"New Mexico","marker":{"color":"rgba(38,173,129,0.5)","line":{"color":"rgba(38,173,129,1)"}},"textfont":{"color":"rgba(38,173,129,0.5)"},"error_y":{"color":"rgba(38,173,129,0.5)"},"error_x":{"color":"rgba(38,173,129,0.5)"},"line":{"color":"rgba(38,173,129,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[23.3,23.1,23.3,22.9,22.7,22.6,22.4,21.9,21.7,22],"text":["state: New York","state: New York","state: New York","state: New York","state: New York","state: New York","state: New York","state: New York","state: New York","state: New York"],"mode":"lines","type":"scatter","name":"New York","marker":{"color":"rgba(44,177,126,0.5)","line":{"color":"rgba(44,177,126,1)"}},"textfont":{"color":"rgba(44,177,126,0.5)"},"error_y":{"color":"rgba(44,177,126,0.5)"},"error_x":{"color":"rgba(44,177,126,0.5)"},"line":{"color":"rgba(44,177,126,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[27.6,27.1,27,26.4,26.1,25.4,25.7,24.9,25.3,25.2],"text":["state: North Carolina","state: North Carolina","state: North Carolina","state: North Carolina","state: North Carolina","state: North Carolina","state: North Carolina","state: North Carolina","state: North Carolina","state: North Carolina"],"mode":"lines","type":"scatter","name":"North Carolina","marker":{"color":"rgba(51,182,122,0.5)","line":{"color":"rgba(51,182,122,1)"}},"textfont":{"color":"rgba(51,182,122,0.5)"},"error_y":{"color":"rgba(51,182,122,0.5)"},"error_x":{"color":"rgba(51,182,122,0.5)"},"line":{"color":"rgba(51,182,122,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[41.1,41.9,45.7,44.4,43.8,40.7,38.8,38.4,37.7,37.5],"text":["state: North Dakota","state: North Dakota","state: North Dakota","state: North Dakota","state: North Dakota","state: North Dakota","state: North Dakota","state: North Dakota","state: North Dakota","state: North Dakota"],"mode":"lines","type":"scatter","name":"North Dakota","marker":{"color":"rgba(58,186,118,0.5)","line":{"color":"rgba(58,186,118,1)"}},"textfont":{"color":"rgba(58,186,118,0.5)"},"error_y":{"color":"rgba(58,186,118,0.5)"},"error_x":{"color":"rgba(58,186,118,0.5)"},"line":{"color":"rgba(58,186,118,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[31.3,30.4,30,30.1,29.1,28.7,28.3,27.7,26.8,26.4],"text":["state: Ohio","state: Ohio","state: Ohio","state: Ohio","state: Ohio","state: Ohio","state: Ohio","state: Ohio","state: Ohio","state: Ohio"],"mode":"lines","type":"scatter","name":"Ohio","marker":{"color":"rgba(67,190,113,0.5)","line":{"color":"rgba(67,190,113,1)"}},"textfont":{"color":"rgba(67,190,113,0.5)"},"error_y":{"color":"rgba(67,190,113,0.5)"},"error_x":{"color":"rgba(67,190,113,0.5)"},"line":{"color":"rgba(67,190,113,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[28.7,28.7,28.4,27,26.4,26,25.9,25.1,24.5,24.3],"text":["state: Oklahoma","state: Oklahoma","state: Oklahoma","state: Oklahoma","state: Oklahoma","state: Oklahoma","state: Oklahoma","state: Oklahoma","state: Oklahoma","state: Oklahoma"],"mode":"lines","type":"scatter","name":"Oklahoma","marker":{"color":"rgba(77,195,107,0.5)","line":{"color":"rgba(77,195,107,1)"}},"textfont":{"color":"rgba(77,195,107,0.5)"},"error_y":{"color":"rgba(77,195,107,0.5)"},"error_x":{"color":"rgba(77,195,107,0.5)"},"line":{"color":"rgba(77,195,107,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[31.3,30.2,30.3,29.7,30.7,30.3,30.7,30.6,30.1,29.5],"text":["state: Oregon","state: Oregon","state: Oregon","state: Oregon","state: Oregon","state: Oregon","state: Oregon","state: Oregon","state: Oregon","state: Oregon"],"mode":"lines","type":"scatter","name":"Oregon","marker":{"color":"rgba(87,199,102,0.5)","line":{"color":"rgba(87,199,102,1)"}},"textfont":{"color":"rgba(87,199,102,0.5)"},"error_y":{"color":"rgba(87,199,102,0.5)"},"error_x":{"color":"rgba(87,199,102,0.5)"},"line":{"color":"rgba(87,199,102,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[29.5,29.1,28.7,27.7,27.5,26.9,27,26.4,26,26.1],"text":["state: Pennsylvania","state: Pennsylvania","state: Pennsylvania","state: Pennsylvania","state: Pennsylvania","state: Pennsylvania","state: Pennsylvania","state: Pennsylvania","state: Pennsylvania","state: Pennsylvania"],"mode":"lines","type":"scatter","name":"Pennsylvania","marker":{"color":"rgba(98,203,95,0.5)","line":{"color":"rgba(98,203,95,1)"}},"textfont":{"color":"rgba(98,203,95,0.5)"},"error_y":{"color":"rgba(98,203,95,0.5)"},"error_x":{"color":"rgba(98,203,95,0.5)"},"line":{"color":"rgba(98,203,95,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[27.4,26.6,26.3,25.3,25.6,24.5,23.5,23,22.7,22.1],"text":["state: Rhode Island","state: Rhode Island","state: Rhode Island","state: Rhode Island","state: Rhode Island","state: Rhode Island","state: Rhode Island","state: Rhode Island","state: Rhode Island","state: Rhode Island"],"mode":"lines","type":"scatter","name":"Rhode Island","marker":{"color":"rgba(110,206,88,0.5)","line":{"color":"rgba(110,206,88,1)"}},"textfont":{"color":"rgba(110,206,88,0.5)"},"error_y":{"color":"rgba(110,206,88,0.5)"},"error_x":{"color":"rgba(110,206,88,0.5)"},"line":{"color":"rgba(110,206,88,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[33.6,33.2,32.7,32.2,31.8,31.4,31.6,30.9,30.1,29.4],"text":["state: South Carolina","state: South Carolina","state: South Carolina","state: South Carolina","state: South Carolina","state: South Carolina","state: South Carolina","state: South Carolina","state: South Carolina","state: South Carolina"],"mode":"lines","type":"scatter","name":"South Carolina","marker":{"color":"rgba(122,209,81,0.5)","line":{"color":"rgba(122,209,81,1)"}},"textfont":{"color":"rgba(122,209,81,0.5)"},"error_y":{"color":"rgba(122,209,81,0.5)"},"error_x":{"color":"rgba(122,209,81,0.5)"},"line":{"color":"rgba(122,209,81,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[38.6,37.7,39,38.1,38.9,38.6,38.8,38.2,37.8,36.5],"text":["state: South Dakota","state: South Dakota","state: South Dakota","state: South Dakota","state: South Dakota","state: South Dakota","state: South Dakota","state: South Dakota","state: South Dakota","state: South Dakota"],"mode":"lines","type":"scatter","name":"South Dakota","marker":{"color":"rgba(134,213,73,0.5)","line":{"color":"rgba(134,213,73,1)"}},"textfont":{"color":"rgba(134,213,73,0.5)"},"error_y":{"color":"rgba(134,213,73,0.5)"},"error_x":{"color":"rgba(134,213,73,0.5)"},"line":{"color":"rgba(134,213,73,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[26.7,25.9,26.1,25.3,25.4,25.3,25.6,24.4,24.3,24.3],"text":["state: Tennessee","state: Tennessee","state: Tennessee","state: Tennessee","state: Tennessee","state: Tennessee","state: Tennessee","state: Tennessee","state: Tennessee","state: Tennessee"],"mode":"lines","type":"scatter","name":"Tennessee","marker":{"color":"rgba(147,215,65,0.5)","line":{"color":"rgba(147,215,65,1)"}},"textfont":{"color":"rgba(147,215,65,0.5)"},"error_y":{"color":"rgba(147,215,65,0.5)"},"error_x":{"color":"rgba(147,215,65,0.5)"},"line":{"color":"rgba(147,215,65,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[34.8,34.4,34.5,33.1,32.6,32.4,32.5,31.7,30.8,31],"text":["state: Texas","state: Texas","state: Texas","state: Texas","state: Texas","state: Texas","state: Texas","state: Texas","state: Texas","state: Texas"],"mode":"lines","type":"scatter","name":"Texas","marker":{"color":"rgba(161,218,56,0.5)","line":{"color":"rgba(161,218,56,1)"}},"textfont":{"color":"rgba(161,218,56,0.5)"},"error_y":{"color":"rgba(161,218,56,0.5)"},"error_x":{"color":"rgba(161,218,56,0.5)"},"line":{"color":"rgba(161,218,56,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[19.3,19.1,20.2,19.6,18.7,18.8,18.6,18.7,18,18.4],"text":["state: Utah","state: Utah","state: Utah","state: Utah","state: Utah","state: Utah","state: Utah","state: Utah","state: Utah","state: Utah"],"mode":"lines","type":"scatter","name":"Utah","marker":{"color":"rgba(174,220,48,0.5)","line":{"color":"rgba(174,220,48,1)"}},"textfont":{"color":"rgba(174,220,48,0.5)"},"error_y":{"color":"rgba(174,220,48,0.5)"},"error_x":{"color":"rgba(174,220,48,0.5)"},"line":{"color":"rgba(174,220,48,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[35.2,34.7,35.4,35.9,34.4,34,33.3,32.8,33.5,33.2],"text":["state: Vermont","state: Vermont","state: Vermont","state: Vermont","state: Vermont","state: Vermont","state: Vermont","state: Vermont","state: Vermont","state: Vermont"],"mode":"lines","type":"scatter","name":"Vermont","marker":{"color":"rgba(188,223,39,0.5)","line":{"color":"rgba(188,223,39,1)"}},"textfont":{"color":"rgba(188,223,39,0.5)"},"error_y":{"color":"rgba(188,223,39,0.5)"},"error_x":{"color":"rgba(188,223,39,0.5)"},"line":{"color":"rgba(188,223,39,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[27.6,26.8,26.5,25.9,25.4,25.3,25.2,24.4,24.2,24.2],"text":["state: Virginia","state: Virginia","state: Virginia","state: Virginia","state: Virginia","state: Virginia","state: Virginia","state: Virginia","state: Virginia","state: Virginia"],"mode":"lines","type":"scatter","name":"Virginia","marker":{"color":"rgba(201,225,31,0.5)","line":{"color":"rgba(201,225,31,1)"}},"textfont":{"color":"rgba(201,225,31,0.5)"},"error_y":{"color":"rgba(201,225,31,0.5)"},"error_x":{"color":"rgba(201,225,31,0.5)"},"line":{"color":"rgba(201,225,31,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[26.2,24.9,24.7,24.3,25.1,25.3,24.5,24,23.7,23.4],"text":["state: Washington","state: Washington","state: Washington","state: Washington","state: Washington","state: Washington","state: Washington","state: Washington","state: Washington","state: Washington"],"mode":"lines","type":"scatter","name":"Washington","marker":{"color":"rgba(215,226,25,0.5)","line":{"color":"rgba(215,226,25,1)"}},"textfont":{"color":"rgba(215,226,25,0.5)"},"error_y":{"color":"rgba(215,226,25,0.5)"},"error_x":{"color":"rgba(215,226,25,0.5)"},"line":{"color":"rgba(215,226,25,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[30.7,30.4,30.3,29.8,28.9,28.5,28.1,27.4,27.6,26.9],"text":["state: West Virginia","state: West Virginia","state: West Virginia","state: West Virginia","state: West Virginia","state: West Virginia","state: West Virginia","state: West Virginia","state: West Virginia","state: West Virginia"],"mode":"lines","type":"scatter","name":"West Virginia","marker":{"color":"rgba(228,228,25,0.5)","line":{"color":"rgba(228,228,25,1)"}},"textfont":{"color":"rgba(228,228,25,0.5)"},"error_y":{"color":"rgba(228,228,25,0.5)"},"error_x":{"color":"rgba(228,228,25,0.5)"},"line":{"color":"rgba(228,228,25,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[37.1,36.2,36.2,36.2,35.6,35.7,35.1,34.4,34.2,33.7],"text":["state: Wisconsin","state: Wisconsin","state: Wisconsin","state: Wisconsin","state: Wisconsin","state: Wisconsin","state: Wisconsin","state: Wisconsin","state: Wisconsin","state: Wisconsin"],"mode":"lines","type":"scatter","name":"Wisconsin","marker":{"color":"rgba(241,229,29,0.5)","line":{"color":"rgba(241,229,29,1)"}},"textfont":{"color":"rgba(241,229,29,0.5)"},"error_y":{"color":"rgba(241,229,29,0.5)"},"error_x":{"color":"rgba(241,229,29,0.5)"},"line":{"color":"rgba(241,229,29,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019],"y":[34,32.2,33,32.7,32.7,31.2,29.5,29.3,30.3,30.5],"text":["state: Wyoming","state: Wyoming","state: Wyoming","state: Wyoming","state: Wyoming","state: Wyoming","state: Wyoming","state: Wyoming","state: Wyoming","state: Wyoming"],"mode":"lines","type":"scatter","name":"Wyoming","marker":{"color":"rgba(253,231,37,0.5)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,0.5)"},"error_y":{"color":"rgba(253,231,37,0.5)"},"error_x":{"color":"rgba(253,231,37,0.5)"},"line":{"color":"rgba(253,231,37,0.5)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
