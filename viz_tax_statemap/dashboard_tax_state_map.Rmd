@@ -1,8 +1,7 @@
 ---
-title: "Beer Tax by State"
+title: "Beer Taxation"
 output: 
-  flexdashboard::flex_dashboard:
-    orientation: rows
+  flexdashboard::flex_dashboard
 ---
 
 ```{r setup, include=FALSE}
@@ -13,7 +12,7 @@ library(flexdashboard)
 
 ```{r}
 tax_df = read_csv("../data_import_cleaning/tax.csv")
-state_df = 
+state_df = # arrange row order
   tibble(
     state = state.abb, # arrange row order according default state.abb
     state.name = state.name
@@ -42,8 +41,27 @@ tax_2018 <- tax %>% pull(13)
 tax_2019 <- tax %>% pull(14)
 ```
 
-
-Row {.tabset .tabset-fade}
+Column
+-------------------------------------
+    
+### Overall Trend
+    
+```{r trend}
+tax_df %>%
+  pivot_longer(
+    c(`2008`:`2019`),
+    names_to = "year",
+    values_to = "tax"
+  ) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( 
+    x = ~year, y = ~tax, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Tax collected over the years by state")
+```
+   
+Column {.tabset .tabset-fade}
 -------------------------------------
 ### Year 2008
 ```{r}
@@ -175,3 +193,8 @@ plot_geo() %>%
   layout(geo = g) %>%
   config( fillFrame = TRUE)
 ```
+
+```{r}
+# rmarkdown::render("dashboard_tax_state_map.Rmd", output_format = "flexdashboard::flex_dashboard") #knit for web
+```
+

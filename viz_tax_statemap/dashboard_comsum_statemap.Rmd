@@ -1,0 +1,173 @@
+---
+title: "Beer Consumption"
+output: 
+  flexdashboard::flex_dashboard
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+# devtools::install_version("plotly", version = "4.8.0", repos = "cran.us.r-project.org")  #install lower version for proper layout
+library(plotly)
+library(flexdashboard)
+```
+
+```{r}
+state_df = read_csv("../data_import_cleaning/state_df.csv")
+# View(beer)
+# View(state_df)
+
+consum_df = state_df %>%
+  select(state, consumption, year) %>%
+  pivot_wider(
+    names_from = "year",
+    values_from = "consumption"
+  )
+# View(consum_df)
+
+state_info = #arrange row order
+  tibble(
+    state = state.name, # arrange row order according default state.abb
+    state.abb = state.abb
+  )
+
+consum <- 
+  left_join(state_info, consum_df, by = "state")
+
+g <- list(
+  scope = 'usa',
+  projection = list(type = 'albers usa'),
+  lakecolor = toRGB('white')
+)
+```
+
+Column
+-------------------------------------
+    
+### Overall Trend
+    
+```{r warning=FALSE, message=FALSE}
+state_df %>%
+  filter(year > 2009) %>%
+  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+  plot_ly( 
+    x = ~year, y = ~consumption, color = ~factor(state), text = ~text_label,
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+  layout( # adding a title 
+    title = "Consumption")
+```
+
+Column {.tabset .tabset-fade}
+-------------------------------------
+### Year 2010
+```{r}
+consum_2010 <- consum %>% pull(10)
+plot_geo() %>%
+  add_trace(
+    z = ~consum_2010 , text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g)
+```
+
+### Year 2011
+```{r}
+consum_2011 <- consum %>% pull(11)
+plot_geo() %>%
+  add_trace(
+    z = ~consum_2011 , text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g)
+```
+
+### Year 2012
+```{r}
+consum_2012 <- consum %>% pull(12)
+plot_geo() %>%
+  add_trace(
+    z = ~consum_2012 , text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g)
+```
+
+### Year 2013
+```{r}
+consum_2013 <- consum %>% pull(13)
+plot_geo() %>%
+  add_trace(
+    z = ~consum_2013 , text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g)
+```
+
+### Year 2014
+```{r}
+consum_2014 <- consum %>% pull(14)
+plot_geo() %>%
+  add_trace(
+    z = ~consum_2014 , text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g)
+```
+
+### Year 2015
+```{r}
+consum_2015 <- consum %>% pull(15)
+plot_geo() %>%
+  add_trace(
+    z = ~consum_2015 , text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g)
+```
+
+### Year 2016
+```{r}
+consum_2016 <- consum %>% pull(16)
+plot_geo() %>%
+  add_trace(
+    z = ~consum_2016 , text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g)
+```
+
+### Year 2017
+```{r}
+consum_2017 <- consum %>% pull(17)
+plot_geo() %>%
+  add_trace(
+    z = ~consum_2017 , text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g)
+```
+
+### Year 2018
+```{r}
+consum_2018 <- consum %>% pull(18)
+plot_geo() %>%
+  add_trace(
+    z = ~consum_2018 , text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g)
+```
+
+### Year 2019
+```{r}
+consum_2019 <- consum %>% pull(19)
+plot_geo() %>%
+  add_trace(
+    z = ~consum_2019 , text = state.name, span = I(0),
+    locations = state.abb, locationmode = 'USA-states'
+  ) %>%
+  layout(geo = g)
+```
+
+```{r}
+# rmarkdown::render("dashboard_comsum_state_map.Rmd", output_format = "flexdashboard::flex_dashboard") #knit for web
+```
