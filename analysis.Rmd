@@ -23,8 +23,8 @@ state_ref =
   separate(V1, into = c("state", "state_abbrv"), sep = " - ") 
 
 # jurisdiction informatiomn
-licence = 
-  read_table("./data_import_cleaning/licence_jurisdiction_modified.txt") %>%
+license = 
+  read_table("./data_import_cleaning/license_jurisdiction_modified.txt") %>%
   unlist()
 control = 
   read_table("./data_import_cleaning/control_jurisdiction_modified.txt") %>%
@@ -35,7 +35,7 @@ tax_df_group =
   left_join(tax_df %>% rename(state_abbrv = state), 
             state_ref, by = "state_abbrv") %>% 
   mutate(
-    group = ifelse(state %in% licence, "licenced", 
+    group = ifelse(state %in% license, "licensed", 
                    ifelse(state %in% control, "control", "NA"))
   ) %>% 
   relocate(state_abbrv, state, group) %>% 
@@ -44,7 +44,7 @@ tax_df_group =
 state_tax_df_group = 
   left_join(state_tax_df, state_ref, by = "state") %>% 
   mutate(
-    group = ifelse(state %in% licence, "licenced", 
+    group = ifelse(state %in% license, "licensed", 
                    ifelse(state %in% control, "control", "NA"))
   ) %>% 
   relocate(state_abbrv, state, group)
@@ -54,11 +54,11 @@ We focus on two analyses in this section. One is to compare tax differences by j
 
 ---
 
-## Tax differences by jurisdiction group
+# Tax differences by jurisdiction group
 
 Differing on the degree of control on liquor wholesales and retail, states can be categorized into two [types](https://www.ncsla.org/State-Officials.html) -- control jurisdiction and licensed jurisdiction, with licensed states having more control. Such categorization may lead to difference in taxation. Therefore, we are interested in examining if there is any difference in total/state taxation by these two groups of states. 
 
-### Total Tax
+## Total Tax
 
 First, we looked at the total tax. We performed t-test for each year and would like to see if there is any significant difference in the total tax between control states and licensed states. 
 
@@ -102,7 +102,7 @@ tax_group_result %>%
 ```
 
 
-### State Tax
+## State Tax
 
 Next, we looked at the state tax. As what have been done in previous subsection, we performed t-test for each year and would like to see if there is any significant difference in the state tax between control states and licensed states. 
 
@@ -144,7 +144,9 @@ state_tax_group_result %>%
 ```
 
 
-### Jurisdiction Map
+## Jurisdiction Map
+
+Here is also a state map showing control jurisdiction and licensed jurisdiction. 
 
 ```{r state_map, collapse=T, message=F}
 library(maps)
@@ -156,7 +158,7 @@ states_map =
   us_states %>% 
   mutate(
     state_group = 
-      ifelse(region %in% str_to_lower(licence), "licenced", 
+      ifelse(region %in% str_to_lower(license), "licensed", 
              ifelse(region %in% str_to_lower(control), "control", "NA"))
   )
 
@@ -185,16 +187,255 @@ p1 <- p0 + geom_polygon(color = "gray90", size = 0.1) +
 p2 <- p1 +
     labs(title = "Jurisdiction Group", fill = NULL)
 p2 + theme_map() 
-
-#library(wesanderson)
-#scale_fill_manual(values = wes_palette("Zissou1", n = 4))
-#library(ggsci)
-#scale_fill_jco()
 ```
 
 
 
-## Regression Anlaysis
+# Regression Anlaysis
+
+In this part, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption. 
+
+Results are as follow. Variables with significant p-value are highlighted in blue. 
+
+---
+
+## Full model
+
+First, we consider the full model: 
+```
+total_tax ~ group + year + shipments + population + consumption
+```
+
+Our outcome of interest is total tax, and explaining variables of interest include group, year, shipments, population, and consumption. 
+
+* Licensed states are estimated to have around 6.7k less tax than the control states, controlling year, shipments, population and consumption. Such difference is statistically significant. 
+* Also, year 2017, 2018, 2019 are estimated to have about 27k, 36k, and 45k more tax than year 2008, controlling year, shipments, population and consumption. Such difference is statistically significant. 
+* Population and shipments have estimated coefficients 0, though they have significant p-values. 
+  
+```{r reg_df,collapse=T}
+# Load state_df
+state_df = read_csv("data_import_cleaning/state_df.csv")
+
+# Merge dataset
+reg_df = 
+  tax_df_group %>% 
+  pivot_longer(
+    "2008":"2019", 
+    names_to = "year", 
+    values_to = "total_tax"
+  ) %>% 
+  mutate(year = as.numeric(year)) %>% 
+  left_join(., state_df, by = c("state", "year")) %>% 
+  select(total_tax, group, year, shipments, population, consumption) %>% 
+  mutate(year = as.character(year))
+
+# Fit model
+lm_model = lm(total_tax ~ group + year + shipments + population + consumption, data = reg_df)
+summary(lm_model)
+
+#broom::tidy(lm_model) %>% 
+#  mutate_at(2:5, round, 2) %>% 
+#  janitor::clean_names() %>% 
+#  knitr::kable(caption = "Regression result summary") %>% 
+#  kableExtra::kable_styling(., bootstrap_options = c("striped", "hover"),
+#                            full_width = F) 
+
+broom::tidy(lm_model) %>% 
+  mutate_at(2:5, round, 2) %>% 
+  janitor::clean_names() %>% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 20)) %>% 
+  DT::formatStyle(
+    columns = "p_value",
+    background = DT::styleInterval(c(0.05),c("lightsteelblue","white")), 
+    target = "row")
+```
 
 
+## Other
+
+We also tried running several sensitivity analyses. 
+
+### Remove shipments
+
+```
+total_tax ~ group + year + population + consumption
+```
+* Licensed states are estimated to have around 6.8k less tax than the control states, controlling year, shipments, population and consumption. Such difference is statistically significant. 
+* Also, year 2016, 2017, 2018, 2019 are estimated to have about 21k, 33k, 43k, and 52k more tax than year 2008, controlling year, population and consumption. Such difference is statistically significant. 
+* Population has estimated coefficients 0, though it has significant p-value. 
+
+```{r reg_df1,collapse=T}
+state_df = read_csv("data_import_cleaning/state_df.csv")
+
+reg_df = 
+  tax_df_group %>% 
+  pivot_longer(
+    "2008":"2019", 
+    names_to = "year", 
+    values_to = "total_tax"
+  ) %>% 
+  mutate(year = as.numeric(year)) %>% 
+  left_join(., state_df, by = c("state", "year")) %>% 
+  select(total_tax, group, year, shipments, population, consumption) %>% 
+  mutate(year = as.character(year))
+
+lm_model = lm(total_tax ~ group + year + population + consumption, data = reg_df)
+summary(lm_model)
+
+#broom::tidy(lm_model) %>% 
+#  mutate_at(2:5, round, 2) %>% 
+#  janitor::clean_names() %>% 
+#  knitr::kable(caption = "Regression result summary") %>% 
+#  kableExtra::kable_styling(., bootstrap_options = c("striped", "hover"),
+#                            full_width = F) 
+
+broom::tidy(lm_model) %>% 
+  mutate_at(2:5, round, 2) %>% 
+  janitor::clean_names() %>% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 20)) %>% 
+  DT::formatStyle(
+    columns = "p_value",
+    background = DT::styleInterval(c(0.05),c("lightsteelblue","white")), 
+    target = "row")
+```
+
+
+### Remove population
+
+```
+total_tax ~ group + year + shipments + consumption]
+```
+
+* Licensed states are estimated to have around 6.1k less tax than the control states, controlling year, shipments, population and consumption. Such difference is statistically significant. 
+* Also, year 2010 is estimated to have about 19k less tax than year 2009, and 2017, 2018, 2019 are estimated to have about 23k, 32k, and 42k more tax than year 2008 controlling year, shipments and consumption. Such differences are statistically significant. 
+* Tax is estimated to increase 0.01 with 1 unit increase in shipments. Such increase is statistically significant. 
+
+```{r reg_df2,collapse=T}
+state_df = read_csv("data_import_cleaning/state_df.csv")
+
+reg_df = 
+  tax_df_group %>% 
+  pivot_longer(
+    "2008":"2019", 
+    names_to = "year", 
+    values_to = "total_tax"
+  ) %>% 
+  mutate(year = as.numeric(year)) %>% 
+  left_join(., state_df, by = c("state", "year")) %>% 
+  select(total_tax, group, year, shipments, population, consumption) %>% 
+  mutate(year = as.character(year))
+
+lm_model = lm(total_tax ~ group + year + shipments + consumption, data = reg_df)
+summary(lm_model)
+
+#broom::tidy(lm_model) %>% 
+#  mutate_at(2:5, round, 2) %>% 
+#  janitor::clean_names() %>% 
+#  knitr::kable(caption = "Regression result summary") %>% 
+#  kableExtra::kable_styling(., bootstrap_options = c("striped", "hover"),
+#                            full_width = F) 
+
+broom::tidy(lm_model) %>% 
+  mutate_at(2:5, round, 2) %>% 
+  janitor::clean_names() %>% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 20)) %>% 
+  DT::formatStyle(
+    columns = "p_value",
+    background = DT::styleInterval(c(0.05),c("lightsteelblue","white")), 
+    target = "row")
+```
+
+
+### Remove population and shipments
+
+```
+total_tax ~ group + year + consumption
+```
+
+* There is no jurisdiction group difference in taxation, controlling year, shipments, population and consumption. 
+* Also, each year from 2010 to 2014 is estimated to have about 30k more tax than year 2008, and each year from 2015 to 2019 is estimated to have 43k, 57k, 69k, 78k, 87k more tax than year 2008, controlling group and consumption. Such differences are statistically significant. 
+* Tax is estimated to decrease 934 with 1 unit increase in consumption. Such decrease is statistically significant. 
+
+```{r reg_df3,collapse=T}
+state_df = read_csv("data_import_cleaning/state_df.csv")
+
+reg_df = 
+  tax_df_group %>% 
+  pivot_longer(
+    "2008":"2019", 
+    names_to = "year", 
+    values_to = "total_tax"
+  ) %>% 
+  mutate(year = as.numeric(year)) %>% 
+  left_join(., state_df, by = c("state", "year")) %>% 
+  select(total_tax, group, year, shipments, population, consumption) %>% 
+  mutate(year = as.character(year))
+
+lm_model = lm(total_tax ~ group + year + consumption, data = reg_df)
+summary(lm_model)
+
+#broom::tidy(lm_model) %>% 
+#  mutate_at(2:5, round, 2) %>% 
+#  janitor::clean_names() %>% 
+#  knitr::kable(caption = "Regression result summary") %>% 
+#  kableExtra::kable_styling(., bootstrap_options = c("striped", "hover"),
+#                            full_width = F) 
+
+broom::tidy(lm_model) %>% 
+  mutate_at(2:5, round, 2) %>% 
+  janitor::clean_names() %>% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 20)) %>% 
+  DT::formatStyle(
+    columns = "p_value",
+    background = DT::styleInterval(c(0.05),c("lightsteelblue","white")), 
+    target = "row")
+```
+
+
+
+### If replacing all 0's with NA in the dataset
+
+```{r reg_df_NA,collapse=T}
+# Replace 0 with NA in the reg_df
+
+state_df = read_csv("data_import_cleaning/state_df.csv")
+
+reg_df = 
+  tax_df_group %>% 
+  pivot_longer(
+    "2008":"2019", 
+    names_to = "year", 
+    values_to = "total_tax"
+  ) %>% 
+  mutate(year = as.numeric(year)) %>% 
+  left_join(., state_df, by = c("state", "year")) %>% 
+  select(total_tax, group, year, shipments, population, consumption) %>% 
+  mutate(year = as.character(year))
+
+reg_df[reg_df == 0] <- NA
+
+lm_model = lm(total_tax ~ group + year + shipments + population + consumption, data = reg_df)
+summary(lm_model)
+
+#broom::tidy(lm_model) %>% 
+#  mutate_at(2:5, round, 2) %>% 
+#  janitor::clean_names() %>% 
+#  knitr::kable(caption = "Regression result summary") %>% 
+#  kableExtra::kable_styling(., bootstrap_options = c("striped", "hover"),
+#                            full_width = F) 
+
+broom::tidy(lm_model) %>% 
+  mutate_at(2:5, round, 2) %>% 
+  janitor::clean_names() %>% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 20)) %>% 
+  DT::formatStyle(
+    columns = "p_value",
+    background = DT::styleInterval(c(0.05),c("lightsteelblue","white")), 
+    target = "row")
+```
 

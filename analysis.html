@@ -13,7 +13,7 @@
 
 <title>Analysis</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -26,6 +26,14 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.16/datatables.js"></script>
+<link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -442,11 +450,11 @@ div.tocify {
 
 <p>We focus on two analyses in this section. One is to compare tax differences by jurisdiction group over time. The other is to model taxation under the regression analysis framework.</p>
 <hr />
-<div id="tax-differences-by-jurisdiction-group" class="section level2">
-<h2>Tax differences by jurisdiction group</h2>
+<div id="tax-differences-by-jurisdiction-group" class="section level1">
+<h1>Tax differences by jurisdiction group</h1>
 <p>Differing on the degree of control on liquor wholesales and retail, states can be categorized into two <a href="https://www.ncsla.org/State-Officials.html">types</a> – control jurisdiction and licensed jurisdiction, with licensed states having more control. Such categorization may lead to difference in taxation. Therefore, we are interested in examining if there is any difference in total/state taxation by these two groups of states.</p>
-<div id="total-tax" class="section level3">
-<h3>Total Tax</h3>
+<div id="total-tax" class="section level2">
+<h2>Total Tax</h2>
 <p>First, we looked at the total tax. We performed t-test for each year and would like to see if there is any significant difference in the total tax between control states and licensed states.</p>
 <p>The following plot gives the average tax difference (Tax in the Control States - Tax in the Licensed States), together with its 95% confidence interval and p-value, from 2008 to 2019.</p>
 <p>We can see that the mean difference in the total tax does not deviate much from 0 for all years, though the confidence interval seems to have a fan shape over time. Large p-values from t-tests also suggest that there is <strong>no sufficient evidence showing any significant difference between two jurisdiction groups in the total taxation from 2008 to 2019</strong>.</p>
@@ -484,8 +492,8 @@ tax_group_result %&gt;%
     color = &quot;steelblue&quot;, hjust = -0.05, vjust = -3.7, angle = 20)</code></pre>
 <p><img src="analysis_files/figure-html/tax_group-1.png" width="672" /></p>
 </div>
-<div id="state-tax" class="section level3">
-<h3>State Tax</h3>
+<div id="state-tax" class="section level2">
+<h2>State Tax</h2>
 <p>Next, we looked at the state tax. As what have been done in previous subsection, we performed t-test for each year and would like to see if there is any significant difference in the state tax between control states and licensed states.</p>
 <p>The following plot gives the average state tax difference (Tax in the Control States - Tax in the Licensed States), together with its 95% confidence interval and p-value, from 2009 to 2019.</p>
 <p>We can see that the mean difference in the state tax does not deviate much from 0 for all years, and the confidence interval seems to be consistently wide over time. Large p-values from t-tests again suggest that there is <strong>no sufficient evidence showing any significant difference between two jurisdiction groups in the state taxation from 2009 to 2019</strong>.</p>
@@ -521,8 +529,9 @@ state_tax_group_result %&gt;%
     color = &quot;steelblue&quot;, hjust = -0.05, vjust = -3.5, angle = 20)</code></pre>
 <p><img src="analysis_files/figure-html/state_tax_group-1.png" width="672" /></p>
 </div>
-<div id="jurisdiction-map" class="section level3">
-<h3>Jurisdiction Map</h3>
+<div id="jurisdiction-map" class="section level2">
+<h2>Jurisdiction Map</h2>
+<p>Here is also a state map showing control jurisdiction and licensed jurisdiction.</p>
 <pre class="r"><code>library(maps)
 #devtools::install_github(&quot;hrbrmstr/hrbrthemes&quot;)
 
@@ -532,7 +541,7 @@ states_map =
   us_states %&gt;% 
   mutate(
     state_group = 
-      ifelse(region %in% str_to_lower(licence), &quot;licenced&quot;, 
+      ifelse(region %in% str_to_lower(license), &quot;licensed&quot;, 
              ifelse(region %in% str_to_lower(control), &quot;control&quot;, &quot;NA&quot;))
   )
 
@@ -562,15 +571,453 @@ p2 &lt;- p1 +
     labs(title = &quot;Jurisdiction Group&quot;, fill = NULL)
 p2 + theme_map() </code></pre>
 <p><img src="analysis_files/figure-html/state_map-1.png" width="672" /></p>
-<pre class="r"><code>
-#library(wesanderson)
-#scale_fill_manual(values = wes_palette(&quot;Zissou1&quot;, n = 4))
-#library(ggsci)
-#scale_fill_jco()</code></pre>
 </div>
 </div>
-<div id="regression-anlaysis" class="section level2">
-<h2>Regression Anlaysis</h2>
+<div id="regression-anlaysis" class="section level1">
+<h1>Regression Anlaysis</h1>
+<p>In this part, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption.</p>
+<p>Results are as follow. Variables with significant p-value are highlighted in blue.</p>
+<hr />
+<div id="full-model" class="section level2">
+<h2>Full model</h2>
+<p>First, we consider the full model:</p>
+<pre><code>total_tax ~ group + year + shipments + population + consumption</code></pre>
+<p>Our outcome of interest is total tax, and explaining variables of interest include group, year, shipments, population, and consumption.</p>
+<ul>
+<li>Licensed states are estimated to have around 6.7k less tax than the control states, controlling year, shipments, population and consumption. Such difference is statistically significant.</li>
+<li>Also, year 2017, 2018, 2019 are estimated to have about 27k, 36k, and 45k more tax than year 2008, controlling year, shipments, population and consumption. Such difference is statistically significant.</li>
+<li>Population and shipments have estimated coefficients 0, though they have significant p-values.</li>
+</ul>
+<pre class="r"><code># Load state_df
+state_df = read_csv(&quot;data_import_cleaning/state_df.csv&quot;)
+## Parsed with column specification:
+## cols(
+##   state = col_character(),
+##   shipments = col_double(),
+##   rank_3 = col_double(),
+##   population = col_double(),
+##   consumption = col_double(),
+##   rank_6 = col_double(),
+##   year = col_double()
+## )
+
+# Merge dataset
+reg_df = 
+  tax_df_group %&gt;% 
+  pivot_longer(
+    &quot;2008&quot;:&quot;2019&quot;, 
+    names_to = &quot;year&quot;, 
+    values_to = &quot;total_tax&quot;
+  ) %&gt;% 
+  mutate(year = as.numeric(year)) %&gt;% 
+  left_join(., state_df, by = c(&quot;state&quot;, &quot;year&quot;)) %&gt;% 
+  select(total_tax, group, year, shipments, population, consumption) %&gt;% 
+  mutate(year = as.character(year))
+
+# Fit model
+lm_model = lm(total_tax ~ group + year + shipments + population + consumption, data = reg_df)
+summary(lm_model)
+## 
+## Call:
+## lm(formula = total_tax ~ group + year + shipments + population + 
+##     consumption, data = reg_df)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -81511 -12118     43   7830 215288 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    2.673e+03  4.927e+03   0.542 0.587748    
+## grouplicensed -6.741e+03  2.484e+03  -2.713 0.006851 ** 
+## year2009      -2.455e+02  5.619e+03  -0.044 0.965158    
+## year2010      -1.503e+04  9.874e+03  -1.522 0.128474    
+## year2011      -1.427e+04  9.729e+03  -1.467 0.142878    
+## year2012      -1.450e+04  9.767e+03  -1.485 0.138192    
+## year2013      -1.397e+04  9.623e+03  -1.452 0.147000    
+## year2014      -1.227e+04  9.570e+03  -1.282 0.200286    
+## year2015      -4.457e+02  9.507e+03  -0.047 0.962627    
+## year2016       1.393e+04  9.436e+03   1.476 0.140455    
+## year2017       2.664e+04  9.309e+03   2.862 0.004361 ** 
+## year2018       3.591e+04  9.229e+03   3.891 0.000111 ***
+## year2019       4.528e+04  9.175e+03   4.936 1.04e-06 ***
+## shipments      2.728e-03  6.891e-04   3.959 8.44e-05 ***
+## population     2.615e-03  5.661e-04   4.620 4.71e-06 ***
+## consumption    1.463e+02  2.598e+02   0.563 0.573646    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 28230 on 595 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.5701, Adjusted R-squared:  0.5593 
+## F-statistic: 52.61 on 15 and 595 DF,  p-value: &lt; 2.2e-16
+
+#broom::tidy(lm_model) %&gt;% 
+#  mutate_at(2:5, round, 2) %&gt;% 
+#  janitor::clean_names() %&gt;% 
+#  knitr::kable(caption = &quot;Regression result summary&quot;) %&gt;% 
+#  kableExtra::kable_styling(., bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;),
+#                            full_width = F) 
+
+broom::tidy(lm_model) %&gt;% 
+  mutate_at(2:5, round, 2) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 20)) %&gt;% 
+  DT::formatStyle(
+    columns = &quot;p_value&quot;,
+    background = DT::styleInterval(c(0.05),c(&quot;lightsteelblue&quot;,&quot;white&quot;)), 
+    target = &quot;row&quot;)</code></pre>
+<div id="htmlwidget-22fc6c1c4ed88251695f" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-22fc6c1c4ed88251695f">{"x":{"filter":"none","data":[["(Intercept)","grouplicensed","year2009","year2010","year2011","year2012","year2013","year2014","year2015","year2016","year2017","year2018","year2019","shipments","population","consumption"],[2672.62,-6740.58,-245.55,-15030.73,-14273.42,-14499.57,-13973.97,-12270.23,-445.67,13927.5,26638.74,35912.57,45284.08,0,0,146.27],[4927.42,2484.1,5618.84,9873.92,9729.01,9766.96,9623.27,9569.96,9507.09,9435.56,9308.52,9228.79,9174.75,0,0,259.8],[0.54,-2.71,-0.04,-1.52,-1.47,-1.48,-1.45,-1.28,-0.05,1.48,2.86,3.89,4.94,3.96,4.62,0.56],[0.59,0.01,0.97,0.13,0.14,0.14,0.15,0.2,0.96,0.14,0,0,0,0,0,0.57]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std_error<\/th>\n      <th>statistic<\/th>\n      <th>p_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":20,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,20,25,50,100],"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="other" class="section level2">
+<h2>Other</h2>
+<p>We also tried running several sensitivity analyses.</p>
+<div id="remove-shipments" class="section level3">
+<h3>Remove shipments</h3>
+<pre><code>total_tax ~ group + year + population + consumption</code></pre>
+<ul>
+<li>Licensed states are estimated to have around 6.8k less tax than the control states, controlling year, shipments, population and consumption. Such difference is statistically significant.</li>
+<li>Also, year 2016, 2017, 2018, 2019 are estimated to have about 21k, 33k, 43k, and 52k more tax than year 2008, controlling year, population and consumption. Such difference is statistically significant.</li>
+<li>Population has estimated coefficients 0, though it has significant p-value.</li>
+</ul>
+<pre class="r"><code>state_df = read_csv(&quot;data_import_cleaning/state_df.csv&quot;)
+## Parsed with column specification:
+## cols(
+##   state = col_character(),
+##   shipments = col_double(),
+##   rank_3 = col_double(),
+##   population = col_double(),
+##   consumption = col_double(),
+##   rank_6 = col_double(),
+##   year = col_double()
+## )
+
+reg_df = 
+  tax_df_group %&gt;% 
+  pivot_longer(
+    &quot;2008&quot;:&quot;2019&quot;, 
+    names_to = &quot;year&quot;, 
+    values_to = &quot;total_tax&quot;
+  ) %&gt;% 
+  mutate(year = as.numeric(year)) %&gt;% 
+  left_join(., state_df, by = c(&quot;state&quot;, &quot;year&quot;)) %&gt;% 
+  select(total_tax, group, year, shipments, population, consumption) %&gt;% 
+  mutate(year = as.character(year))
+
+lm_model = lm(total_tax ~ group + year + population + consumption, data = reg_df)
+summary(lm_model)
+## 
+## Call:
+## lm(formula = total_tax ~ group + year + population + consumption, 
+##     data = reg_df)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -68157 -12593    772   8347 218680 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   -6.058e+03  4.460e+03  -1.358 0.174877    
+## grouplicensed -6.800e+03  2.514e+03  -2.704 0.007036 ** 
+## year2009      -2.374e+02  5.688e+03  -0.042 0.966723    
+## year2010      -7.674e+03  9.816e+03  -0.782 0.434662    
+## year2011      -7.033e+03  9.672e+03  -0.727 0.467444    
+## year2012      -7.289e+03  9.713e+03  -0.750 0.453271    
+## year2013      -6.903e+03  9.572e+03  -0.721 0.471101    
+## year2014      -5.234e+03  9.519e+03  -0.550 0.582585    
+## year2015       6.567e+03  9.455e+03   0.695 0.487629    
+## year2016       2.090e+04  9.383e+03   2.228 0.026257 *  
+## year2017       3.346e+04  9.260e+03   3.613 0.000328 ***
+## year2018       4.261e+04  9.183e+03   4.640 4.28e-06 ***
+## year2019       5.197e+04  9.128e+03   5.693 1.96e-08 ***
+## population     4.653e-03  2.381e-04  19.545  &lt; 2e-16 ***
+## consumption    2.650e+02  2.612e+02   1.014 0.310766    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 28580 on 596 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.5588, Adjusted R-squared:  0.5485 
+## F-statistic: 53.92 on 14 and 596 DF,  p-value: &lt; 2.2e-16
+
+#broom::tidy(lm_model) %&gt;% 
+#  mutate_at(2:5, round, 2) %&gt;% 
+#  janitor::clean_names() %&gt;% 
+#  knitr::kable(caption = &quot;Regression result summary&quot;) %&gt;% 
+#  kableExtra::kable_styling(., bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;),
+#                            full_width = F) 
+
+broom::tidy(lm_model) %&gt;% 
+  mutate_at(2:5, round, 2) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 20)) %&gt;% 
+  DT::formatStyle(
+    columns = &quot;p_value&quot;,
+    background = DT::styleInterval(c(0.05),c(&quot;lightsteelblue&quot;,&quot;white&quot;)), 
+    target = &quot;row&quot;)</code></pre>
+<div id="htmlwidget-6ae89b5a5b99d0408a41" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6ae89b5a5b99d0408a41">{"x":{"filter":"none","data":[["(Intercept)","grouplicensed","year2009","year2010","year2011","year2012","year2013","year2014","year2015","year2016","year2017","year2018","year2019","population","consumption"],[-6058.37,-6800.3,-237.38,-7673.9,-7032.95,-7289.29,-6902.63,-5234.36,6566.58,20904.53,33458.84,42611.93,51965.86,0,265],[4460.2,2514.44,5687.58,9816.1,9672.46,9713.03,9571.73,9518.52,9454.9,9382.91,9259.62,9183.29,9128.49,0,261.22],[-1.36,-2.7,-0.04,-0.78,-0.73,-0.75,-0.72,-0.55,0.69,2.23,3.61,4.64,5.69,19.55,1.01],[0.17,0.01,0.97,0.43,0.47,0.45,0.47,0.58,0.49,0.03,0,0,0,0,0.31]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std_error<\/th>\n      <th>statistic<\/th>\n      <th>p_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":20,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,20,25,50,100],"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="remove-population" class="section level3">
+<h3>Remove population</h3>
+<pre><code>total_tax ~ group + year + shipments + consumption]</code></pre>
+<ul>
+<li>Licensed states are estimated to have around 6.1k less tax than the control states, controlling year, shipments, population and consumption. Such difference is statistically significant.</li>
+<li>Also, year 2010 is estimated to have about 19k less tax than year 2009, and 2017, 2018, 2019 are estimated to have about 23k, 32k, and 42k more tax than year 2008 controlling year, shipments and consumption. Such differences are statistically significant.</li>
+<li>Tax is estimated to increase 0.01 with 1 unit increase in shipments. Such increase is statistically significant.</li>
+</ul>
+<pre class="r"><code>state_df = read_csv(&quot;data_import_cleaning/state_df.csv&quot;)
+## Parsed with column specification:
+## cols(
+##   state = col_character(),
+##   shipments = col_double(),
+##   rank_3 = col_double(),
+##   population = col_double(),
+##   consumption = col_double(),
+##   rank_6 = col_double(),
+##   year = col_double()
+## )
+
+reg_df = 
+  tax_df_group %&gt;% 
+  pivot_longer(
+    &quot;2008&quot;:&quot;2019&quot;, 
+    names_to = &quot;year&quot;, 
+    values_to = &quot;total_tax&quot;
+  ) %&gt;% 
+  mutate(year = as.numeric(year)) %&gt;% 
+  left_join(., state_df, by = c(&quot;state&quot;, &quot;year&quot;)) %&gt;% 
+  select(total_tax, group, year, shipments, population, consumption) %&gt;% 
+  mutate(year = as.character(year))
+
+lm_model = lm(total_tax ~ group + year + shipments + consumption, data = reg_df)
+summary(lm_model)
+## 
+## Call:
+## lm(formula = total_tax ~ group + year + shipments + consumption, 
+##     data = reg_df)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -89185 -11320  -1465   8166 222200 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    1.350e+04  4.408e+03   3.063 0.002290 ** 
+## grouplicensed -6.114e+03  2.522e+03  -2.424 0.015649 *  
+## year2009      -2.487e+02  5.714e+03  -0.044 0.965298    
+## year2010      -1.925e+04  9.998e+03  -1.925 0.054663 .  
+## year2011      -1.843e+04  9.851e+03  -1.870 0.061920 .  
+## year2012      -1.858e+04  9.892e+03  -1.878 0.060888 .  
+## year2013      -1.796e+04  9.747e+03  -1.842 0.065938 .  
+## year2014      -1.622e+04  9.693e+03  -1.674 0.094724 .  
+## year2015      -4.390e+03  9.629e+03  -0.456 0.648586    
+## year2016       1.000e+04  9.556e+03   1.047 0.295731    
+## year2017       2.283e+04  9.429e+03   2.421 0.015768 *  
+## year2018       3.220e+04  9.349e+03   3.444 0.000613 ***
+## year2019       4.157e+04  9.294e+03   4.473 9.24e-06 ***
+## shipments      5.624e-03  2.912e-04  19.314  &lt; 2e-16 ***
+## consumption   -9.610e+01  2.588e+02  -0.371 0.710472    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 28710 on 596 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.5547, Adjusted R-squared:  0.5443 
+## F-statistic: 53.03 on 14 and 596 DF,  p-value: &lt; 2.2e-16
+
+#broom::tidy(lm_model) %&gt;% 
+#  mutate_at(2:5, round, 2) %&gt;% 
+#  janitor::clean_names() %&gt;% 
+#  knitr::kable(caption = &quot;Regression result summary&quot;) %&gt;% 
+#  kableExtra::kable_styling(., bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;),
+#                            full_width = F) 
+
+broom::tidy(lm_model) %&gt;% 
+  mutate_at(2:5, round, 2) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 20)) %&gt;% 
+  DT::formatStyle(
+    columns = &quot;p_value&quot;,
+    background = DT::styleInterval(c(0.05),c(&quot;lightsteelblue&quot;,&quot;white&quot;)), 
+    target = &quot;row&quot;)</code></pre>
+<div id="htmlwidget-3081d97ebc17d64c85df" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3081d97ebc17d64c85df">{"x":{"filter":"none","data":[["(Intercept)","grouplicensed","year2009","year2010","year2011","year2012","year2013","year2014","year2015","year2016","year2017","year2018","year2019","shipments","consumption"],[13500.56,-6114.12,-248.7,-19249.51,-18425.81,-18575.19,-17955.88,-16222.61,-4390.39,10001.09,22828.76,32201.09,41572.76,0.01,-96.1],[4407.66,2522.37,5713.93,9997.99,9851.35,9891.66,9746.8,9692.95,9628.91,9556.24,9428.83,9349.34,9294.18,0,258.76],[3.06,-2.42,-0.04,-1.93,-1.87,-1.88,-1.84,-1.67,-0.46,1.05,2.42,3.44,4.47,19.31,-0.37],[0,0.02,0.97,0.05,0.06,0.06,0.07,0.09,0.65,0.3,0.02,0,0,0,0.71]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std_error<\/th>\n      <th>statistic<\/th>\n      <th>p_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":20,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,20,25,50,100],"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="remove-population-and-shipments" class="section level3">
+<h3>Remove population and shipments</h3>
+<pre><code>total_tax ~ group + year + consumption</code></pre>
+<ul>
+<li>There is no jurisdiction group difference in taxation, controlling year, shipments, population and consumption.</li>
+<li>Also, each year from 2010 to 2014 is estimated to have about 30k more tax than year 2008, and each year from 2015 to 2019 is estimated to have 43k, 57k, 69k, 78k, 87k more tax than year 2008, controlling group and consumption. Such differences are statistically significant.</li>
+<li>Tax is estimated to decrease 934 with 1 unit increase in consumption. Such decrease is statistically significant.</li>
+</ul>
+<pre class="r"><code>state_df = read_csv(&quot;data_import_cleaning/state_df.csv&quot;)
+## Parsed with column specification:
+## cols(
+##   state = col_character(),
+##   shipments = col_double(),
+##   rank_3 = col_double(),
+##   population = col_double(),
+##   consumption = col_double(),
+##   rank_6 = col_double(),
+##   year = col_double()
+## )
+
+reg_df = 
+  tax_df_group %&gt;% 
+  pivot_longer(
+    &quot;2008&quot;:&quot;2019&quot;, 
+    names_to = &quot;year&quot;, 
+    values_to = &quot;total_tax&quot;
+  ) %&gt;% 
+  mutate(year = as.numeric(year)) %&gt;% 
+  left_join(., state_df, by = c(&quot;state&quot;, &quot;year&quot;)) %&gt;% 
+  select(total_tax, group, year, shipments, population, consumption) %&gt;% 
+  mutate(year = as.character(year))
+
+lm_model = lm(total_tax ~ group + year + consumption, data = reg_df)
+summary(lm_model)
+## 
+## Call:
+## lm(formula = total_tax ~ group + year + consumption, data = reg_df)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -63409 -12825  -5208   5695 327018 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    10021.1     5610.8   1.786 0.074601 .  
+## grouplicensed   -997.2     3195.8  -0.312 0.755120    
+## year2009        -180.5     7279.7  -0.025 0.980230    
+## year2010       29329.3    12328.0   2.379 0.017669 *  
+## year2011       29381.6    12148.2   2.419 0.015879 *  
+## year2012       29586.0    12195.2   2.426 0.015560 *  
+## year2013       29418.5    12018.0   2.448 0.014657 *  
+## year2014       31003.1    11949.7   2.594 0.009706 ** 
+## year2015       42624.5    11869.0   3.591 0.000356 ***
+## year2016       56765.8    11777.6   4.820 1.83e-06 ***
+## year2017       68803.3    11623.5   5.919 5.45e-09 ***
+## year2018       77650.6    11527.8   6.736 3.84e-11 ***
+## year2019       86813.9    11458.8   7.576 1.36e-13 ***
+## consumption     -934.0      325.0  -2.874 0.004200 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 36580 on 597 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.276,  Adjusted R-squared:  0.2603 
+## F-statistic: 17.51 on 13 and 597 DF,  p-value: &lt; 2.2e-16
+
+#broom::tidy(lm_model) %&gt;% 
+#  mutate_at(2:5, round, 2) %&gt;% 
+#  janitor::clean_names() %&gt;% 
+#  knitr::kable(caption = &quot;Regression result summary&quot;) %&gt;% 
+#  kableExtra::kable_styling(., bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;),
+#                            full_width = F) 
+
+broom::tidy(lm_model) %&gt;% 
+  mutate_at(2:5, round, 2) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 20)) %&gt;% 
+  DT::formatStyle(
+    columns = &quot;p_value&quot;,
+    background = DT::styleInterval(c(0.05),c(&quot;lightsteelblue&quot;,&quot;white&quot;)), 
+    target = &quot;row&quot;)</code></pre>
+<div id="htmlwidget-0370eb1846c77ddd8759" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0370eb1846c77ddd8759">{"x":{"filter":"none","data":[["(Intercept)","grouplicensed","year2009","year2010","year2011","year2012","year2013","year2014","year2015","year2016","year2017","year2018","year2019","consumption"],[10021.07,-997.21,-180.47,29329.34,29381.55,29586.03,29418.48,31003.09,42624.52,56765.81,68803.32,77650.65,86813.92,-933.98],[5610.79,3195.79,7279.7,12328.02,12148.23,12195.21,12018.02,11949.69,11868.99,11777.61,11623.45,11527.83,11458.79,325],[1.79,-0.31,-0.02,2.38,2.42,2.43,2.45,2.59,3.59,4.82,5.92,6.74,7.58,-2.87],[0.07,0.76,0.98,0.02,0.02,0.02,0.01,0.01,0,0,0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std_error<\/th>\n      <th>statistic<\/th>\n      <th>p_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":20,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,20,25,50,100],"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="if-replacing-all-0s-with-na-in-the-dataset" class="section level3">
+<h3>If replacing all 0’s with NA in the dataset</h3>
+<pre class="r"><code># Replace 0 with NA in the reg_df
+
+state_df = read_csv(&quot;data_import_cleaning/state_df.csv&quot;)
+## Parsed with column specification:
+## cols(
+##   state = col_character(),
+##   shipments = col_double(),
+##   rank_3 = col_double(),
+##   population = col_double(),
+##   consumption = col_double(),
+##   rank_6 = col_double(),
+##   year = col_double()
+## )
+
+reg_df = 
+  tax_df_group %&gt;% 
+  pivot_longer(
+    &quot;2008&quot;:&quot;2019&quot;, 
+    names_to = &quot;year&quot;, 
+    values_to = &quot;total_tax&quot;
+  ) %&gt;% 
+  mutate(year = as.numeric(year)) %&gt;% 
+  left_join(., state_df, by = c(&quot;state&quot;, &quot;year&quot;)) %&gt;% 
+  select(total_tax, group, year, shipments, population, consumption) %&gt;% 
+  mutate(year = as.character(year))
+
+reg_df[reg_df == 0] &lt;- NA
+
+lm_model = lm(total_tax ~ group + year + shipments + population + consumption, data = reg_df)
+summary(lm_model)
+## 
+## Call:
+## lm(formula = total_tax ~ group + year + shipments + population + 
+##     consumption, data = reg_df)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -80970 -15458   -840   8944 185901 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   -4.266e+04  1.140e+04  -3.741 0.000205 ***
+## grouplicensed -7.469e+03  2.892e+03  -2.583 0.010085 *  
+## year2011       7.067e+02  5.951e+03   0.119 0.905528    
+## year2012      -5.826e+01  5.891e+03  -0.010 0.992113    
+## year2013       1.908e+02  5.930e+03   0.032 0.974348    
+## year2014       1.805e+03  5.935e+03   0.304 0.761183    
+## year2015       1.348e+04  5.911e+03   2.281 0.022957 *  
+## year2016       2.779e+04  5.920e+03   4.695 3.46e-06 ***
+## year2017       4.003e+04  5.941e+03   6.738 4.51e-11 ***
+## year2018       4.890e+04  5.959e+03   8.206 2.02e-15 ***
+## year2019       5.828e+04  5.970e+03   9.763  &lt; 2e-16 ***
+## shipments     -9.583e-03  2.217e-03  -4.322 1.87e-05 ***
+## population     1.371e-02  1.978e-03   6.932 1.31e-11 ***
+## consumption    1.210e+03  3.304e+02   3.662 0.000278 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 29730 on 492 degrees of freedom
+##   (106 observations deleted due to missingness)
+## Multiple R-squared:  0.5856, Adjusted R-squared:  0.5746 
+## F-statistic: 53.47 on 13 and 492 DF,  p-value: &lt; 2.2e-16
+
+#broom::tidy(lm_model) %&gt;% 
+#  mutate_at(2:5, round, 2) %&gt;% 
+#  janitor::clean_names() %&gt;% 
+#  knitr::kable(caption = &quot;Regression result summary&quot;) %&gt;% 
+#  kableExtra::kable_styling(., bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;),
+#                            full_width = F) 
+
+broom::tidy(lm_model) %&gt;% 
+  mutate_at(2:5, round, 2) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 20)) %&gt;% 
+  DT::formatStyle(
+    columns = &quot;p_value&quot;,
+    background = DT::styleInterval(c(0.05),c(&quot;lightsteelblue&quot;,&quot;white&quot;)), 
+    target = &quot;row&quot;)</code></pre>
+<div id="htmlwidget-9f0adf47be204d66cbc0" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9f0adf47be204d66cbc0">{"x":{"filter":"none","data":[["(Intercept)","grouplicensed","year2011","year2012","year2013","year2014","year2015","year2016","year2017","year2018","year2019","shipments","population","consumption"],[-42656.63,-7468.72,706.69,-58.26,190.77,1804.72,13484.21,27792.48,40029.77,48898.09,58278.64,-0.01,0.01,1209.66],[11402.86,2891.59,5951.48,5890.89,5929.79,5934.69,5910.74,5919.55,5941.24,5958.87,5969.56,0,0,330.37],[-3.74,-2.58,0.12,-0.01,0.03,0.3,2.28,4.7,6.74,8.21,9.76,-4.32,6.93,3.66],[0,0.01,0.91,0.99,0.97,0.76,0.02,0,0,0,0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std_error<\/th>\n      <th>statistic<\/th>\n      <th>p_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":20,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[10,20,25,50,100],"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+</div>
 </div>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
