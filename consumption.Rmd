@@ -17,6 +17,8 @@ state_df = read_csv("data_import_cleaning/state_df.csv")
 beer = read_csv("./data_import_cleaning/beer.csv")
 ```
 
+--- 
+
 ## Consumption
 This graph shows data from the [Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf) document. This consumption is by captiate and only considers individuals who are 21 years old or older. 
 ```{r warning=FALSE, message=FALSE}
@@ -34,11 +36,15 @@ state_df %>%
 
 ## Alcohol by volume (ABV) pattern
 
-**Alcohol by volume (ABV):** volume percent of alcohol (ethanol) contained in a given volume of an alcoholic beverage
-
-**Pattern of interest:** What category/brewer/style of beer has the most ABV?
+**Alcohol by volume (ABV)** is defined to be the volume percent of alcohol (ethanol) contained in a given volume of an alcoholic beverage. 
+In our project, we are interested in exploring the pattern of ABV concerning the category/brewer/style of beer. 
 
 ### By category
+
+First, we looked at the pattern of ABV by beer's category. 
+
+* It seems that **Belgian and French Ale** has the **highest** average ABV while the **North American Lager** has the **lowest** average AVB. 
+* The distribution of ABV of Belgian and French Ale is relatively bell-shaped while the other categories are skewed. 
 
 ```{r cat_abv,collapse=TRUE}
 cat_abv = 
@@ -51,16 +57,33 @@ cat_abv
 
 cat_abv %>% 
   mutate(category = fct_reorder(category, mean_abv)) %>% 
-  plot_ly(x = ~category, y = ~mean_abv, color = ~category, type = "bar", colors = "viridis")
+  plot_ly(x = ~category, y = ~mean_abv, 
+          color = ~category, type = "bar", colors = "viridis") %>% 
+  layout(title = "Average ABV by Beer Category",
+         xaxis = list(title = "Beer Category",
+                      zeroline = TRUE),
+         yaxis = list(title = "Average ABV",
+                      range = c(0, 7)))
 
 beer %>% 
   mutate(category = fct_reorder(category, alcohol_by_volume)) %>% 
-  plot_ly(y = ~alcohol_by_volume, color = ~category, type = "box", colors = "viridis")
+  plot_ly(y = ~alcohol_by_volume, 
+          color = ~category, type = "box", colors = "viridis") %>% 
+  layout(title = "Boxplot of ABV by Beer Category",
+         xaxis = list(title = "Beer Category",
+                      zeroline = TRUE),
+         yaxis = list(title = "ABV",
+                      range = c(0, 21)))
 ```
 
 ### By brewer
 
-* Top 20
+Next, we looked at the pattern of ABV by beer's brewer. 
+
+As there are 823 brewers listed in our dataset, we will show the **top 20** that has the highest average ABV, rather than all of them. 
+
+* **Mendocino Brewing - Ukiah**has the highest average ABV. 
+* There are 424 brewers having average ABV value of 0. 
 
 ```{r brewer_abv,collapse=TRUE}
 brewer_abv = 
@@ -70,22 +93,38 @@ brewer_abv =
   arrange(desc(mean_abv))
 brewer_abv
 
+#brewer_abv %>% filter(mean_abv == 0) #424
+
 brewer_abv %>% 
   slice(1:20) %>% 
   mutate(brewer = fct_reorder(brewer, mean_abv)) %>%
-  plot_ly(x = ~brewer, y = ~mean_abv, color = ~brewer, type = "bar", colors = "viridis") %>% 
-  layout(yaxis = list(range = c(8, 11)))
+  plot_ly(x = ~brewer, y = ~mean_abv, 
+          color = ~brewer, type = "bar", colors = "viridis") %>%
+  layout(title = "Average ABV by Beer Brewer",
+         xaxis = list(title = "Beer Brewer",
+                      zeroline = TRUE),
+         yaxis = list(title = "Average ABV",
+                      range = c(8, 10.8)))
 
 top_20_brewer = brewer_abv %>% slice(1:20) %>% select(brewer) %>% unlist()
 beer %>% 
   filter(brewer %in% top_20_brewer) %>% 
   mutate(brewer = fct_reorder(brewer, alcohol_by_volume)) %>% 
-  plot_ly(y = ~alcohol_by_volume, color = ~brewer, type = "box", colors = "viridis")
+  plot_ly(y = ~alcohol_by_volume, 
+          color = ~brewer, type = "box", colors = "viridis") %>% 
+  layout(title = "Boxplot of ABV by Beer Brewer",
+         xaxis = list(title = "ABV",
+                      zeroline = TRUE),
+         yaxis = list(title = "Average ABV"))
 ```
 
 ### By style
 
-* Top 20
+Finally, we looked at the pattern of ABV by beer's style. 
+
+There are 62 styles listed in our dataset, and we will show the **top 20** that has the highest average ABV, as well as the **lowest 5**. 
+
+* We can see that **Belgian-Style Quadrupel** has the higherst average ABV while both **Vienna-Style Lager** and **Specialty Honey Lager or Ale** has average ABV of 0. 
 
 ```{r style_abv,collapse=TRUE}
 style_abv = 
@@ -98,14 +137,37 @@ style_abv
 style_abv %>% 
   slice(1:20) %>% 
   mutate(style = fct_reorder(style, mean_abv)) %>% 
-  plot_ly(x = ~style, y = ~mean_abv, color = ~style, type = "bar", colors = "viridis") %>% 
-  layout(yaxis = list(range = c(5.5, 12)))
+  plot_ly(x = ~style, y = ~mean_abv, 
+          color = ~style, type = "bar", colors = "viridis")  %>%
+  layout(title = "Average ABV by Beer Style",
+         xaxis = list(title = "Beer Style",
+                      zeroline = TRUE),
+         yaxis = list(title = "Average ABV",
+                      range = c(5.5, 12)))
+
+tail(style_abv) %>% 
+  rename(Style = style, `Average ABV` = mean_abv) %>% 
+  slice(-1) %>% 
+  mutate_at(2, round, 2) %>% 
+  knitr::kable(caption = "Styles with Lowest 5 Average AVB") %>% 
+  kableExtra::kable_styling(., bootstrap_options = c("striped", "hover"),
+                            full_width = F)
+
+#style_abv %>% 
+#  rename(Style = style, `Average ABV` = mean_abv) %>% 
+#  mutate_at(2, round, 2) %>% 
+#  DT::datatable(., rownames = F) 
 
 top_20_style = style_abv %>% slice(1:20) %>% select(style) %>% unlist()
 beer %>% 
   filter(style %in% top_20_style) %>% 
   mutate(style = fct_reorder(style, alcohol_by_volume)) %>% 
-  plot_ly(y = ~alcohol_by_volume, color = ~style, type = "box", colors = "viridis")
+  plot_ly(y = ~alcohol_by_volume, 
+          color = ~style, type = "box", colors = "viridis") %>% 
+  layout(title = "Boxplot of ABV by Beer Style",
+         xaxis = list(title = "ABV",
+                      zeroline = TRUE),
+         yaxis = list(title = "Average ABV"))
 ```
 
 

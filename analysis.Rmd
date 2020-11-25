@@ -99,8 +99,6 @@ tax_group_result %>%
   geom_text(
     aes(label = paste0("(", p_value, ")")), 
     color = "#009999", hjust = -0.05, vjust = -3.7, angle = 20)
-
-#ggrepel::geom_text_repel(aes(label = paste0("(", p_value, ")")), vjust = -5)
 ```
 
 
@@ -144,6 +142,12 @@ state_tax_group_result %>%
     aes(label = paste0("(", p_value, ")")), 
     color = "#009999", hjust = -0.05, vjust = -3.5, angle = 20)
 ```
+
+
+
+## Regression Anlaysis
+
+
 
 
 
