@@ -481,7 +481,7 @@ tax_group_result %&gt;%
     x = &quot;Year&quot;) + 
   geom_text(
     aes(label = paste0(&quot;(&quot;, p_value, &quot;)&quot;)), 
-    color = &quot;#009999&quot;, hjust = -0.05, vjust = -3.7, angle = 20)</code></pre>
+    color = &quot;steelblue&quot;, hjust = -0.05, vjust = -3.7, angle = 20)</code></pre>
 <p><img src="analysis_files/figure-html/tax_group-1.png" width="672" /></p>
 </div>
 <div id="state-tax" class="section level3">
@@ -518,8 +518,55 @@ state_tax_group_result %&gt;%
     x = &quot;Year&quot;) + 
   geom_text(
     aes(label = paste0(&quot;(&quot;, p_value, &quot;)&quot;)), 
-    color = &quot;#009999&quot;, hjust = -0.05, vjust = -3.5, angle = 20)</code></pre>
+    color = &quot;steelblue&quot;, hjust = -0.05, vjust = -3.5, angle = 20)</code></pre>
 <p><img src="analysis_files/figure-html/state_tax_group-1.png" width="672" /></p>
+</div>
+<div id="jurisdiction-map" class="section level3">
+<h3>Jurisdiction Map</h3>
+<pre class="r"><code>library(maps)
+#devtools::install_github(&quot;hrbrmstr/hrbrthemes&quot;)
+
+us_states &lt;- map_data(&quot;state&quot;)
+
+states_map = 
+  us_states %&gt;% 
+  mutate(
+    state_group = 
+      ifelse(region %in% str_to_lower(licence), &quot;licenced&quot;, 
+             ifelse(region %in% str_to_lower(control), &quot;control&quot;, &quot;NA&quot;))
+  )
+
+theme_map &lt;- function(base_size=9, base_family=&quot;&quot;) {
+    require(grid)
+    theme_bw(base_size=base_size, base_family=base_family) %+replace%
+        theme(axis.line=element_blank(),
+              axis.text=element_blank(),
+              axis.ticks=element_blank(),
+              axis.title=element_blank(),
+              panel.background=element_blank(),
+              panel.border=element_blank(),
+              panel.grid=element_blank(),
+              panel.spacing=unit(0, &quot;lines&quot;),
+              plot.background=element_blank(),
+              legend.justification = c(0,0),
+              legend.position = c(0,0)
+              )
+}
+p0 &lt;- ggplot(data = states_map,
+             mapping = aes(x = long, y = lat,
+                           group = group, fill = state_group)) +
+  scale_fill_manual(values = c(&quot;snow3&quot;, &quot;steelblue&quot;))
+p1 &lt;- p0 + geom_polygon(color = &quot;gray90&quot;, size = 0.1) +
+    coord_map(projection = &quot;albers&quot;, lat0 = 39, lat1 = 45) 
+p2 &lt;- p1 +
+    labs(title = &quot;Jurisdiction Group&quot;, fill = NULL)
+p2 + theme_map() </code></pre>
+<p><img src="analysis_files/figure-html/state_map-1.png" width="672" /></p>
+<pre class="r"><code>
+#library(wesanderson)
+#scale_fill_manual(values = wes_palette(&quot;Zissou1&quot;, n = 4))
+#library(ggsci)
+#scale_fill_jco()</code></pre>
 </div>
 </div>
 <div id="regression-anlaysis" class="section level2">

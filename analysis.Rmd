@@ -98,7 +98,7 @@ tax_group_result %>%
     x = "Year") + 
   geom_text(
     aes(label = paste0("(", p_value, ")")), 
-    color = "#009999", hjust = -0.05, vjust = -3.7, angle = 20)
+    color = "steelblue", hjust = -0.05, vjust = -3.7, angle = 20)
 ```
 
 
@@ -140,16 +140,61 @@ state_tax_group_result %>%
     x = "Year") + 
   geom_text(
     aes(label = paste0("(", p_value, ")")), 
-    color = "#009999", hjust = -0.05, vjust = -3.5, angle = 20)
+    color = "steelblue", hjust = -0.05, vjust = -3.5, angle = 20)
+```
+
+
+### Jurisdiction Map
+
+```{r state_map, collapse=T, message=F}
+library(maps)
+#devtools::install_github("hrbrmstr/hrbrthemes")
+
+us_states <- map_data("state")
+
+states_map = 
+  us_states %>% 
+  mutate(
+    state_group = 
+      ifelse(region %in% str_to_lower(licence), "licenced", 
+             ifelse(region %in% str_to_lower(control), "control", "NA"))
+  )
+
+theme_map <- function(base_size=9, base_family="") {
+    require(grid)
+    theme_bw(base_size=base_size, base_family=base_family) %+replace%
+        theme(axis.line=element_blank(),
+              axis.text=element_blank(),
+              axis.ticks=element_blank(),
+              axis.title=element_blank(),
+              panel.background=element_blank(),
+              panel.border=element_blank(),
+              panel.grid=element_blank(),
+              panel.spacing=unit(0, "lines"),
+              plot.background=element_blank(),
+              legend.justification = c(0,0),
+              legend.position = c(0,0)
+              )
+}
+p0 <- ggplot(data = states_map,
+             mapping = aes(x = long, y = lat,
+                           group = group, fill = state_group)) +
+  scale_fill_manual(values = c("snow3", "steelblue"))
+p1 <- p0 + geom_polygon(color = "gray90", size = 0.1) +
+    coord_map(projection = "albers", lat0 = 39, lat1 = 45) 
+p2 <- p1 +
+    labs(title = "Jurisdiction Group", fill = NULL)
+p2 + theme_map() 
+
+#library(wesanderson)
+#scale_fill_manual(values = wes_palette("Zissou1", n = 4))
+#library(ggsci)
+#scale_fill_jco()
 ```
 
 
 
 ## Regression Anlaysis
-
-
-
-
 
 
 
