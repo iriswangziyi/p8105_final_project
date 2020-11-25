@@ -353,8 +353,17 @@ div.tocify {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="consumption.html">Consumption</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Consumption
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="dashborad.html">tab name</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="taxation.html">Taxation</a>
@@ -431,11 +440,16 @@ div.tocify {
 </div>
 
 
-<p>We focus on two analyses in this section. One is to perform t-tests comparing tax differences for each year by jurisdiction group. The other is regression analysis.</p>
-<div id="tax-differences-by-jurisdiction-group" class="section level1">
-<h1>Tax differences by jurisdiction group</h1>
-<div id="total-tax" class="section level2">
-<h2>Total tax</h2>
+<p>We focus on two analyses in this section. One is to compare tax differences by jurisdiction group over time. The other is to model taxation under the regression analysis framework.</p>
+<hr />
+<div id="tax-differences-by-jurisdiction-group" class="section level2">
+<h2>Tax differences by jurisdiction group</h2>
+<p>Differing on the degree of control on liquor wholesales and retail, states can be categorized into two <a href="https://www.ncsla.org/State-Officials.html">types</a> – control jurisdiction and licensed jurisdiction, with licensed states having more control. Such categorization may lead to difference in taxation. Therefore, we are interested in examining if there is any difference in total/state taxation by these two groups of states.</p>
+<div id="total-tax" class="section level3">
+<h3>Total Tax</h3>
+<p>First, we looked at the total tax. We performed t-test for each year and would like to see if there is any significant difference in the total tax between control states and licensed states.</p>
+<p>The following plot gives the average tax difference (Tax in the Control States - Tax in the Licensed States), together with its 95% confidence interval and p-value, from 2008 to 2019.</p>
+<p>We can see that the mean difference in the total tax does not deviate much from 0 for all years, though the confidence interval seems to have a fan shape over time. Large p-values from t-tests also suggest that there is <strong>no sufficient evidence showing any significant difference between two jurisdiction groups in the total taxation from 2008 to 2019</strong>.</p>
 <pre class="r"><code># tax
 year = colnames(tax_df_group)[-c(1:3)]
 t_test_output = NULL
@@ -453,26 +467,36 @@ tax_group_result =
     licensed_est = estimate2, 
     control_minus_licensed = estimate) %&gt;% 
   select(year, control_minus_licensed, p.value, conf.low, conf.high) %&gt;% 
-  janitor::clean_names()
+  janitor::clean_names() %&gt;% 
+  mutate(p_value = round(p_value, 2))
 
 tax_group_result %&gt;% 
   mutate(year = as.character(year)) %&gt;% 
   ggplot(aes(x = year, y = control_minus_licensed)) +
   geom_point() + 
-  geom_errorbar(aes(ymin = conf_low, ymax = conf_high))</code></pre>
+  geom_errorbar(aes(ymin = conf_low, ymax = conf_high)) +
+  labs(
+    title = &quot;Difference in Total Tax between Control and Licensed Groups over time (p-value)&quot;,
+    y = &quot;Total Tax Difference (Control - Licensed)&quot;, 
+    x = &quot;Year&quot;) + 
+  geom_text(
+    aes(label = paste0(&quot;(&quot;, p_value, &quot;)&quot;)), 
+    color = &quot;#009999&quot;, hjust = -0.05, vjust = -3.7, angle = 20)</code></pre>
 <p><img src="analysis_files/figure-html/tax_group-1.png" width="672" /></p>
+<pre class="r"><code>#ggrepel::geom_text_repel(aes(label = paste0(&quot;(&quot;, p_value, &quot;)&quot;)), vjust = -5)</code></pre>
 </div>
-<div id="statelocal-tax" class="section level2">
-<h2>State/local tax</h2>
-<div id="state-level" class="section level3">
-<h3>State level</h3>
+<div id="state-tax" class="section level3">
+<h3>State Tax</h3>
+<p>Next, we looked at the state tax. As what have been done in previous subsection, we performed t-test for each year and would like to see if there is any significant difference in the state tax between control states and licensed states.</p>
+<p>The following plot gives the average state tax difference (Tax in the Control States - Tax in the Licensed States), together with its 95% confidence interval and p-value, from 2009 to 2019.</p>
+<p>We can see that the mean difference in the state tax does not deviate much from 0 for all years, and the confidence interval seems to be consistently wide over time. Large p-values from t-tests again suggest that there is <strong>no sufficient evidence showing any significant difference between two jurisdiction groups in the state taxation from 2009 to 2019</strong>.</p>
 <pre class="r"><code># state_tax
 
 state_tax_group_result = 
   state_tax_df_group %&gt;% 
   nest(data = -year) %&gt;% 
   mutate(
-    t_test = map(.x = data, ~t.test(state_taxes ~ group, data = .x)),
+    t_test = map(.x = data, ~t.test(adjusted ~ group, data = .x)),
     result = map(t_test, broom::tidy)
   ) %&gt;% 
   select(year, result) %&gt;% 
@@ -481,45 +505,22 @@ state_tax_group_result =
          licensed_est = estimate2,
          control_minus_licensed = estimate) %&gt;% 
   select(year, control_minus_licensed, p.value, conf.low, conf.high) %&gt;% 
-  janitor::clean_names()
-
-#data = state_tax_df_group %&gt;% filter(year == &quot;2009&quot;) %&gt;% select(state_taxes, group)
-#t.test(state_taxes ~ group, data = data)
+  janitor::clean_names() %&gt;% 
+  mutate(p_value = round(p_value, 2))
 
 state_tax_group_result %&gt;% 
   mutate(year = as.character(year)) %&gt;% 
   ggplot(aes(x = year, y = control_minus_licensed)) +
   geom_point() + 
-  geom_errorbar(aes(ymin = conf_low, ymax = conf_high))</code></pre>
+  geom_errorbar(aes(ymin = conf_low, ymax = conf_high)) +
+  labs(
+    title = &quot;Difference in State Tax between Control and Licensed Groups over time (p-value)&quot;,
+    y = &quot;State Tax Difference (Control - Licensed)&quot;,
+    x = &quot;Year&quot;) + 
+  geom_text(
+    aes(label = paste0(&quot;(&quot;, p_value, &quot;)&quot;)), 
+    color = &quot;#009999&quot;, hjust = -0.05, vjust = -3.5, angle = 20)</code></pre>
 <p><img src="analysis_files/figure-html/state_tax_group-1.png" width="672" /></p>
-</div>
-<div id="local-level" class="section level3">
-<h3>Local level</h3>
-<pre class="r"><code># local_tax
-
-local_tax_group_result = 
-  state_tax_df_group %&gt;% 
-  rename(local_taxes = and_local_taxes) %&gt;% 
-  nest(data = -year) %&gt;% 
-  mutate(
-    t_test = map(.x = data, ~t.test(local_taxes ~ group, data = .x)),
-    result = map(t_test, broom::tidy)
-  ) %&gt;% 
-  select(year, result) %&gt;% 
-  unnest(result) %&gt;% 
-  rename(control_est = estimate1, 
-         licensed_est = estimate2,
-         control_minus_licensed = estimate) %&gt;% 
-  select(year, control_minus_licensed, p.value, conf.low, conf.high) %&gt;% 
-  janitor::clean_names()
-
-local_tax_group_result %&gt;% 
-  mutate(year = as.character(year)) %&gt;% 
-  ggplot(aes(x = year, y = control_minus_licensed)) +
-  geom_point() + 
-  geom_errorbar(aes(ymin = conf_low, ymax = conf_high))</code></pre>
-<p><img src="analysis_files/figure-html/local_tax_group-1.png" width="672" /></p>
-</div>
 </div>
 </div>
 
