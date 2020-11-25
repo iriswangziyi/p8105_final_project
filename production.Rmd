@@ -16,6 +16,21 @@ library(flexdashboard)
 tax_cans_df    = read_csv("data_import_cleaning/tax_cans.csv")
 tax_barrels_df = read_csv("data_import_cleaning/tax_barrels_df.csv")
 state_df = read_csv("data_import_cleaning/state_df.csv")
+
+library(ggplot2)
+library(broom)
+library(plotly)
+library(highcharter)
+library(rworldmap)
+library(gganimate)
+library(transformr)
+library(corrplot)
+library(leaps)
+library(kableExtra)
+
+library(gifski)
+
+library(usdata)
 ```
 
 In this page we are going take an in-depth look at the production of beer across each state in the USA. 
@@ -33,6 +48,7 @@ tax_barrels_df %>%
     names_to = "year",
     values_to = "barrels"
   ) %>%
+  filter(year > 2009) %>%
   mutate(text_label = str_c("state: ", state)) %>% # creating text label 
   plot_ly( #using plotly to plot he tmax and tmin 
     x = ~year, y = ~barrels, color = ~factor(state), text = ~text_label,
@@ -58,6 +74,7 @@ tax_cans_df %>%
     names_to = "year",
     values_to = "cans_bottles"
   ) %>%
+  filter(year > 2009) %>%
   mutate(text_label = str_c("state: ", state)) %>% # creating text label 
   plot_ly( #using plotly to plot he tmax and tmin 
     x = ~year, y = ~cans_bottles, color = ~factor(state), text = ~text_label,
@@ -70,18 +87,50 @@ tax_cans_df %>%
 
 --- 
 
-## Shipments 
-This is the amount of money the United States has made off of the shipment of beers. The visualization is broken down by month shown in the various colors and we can see the trends across the years.
+## Shipments of Malt Beverages
+This is the amount of shipments the United States has made of malt beverages. 
 
 ```{r}
-state_df %>%
-  filter(year > 2009) %>%
-  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
-  plot_ly( #using plotly to plot he tmax and tmin 
-    x = ~year, y = ~shipments, color = ~factor(state), text = ~text_label,
-    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
-  layout( # adding a title 
-    title = "Shipments")
+# state_df %>%
+#   filter(year > 2009) %>%
+#   mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+#   plot_ly( #using plotly to plot he tmax and tmin 
+#     x = ~year, y = ~shipments, color = ~factor(state), text = ~text_label,
+#     alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+#   layout( # adding a title 
+#     title = "Shipments")
+```
+
+```{r fig.width = 7, fig.height = 7}
+
+sm3 = state_df %>% filter(state != "District of Columbia") %>% filter(year > 2009)
+
+static_plot<-ggplot(sm3,aes(rank_3,group=state,fill=as.factor(state),color=as.factor(state))) +
+ geom_tile(aes(y = shipments/2,height = shipments, width = 0.9), alpha = 0.8, color = NA) +
+ geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3.5) +
+ geom_text(aes(y = shipments, label = paste(' ',shipments)), hjust=0, size = 3.5) +
+ coord_flip(clip = 'off', expand = TRUE) +
+ scale_y_continuous(labels = scales::comma) +
+ scale_x_reverse() +
+ guides(color = FALSE, fill = FALSE) +
+ theme_minimal() +
+ theme(
+   plot.title=element_text(size=20, hjust=0.5, face='bold', colour='grey', vjust=-1),
+   plot.subtitle=element_text(size=10, hjust=0.5, face='italic', color='grey'),
+   plot.caption =element_text(size=1, hjust=0.5, face='italic', color='grey'),
+   axis.ticks.y = element_blank(),
+   axis.text.y = element_blank(),
+   plot.margin = margin(1,1,1,4, 'cm')
+ )
+plt<-static_plot + transition_states(states = year, transition_length = 4, state_length = 1) +
+                   ease_aes('cubic-in-out') +
+                   labs(title = 'Shipments in Year {closest_state}',
+                        #subtitle = 'Shipments',
+                        x = '', 
+                        y = 'Shipments of Malt Beverages')
+
+plt
+
 ```
 
 ### Analysis: 

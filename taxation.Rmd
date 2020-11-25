@@ -56,7 +56,7 @@ tax_df %>%
     title = "Tax collected over the years by state")
 ```
 
-Analysis: 
+### Analysis: 
 
 ---
 
@@ -93,7 +93,9 @@ longer_tax_df %>%
 
 ```
 
-Analysis:
+### Analysis: 
+
+
 ---
 
 ## Tax per Barrel
@@ -135,8 +137,8 @@ plt
 
 
 
-
-Analysis: 
+### Analysis: 
+We can see Tennessee starting very low on the list and climbing up the ranks as the years increase. 
 
 ---
 
@@ -181,7 +183,8 @@ state_tax_df %>%
   )
 ```
 
-Analysis: 
+### Analysis: 
+Wyoming has the lowest tax per barrel average while Alabama has the highest tax per barrel. The biggest ranges of values goes to Tennessee with Washington and Delaware also having a range of values. All the other of the states seem to have the same tax per barrel from 2010-2019. 
 
 ---
 

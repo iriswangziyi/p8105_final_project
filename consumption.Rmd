@@ -15,22 +15,70 @@ library(flexdashboard)
 
 state_df = read_csv("data_import_cleaning/state_df.csv")
 beer = read_csv("./data_import_cleaning/beer.csv")
+
+library(ggplot2)
+library(broom)
+library(plotly)
+library(highcharter)
+library(rworldmap)
+library(gganimate)
+library(transformr)
+library(corrplot)
+library(leaps)
+library(kableExtra)
+
+library(gifski)
+
+library(usdata)
 ```
 
 --- 
 
 ## Consumption
 This graph shows data from the [Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf) document. This consumption is by captiate and only considers individuals who are 21 years old or older. 
-```{r warning=FALSE, message=FALSE}
-state_df %>%
-  filter(year > 2009) %>%
-  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
-  plot_ly( #using plotly to plot he tmax and tmin 
-    x = ~year, y = ~consumption, color = ~factor(state), text = ~text_label,
-    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
-  layout( # adding a title 
-    title = "Consumption")
+```{r warning=FALSE, message=FALSE, fig.width = 7, fig.height = 7}
+# state_df %>%
+#   filter(year > 2009) %>%
+#   mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+#   plot_ly( #using plotly to plot he tmax and tmin 
+#     x = ~year, y = ~consumption, color = ~factor(state), text = ~text_label,
+#     alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+#   layout( # adding a title 
+#     title = "Consumption")
+
+
+
+sm3 = state_df %>% filter(state != "District of Columbia") %>% filter(year > 2009)
+
+static_plot<-ggplot(sm3,aes(rank_6,group=state,fill=as.factor(state),color=as.factor(state))) +
+ geom_tile(aes(y = consumption/2,height = consumption, width = 0.9), alpha = 0.8, color = NA) +
+ geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3.5) +
+ geom_text(aes(y = consumption, label = paste(' ',consumption)), hjust=0, size = 3.5) +
+ coord_flip(clip = 'off', expand = TRUE) +
+ scale_y_continuous(labels = scales::comma) +
+ scale_x_reverse() +
+ guides(color = FALSE, fill = FALSE) +
+ theme_minimal() +
+ theme(
+   plot.title=element_text(size=20, hjust=0.5, face='bold', colour='grey', vjust=-1),
+   plot.subtitle=element_text(size=10, hjust=0.5, face='italic', color='grey'),
+   plot.caption =element_text(size=1, hjust=0.5, face='italic', color='grey'),
+   axis.ticks.y = element_blank(),
+   axis.text.y = element_blank(),
+   plot.margin = margin(1,1,1,4, 'cm')
+ )
+plt<-static_plot + transition_states(states = year, transition_length = 4, state_length = 1) +
+                   ease_aes('cubic-in-out') +
+                   labs(title = 'Consumption in Year {closest_state}',
+                        subtitle = 'Per Capita Consumption',
+                        x = '', 
+                        y = 'Consumption')
+
+plt
+
 ```
+
+### Analysis:
 
 ---
 
