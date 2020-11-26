@@ -4,10 +4,11 @@ navbar:
   title: "Home"
   left:
     - text: "Consumption"
-      href: consumption.html
       menu:
-        - text: "tab name"
-          href: dashborad.html
+        - text: "Consumption analysis"
+          href: consumption.html
+        - text: "consumption dashboard"
+          href: dashboard_tax_state_map.html
     - text: "Taxation"
       href: taxation.html
     - text: "Production"
