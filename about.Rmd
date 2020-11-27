@@ -1,5 +1,5 @@
 ---
-title: "About us"
+title: "About Us"
 output: 
   html_document:
     toc: true
@@ -24,7 +24,7 @@ UNI: (wf2270)
 
 Email: wf2270@columbia.edu
 
-# Ziyi Wang 
+# Ziyi (Iris) Wang 
 UNI: (zw2716)
 
 Email: zw2716@columbia.edu

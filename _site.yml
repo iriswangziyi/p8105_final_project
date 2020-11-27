@@ -2,21 +2,40 @@ name: "An Exhaustive look at Beer data"
 output_dir: "."
 navbar:
   title: "Home"
-  right:
+  left:
     - text: "Consumption"
-      href: consumption.html
+      menu:
+        - text: "Consumption analysis"
+          href: consumption.html
+        - text: "consumption dashboard"
+          href: dashboard_tax_state_map.html
     - text: "Taxation"
       href: taxation.html
     - text: "Production"
       href: production.html
     - text: "Analysis"
       href: analysis.html
-    - text: "About"
-      href: about.html
-    - text: "Proposal"
+  right:
+    - text: "Project Report"
       href: proposal.html
+    - text: "Contact Us"
+      icon: fa-envelope fa-lg
+      menu:
+        - text: "Amy Pitts"
+        - href: mailto:<ajp2257@columbia.edu>
+        - text: "Ruiyang Li"
+        - href: mailto:<rl3034@columbia.edu>
+        - text: "Wenbo Fei"
+        - href: mailto:<wf2270@columbia.edu>
+        - text: "Ziyi (Iris) Wang"
+        - href: mailto:<ziyi.w@columbia.edu>
+    - icon: fa-youtube fa-lg
+      href: https://www.youtube.com/
     - icon: fa-github fa-lg
       href: https://github.com/iriswangziyi/p8105_final_project
+      
 output:
   html_document:
-    theme: cerulean
+    theme: cosmo
+    includes:
+      after_body: footer.html
