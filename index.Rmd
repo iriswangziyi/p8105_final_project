@@ -1,5 +1,5 @@
 ---
-title: "An Exhaustive look at Beer data - P8105 Data Science I Project"
+title: "An Exhaustive look at US Beer data - P8105 Data Science I Project"
 author: "Amy Pitts (ajp2257), Ruiyang Li (rl3034), Wenbo Fei (wf2270), Ziyi Wang (zw2716)"
 output: 
   html_document:
@@ -8,18 +8,28 @@ output:
     toc_float: true
 ---
 
+---
+
 ## Motivation:
 The US Government continues to control the consumption and production of Beer through regulations and taxes. The Alcohol and Tobacco Tax and Trade Bureau regulates people who engage in the alcohol beverage industry by requiring people to file an application before engaging in business (TTBGov - Beverage Alcohol, n.d.). For Breweries in particular they are required to file documents every year and the data is compiled into publicly available sources (TTBGov - Beer Statistics, n.d.). Through this reporting and taxation, the US profits enormously off of Beer. Since beer plays such an important role in the US economy it is important to analyze the publicly available government data all about taxation and production (TTBGov - Beverage Alcohol, n.d.). It is also equally interesting to look at the types of beer produced, location of breweries across the globe using an open-source API data set (Open Beer Database, n.d.). Our goal in this project is to get a better understanding of what kinds of beers are produced and how The US economy profits off of it.
 
+---
+
 ## Screencast (or not)
 
+---
+
 ## Introduction ?
+
+---
 
 ## Dataset
 
 * Yearly Statistical Beer Data by State (2008 – 2019) from [Alcohol and Tobacco Tax and Trade Bureau](https://www.ttb.gov/beer/statistics). This aggregated data contained records on Tax Determined, Taxable Volume of Bottles and Cans, Taxable Volume of Barrels and Kegs each year for each state in barrels.
 
 * Open Beer database from [Opendatasoft](https://data.opendatasoft.com/explore/dataset/open-beer-database%40public-us/information/?rows=4588&timezone=&refine.country=United+States&location=2,16.98232,9.498&basemap=jawg.sunny&dataChart=eyJxdWVyaWVzIjpbeyJjb25maWciOnsiZGF0YXNldCI6Im9wZW4tYmVlci1kYXRhYmFzZUBwdWJsaWMtdXMiLCJvcHRpb25zIjp7fX0sImNoYXJ0cyI6W3siYWxpZ25Nb250aCI6dHJ1ZSwidHlwZSI6ImxpbmUiLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJhYnYiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiIjMTQyRTdCIn1dLCJ4QXhpcyI6Imxhc3RfbW9kIiwibWF4cG9pbnRzIjoiIiwidGltZXNjYWxlIjoieWVhciIsInNvcnQiOiIifV0sImRpc3BsYXlMZWdlbmQiOnRydWUsImFsaWduTW9udGgiOnRydWV9). This dataset contains information of each beer product, including product name, universal product code, style, category, brewer along with its address and website, percentage of alcohol by volume, bitterness from hops in a beer, beer color, and description in text.
+
+---
 
 ## Findings
 
@@ -55,6 +65,8 @@ tax_df = read_csv("./data_import_cleaning/tax.csv")
 beer = read_csv("./data_import_cleaning/beer.csv")
 ```
 
+---
+
 ### Beer Tax in U.S. State
 ```{r tax map, collapse = T, message = F, warning = F}
 state_df = 
@@ -81,6 +93,8 @@ plot_geo() %>%
   ) %>%
   layout(geo = g)
 ```
+
+---
 
 ## U.S. brewers Location mapping
  Map location of each US brewer with category/style, size of marker showing ABV (Alcohol by volume) and interactive label showing the tax info by state.
@@ -129,6 +143,9 @@ beer %>%
                    color = ~pal(alcohol_by_volume), 
                    popup = ~click_label)
 ```
+
+
+---
 
 ## Resources
 
