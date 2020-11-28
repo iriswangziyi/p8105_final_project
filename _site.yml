@@ -8,13 +8,13 @@ navbar:
         - text: "Taxation Analysis"
           href: taxation.html
         - text: "Data Exploration"
-          href: viz_tax_statemap/dashboard_comsum_statemap.html
+          href: viz_tax_statemap/dashboard_tax_state_map.html
     - text: "Consumption"
       menu:
         - text: "Consumption Analysis"
           href: consumption.html
         - text: "Data Exploration"
-          href: viz_tax_statemap/dashboard_tax_state_map.html
+          href: viz_tax_statemap/dashboard_comsum_statemap.html
     - text: "Production"
       href: production.html
     - text: "Analysis"
