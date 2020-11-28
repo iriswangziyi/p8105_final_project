@@ -21,7 +21,7 @@ navbar:
       href: analysis.html
   right:
     - text: "Project Report"
-      href: proposal.html
+      href: Report.Rmd
     - text: "Contact Us"
       icon: fa-envelope fa-lg
       menu:
