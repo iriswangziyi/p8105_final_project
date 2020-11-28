@@ -1,5 +1,5 @@
 ---
-title: "Beer Consumption"
+title: "Beer Consumption (Per Capita in Barrels)"
 output: 
   flexdashboard::flex_dashboard
 ---
@@ -30,7 +30,7 @@ state_info = #arrange row order
     state.abb = state.abb
   )
 
-consum <- 
+consumption <- 
   left_join(state_info, consum_df, by = "state")
 
 g <- list(
@@ -39,6 +39,11 @@ g <- list(
   lakecolor = toRGB('white')
 )
 ```
+
+Map
+=====================================  
+This data is gotten from [America's Beer Distributors](https://www.nbwa.org/resources/state-data). 
+
 
 Column
 -------------------------------------
@@ -53,17 +58,17 @@ state_df %>%
     x = ~year, y = ~consumption, color = ~factor(state), text = ~text_label,
     alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
   layout( # adding a title 
-    title = "Consumption")
+    title = "Per Capita Consumption over the Years")
 ```
 
 Column {.tabset .tabset-fade}
 -------------------------------------
 ### Year 2010
 ```{r}
-consum_2010 <- consum %>% pull(10)
+consumption_2010 <- consumption %>% pull(10)
 plot_geo() %>%
   add_trace(
-    z = ~consum_2010 , text = state.name, span = I(0),
+    z = ~consumption_2010 , text = state.name, span = I(0),
     locations = state.abb, locationmode = 'USA-states'
   ) %>%
   layout(geo = g)
@@ -71,10 +76,10 @@ plot_geo() %>%
 
 ### Year 2011
 ```{r}
-consum_2011 <- consum %>% pull(11)
+consumption_2011 <- consumption %>% pull(11)
 plot_geo() %>%
   add_trace(
-    z = ~consum_2011 , text = state.name, span = I(0),
+    z = ~consumption_2011 , text = state.name, span = I(0),
     locations = state.abb, locationmode = 'USA-states'
   ) %>%
   layout(geo = g)
@@ -82,10 +87,10 @@ plot_geo() %>%
 
 ### Year 2012
 ```{r}
-consum_2012 <- consum %>% pull(12)
+consumption_2012 <- consumption %>% pull(12)
 plot_geo() %>%
   add_trace(
-    z = ~consum_2012 , text = state.name, span = I(0),
+    z = ~consumption_2012 , text = state.name, span = I(0),
     locations = state.abb, locationmode = 'USA-states'
   ) %>%
   layout(geo = g)
@@ -93,10 +98,10 @@ plot_geo() %>%
 
 ### Year 2013
 ```{r}
-consum_2013 <- consum %>% pull(13)
+consumption_2013 <- consumption %>% pull(13)
 plot_geo() %>%
   add_trace(
-    z = ~consum_2013 , text = state.name, span = I(0),
+    z = ~consumption_2013 , text = state.name, span = I(0),
     locations = state.abb, locationmode = 'USA-states'
   ) %>%
   layout(geo = g)
@@ -104,10 +109,10 @@ plot_geo() %>%
 
 ### Year 2014
 ```{r}
-consum_2014 <- consum %>% pull(14)
+consumption_2014 <- consumption %>% pull(14)
 plot_geo() %>%
   add_trace(
-    z = ~consum_2014 , text = state.name, span = I(0),
+    z = ~consumption_2014 , text = state.name, span = I(0),
     locations = state.abb, locationmode = 'USA-states'
   ) %>%
   layout(geo = g)
@@ -115,10 +120,10 @@ plot_geo() %>%
 
 ### Year 2015
 ```{r}
-consum_2015 <- consum %>% pull(15)
+consumption_2015 <- consumption %>% pull(15)
 plot_geo() %>%
   add_trace(
-    z = ~consum_2015 , text = state.name, span = I(0),
+    z = ~consumption_2015 , text = state.name, span = I(0),
     locations = state.abb, locationmode = 'USA-states'
   ) %>%
   layout(geo = g)
@@ -126,10 +131,10 @@ plot_geo() %>%
 
 ### Year 2016
 ```{r}
-consum_2016 <- consum %>% pull(16)
+consumption_2016 <- consumption %>% pull(16)
 plot_geo() %>%
   add_trace(
-    z = ~consum_2016 , text = state.name, span = I(0),
+    z = ~consumption_2016 , text = state.name, span = I(0),
     locations = state.abb, locationmode = 'USA-states'
   ) %>%
   layout(geo = g)
@@ -137,10 +142,10 @@ plot_geo() %>%
 
 ### Year 2017
 ```{r}
-consum_2017 <- consum %>% pull(17)
+consumption_2017 <- consumption %>% pull(17)
 plot_geo() %>%
   add_trace(
-    z = ~consum_2017 , text = state.name, span = I(0),
+    z = ~consumption_2017 , text = state.name, span = I(0),
     locations = state.abb, locationmode = 'USA-states'
   ) %>%
   layout(geo = g)
@@ -148,10 +153,10 @@ plot_geo() %>%
 
 ### Year 2018
 ```{r}
-consum_2018 <- consum %>% pull(18)
+consumption_2018 <- consumption %>% pull(18)
 plot_geo() %>%
   add_trace(
-    z = ~consum_2018 , text = state.name, span = I(0),
+    z = ~consumption_2018 , text = state.name, span = I(0),
     locations = state.abb, locationmode = 'USA-states'
   ) %>%
   layout(geo = g)
@@ -159,15 +164,20 @@ plot_geo() %>%
 
 ### Year 2019
 ```{r}
-consum_2019 <- consum %>% pull(19)
+consumption_2019 <- consumption %>% pull(19)
 plot_geo() %>%
   add_trace(
-    z = ~consum_2019 , text = state.name, span = I(0),
+    z = ~consumption_2019 , text = state.name, span = I(0),
     locations = state.abb, locationmode = 'USA-states'
   ) %>%
   layout(geo = g)
 ```
 
+Data
+=====================================  
+This data is gotten from [America's Beer Distributors](https://www.nbwa.org/resources/state-data). 
+
 ```{r}
-# rmarkdown::render("dashboard_comsum_state_map.Rmd", output_format = "flexdashboard::flex_dashboard") #knit for web
+knitr::kable(consumption[,-(3:9)])
+# rmarkdown::render("dashboard_comsum_statemap.Rmd", output_format = "flexdashboard::flex_dashboard") #knit for web
 ```

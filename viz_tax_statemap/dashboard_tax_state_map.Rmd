@@ -63,7 +63,7 @@ tax_df %>%
     x = ~year, y = ~tax, color = ~factor(state), text = ~text_label,
     alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
   layout( # adding a title 
-    title = "Tax collected over the years by state")
+    title = "Tax Collected over the Years")
 
 ```
    
@@ -186,5 +186,6 @@ Data
 Yearly Statistical Beer Data by State (2010 – 2019) from [Alcohol and Tobacco Tax and Trade Bureau](https://www.ttb.gov/beer/statistics)
 ```{r}
 knitr::kable(tax[,-c(3,4)])
+# rmarkdown::render("dashboard_tax_state_map.Rmd", output_format = "flexdashboard::flex_dashboard") #knit for web
 ```
 
