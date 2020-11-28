@@ -38,9 +38,9 @@ In this page we are going take an in-depth look at the production of beer across
 ---
 
 ## Production of Barrels 
-This line graph looks at the amount Barrels produced by state recorded in barrel units over the years. The data comes from the Alcohol and Tobacco Tax and Trade Bureau dataset. 
+This line graph looks at the amount of Barrels produced by state recorded in barrel units over the years. The data comes from the Alcohol and Tobacco Tax and Trade Bureau dataset. 
 
-```{r}
+```{r warning=FALSE, message=FALSE }
 tax_barrels_df %>%
   filter(state != "total") %>%
   pivot_longer(
@@ -63,7 +63,6 @@ tax_barrels_df %>%
 
 
 ## Production Cans and Bottles
-
 This line graph looks at the amount of cans and bottles produced by state recorded in barrel units over the years. The data comes from the Alcohol and Tobacco Tax and Trade Bureau dataset.
 
 ```{r}
@@ -88,7 +87,7 @@ tax_cans_df %>%
 --- 
 
 ## Shipments of Malt Beverages
-This is the amount of shipments the United States has made of malt beverages. 
+This is the amount of shipments the United States has made of malt beverages in barrel units. This data comes from the American Beer Distributors. 
 
 ```{r}
 # state_df %>%
