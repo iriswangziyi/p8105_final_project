@@ -81,47 +81,33 @@ plt
 ### Analysis:
 
 ---
+//intro this map
 
-## Alcohol by volume (ABV) pattern
+```{r brewer map, collapse = T, message = F, warning = F}
+#install.packages("leaflet")
+library(leaflet)
 
-**Alcohol by volume (ABV)** is defined to be the volume percent of alcohol (ethanol) contained in a given volume of an alcoholic beverage. 
-In our project, we are interested in exploring the pattern of ABV concerning the category/brewer/style of beer. 
-
-### By category
-
-First, we looked at the pattern of ABV by beer's category. 
-
-* It seems that **Belgian and French Ale** has the **highest** average ABV while the **North American Lager** has the **lowest** average AVB. 
-* The distribution of ABV of Belgian and French Ale is relatively bell-shaped while the other categories are skewed. 
-
-```{r cat_abv,collapse=TRUE}
-cat_abv = 
-  beer %>% 
-  replace_na(list(category = "NA", y = "unknown")) %>% 
-  group_by(category) %>% 
-  summarise(mean_abv = mean(alcohol_by_volume)) %>% 
-  arrange(desc(mean_abv)) 
-cat_abv
-
-cat_abv %>% 
-  mutate(category = fct_reorder(category, mean_abv)) %>% 
-  plot_ly(x = ~category, y = ~mean_abv, 
-          color = ~category, type = "bar", colors = "viridis") %>% 
-  layout(title = "Average ABV by Beer Category",
-         xaxis = list(title = "Beer Category",
-                      zeroline = TRUE),
-         yaxis = list(title = "Average ABV",
-                      range = c(0, 7)))
+pal <- colorNumeric(
+  palette = "viridis",
+  domain = beer$alcohol_by_volume)
 
 beer %>% 
-  mutate(category = fct_reorder(category, alcohol_by_volume)) %>% 
-  plot_ly(y = ~alcohol_by_volume, 
-          color = ~category, type = "box", colors = "viridis") %>% 
-  layout(title = "Boxplot of ABV by Beer Category",
-         xaxis = list(title = "Beer Category",
-                      zeroline = TRUE),
-         yaxis = list(title = "ABV",
-                      range = c(0, 21)))
+  filter(alcohol_by_volume != 0) %>% 
+  mutate(
+    click_label = 
+      str_c("<b>Brewer: ", name,
+            "<br>ABV: ", alcohol_by_volume, 
+            "</b><br>City: ", city, 
+            "<br>State: ", state
+            )
+  ) %>% 
+  leaflet() %>% 
+  addProviderTiles(providers$CartoDB.Positron) %>% 
+  addCircleMarkers(~longitude, ~latitude,
+                   #clusterOptions = markerClusterOptions(),
+                   radius = 0.1, 
+                   color = ~pal(alcohol_by_volume), 
+                   popup = ~click_label)
 ```
 
 ### By brewer
