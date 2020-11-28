@@ -39,7 +39,7 @@ library(usdata)
 Looking at just the taxes collected by each state over the years. This tax is specifically looking at the 
 "Beer removed for consumption or sale including beer removed tax determined for consumption or sale in a tavern or on brewery premises". This data is coming from the Alcohol and Tobacco Tax and Trade Bureau dataset.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 tax_df %>%
   filter(state != "total") %>%
   pivot_longer(

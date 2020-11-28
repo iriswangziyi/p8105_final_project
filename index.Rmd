@@ -159,4 +159,5 @@ beer %>%
 * Open Beer Database. (n.d.). Retrieved November 6, 2020, from https://data.opendatasoft.com/explore/dataset/open-beer-database@public-us/table/
 * TTBGov—Beer Statistics. (n.d.). Retrieved November 6, 2020, from https://www.ttb.gov/beer/statistics
 * TTBGov—Beverage Alcohol. (n.d.). Retrieved November 6, 2020, from https://www.ttb.gov/alcohol/beverage-alcohol
+* McHops, B. (2012, July 12). The Best Beer By State. Aleheads, https://aleheads.wordpress.com/2012/07/09/the-best-beer-by-state/ 
 
