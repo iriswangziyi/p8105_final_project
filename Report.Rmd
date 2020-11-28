@@ -1,0 +1,132 @@
+---
+title: "Beer Taxation Report in US"
+author: 'Author: Amy Pitts (ajp2257), Ruiyang Li (rl3034), Wenbo Fei (wf2270), Ziyi Wang (zw2716)'
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(rvest)
+library(httr)
+```
+
+### To learn our project:
+* A short [review](put screencast link here) of our project
+* Explore more on our [website](https://iriswangziyi.github.io/p8105_final_project) 
+* Find our Github [repository ](https://github.com/iriswangziyi/p8105_final_project)
+
+### Motivation:
+The US Government continues to control the consumption and production of Beer through regulations and taxes. The Alcohol and Tobacco Tax and Trade Bureau regulates people who engage in the alcohol beverage industry by requiring people to file an application before engaging in business (TTBGov - Beverage Alcohol, n.d.). For Breweries in particular they are required to file documents every year and the data is compiled into publicly available sources (TTBGov - Beer Statistics, n.d.). Through this reporting and taxation, the US profits enormously off of Beer. Since beer plays such an important role in the US economy it is important to analyze the publicly available government data all about taxation and production (TTBGov - Beverage Alcohol, n.d.). It is also equally interesting to look at the types of beer produced, location of breweries across the globe using an open-source API data set (Open Beer Database, n.d.). Our goal in this project is to get a better understanding of what kinds of beers are produced and how The US economy profits off of it.
+
+Reference??
+
+### Related work: 
+Amy, do you want to include more in this section as we deleted some from the motivation last time?
+(Anything that inspired you, such as a paper, a web site, or something we discussed in class.)
+
+### Initial questions: 
+* How much profit and product does each state in the US make each year?
+* How does the tax rate change over time per state? Which state gives more beer tax? Any trends?
+* What category/brewer/style of beer has the most Alcohol by volume (ABV)?
+* Map location of each US brewer with interactive label showing category/style, size of marker showing ABV.
+
+What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
+Discuss this in the meeting.
+
+### Data: source, scraping method, cleaning
+* Dataset 1
+
+Yearly Statistical Beer Data by State (2008 – 2019) from [Alcohol and Tobacco Tax and Trade Bureau](https://www.ttb.gov/beer/statistics). This aggregated data contained records on Tax Determined, Taxable Volume of Bottles and Cans, Taxable Volume of Barrels and Kegs each year for each state in barrels.
+```{r data1, warning=FALSE, message=F, cache=TRUE}
+#install.packages("gdata")
+site1 = "http://www.ttb.gov/images/pdfs/statistics/aggregated/aggr-data-beer_2008-2019.xlsx"
+
+#Tax Determined (in Barrels)
+tax_df  =  
+  gdata::read.xls(site1, sheet = 1, header = T, skip = 6, nrow = 52) %>% #skip note
+  janitor::clean_names() %>%
+  select(1:13) %>%
+  as_tibble() %>%
+  rename_with( ~ sub("x", "", .x)) %>% # rename column names
+  mutate(state = factor(state)) %>% #state as factor
+  mutate_at(vars(2:13), ~ gsub(",", "", .x)) %>% #remove "," in tax values
+  mutate_at(vars(2:13), as.numeric) # tax values as numeric
+
+# Taxable Volume of Bottles and Cans* (in Barrels)
+taxable_cans_df  = 
+  gdata::read.xls(site1, sheet = 2, header = T, skip = 4, nrow = 52) %>% 
+  janitor::clean_names() %>%
+  select(1:13) %>%
+  as_tibble() %>%
+  rename_with( ~ sub("x", "", .x)) %>%
+  mutate(state = factor(state)) %>%
+  mutate_at(vars(2:13), ~ gsub(",", "", .x)) %>%
+  mutate_at(vars(2:13), as.numeric)
+
+# Taxable Volume of Barrels and Kegs*
+taxable_barrels_df  = 
+  gdata::read.xls(site1, sheet = 3, header = T, skip = 4, nrow = 52) %>% 
+  janitor::clean_names() %>%
+  select(1:13) %>%
+  as_tibble() %>%
+  rename_with( ~ sub("x", "", .x)) %>%
+  mutate(state = factor(state)) %>%
+  mutate_at(vars(2:13), ~ gsub(",", "", .x)) %>%
+  mutate_at(vars(2:13), as.numeric)
+
+head(tax_df)
+head(taxable_cans_df)
+head(taxable_barrels_df)
+# write_csv(tax_df, "data_import_cleaning/tax.csv")
+# write_csv(taxable_cans_df, "data_import_cleaning/tax_cans.csv")
+# write_csv(taxable_barrels_df, "data_import_cleaning/tax_barrels_df.csv")
+```
+
+
+* Dataset 2
+
+Open Beer database from [Opendatasoft](https://data.opendatasoft.com/explore/dataset/open-beer-database%40public-us/information/?rows=4588&timezone=&refine.country=United+States&location=2,16.98232,9.498&basemap=jawg.sunny&dataChart=eyJxdWVyaWVzIjpbeyJjb25maWciOnsiZGF0YXNldCI6Im9wZW4tYmVlci1kYXRhYmFzZUBwdWJsaWMtdXMiLCJvcHRpb25zIjp7fX0sImNoYXJ0cyI6W3siYWxpZ25Nb250aCI6dHJ1ZSwidHlwZSI6ImxpbmUiLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJhYnYiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiIjMTQyRTdCIn1dLCJ4QXhpcyI6Imxhc3RfbW9kIiwibWF4cG9pbnRzIjoiIiwidGltZXNjYWxlIjoieWVhciIsInNvcnQiOiIifV0sImRpc3BsYXlMZWdlbmQiOnRydWUsImFsaWduTW9udGgiOnRydWV9). This dataset contains information of each beer product, including product name, universal product code, style, category, brewer along with its address and website, percentage of alcohol by volume, bitterness from hops in a beer, beer color, and description in text.
+
+```{r read2, warning=FALSE, message=F, cache=TRUE}
+beer_specific = 
+  read_delim("https://public-us.opendatasoft.com/explore/dataset/open-beer-database/download/?format=csv&timezone=America/New_York&lang=en&use_labels_for_header=true&csv_separator=%3B", delim = ";") %>% # sep = ";"
+  janitor::clean_names() %>%
+  filter(country == "United States") %>% # only investigate beer in US
+  separate(coordinates, c("latitude", "longitude"), sep = ",") # separate geographic info
+
+head(beer_specific)
+# write_csv(beer_specific, "data_import_cleaning/beer.csv")
+```
+
+* Dataset 3 -- Amy?
+Amy, please add your data source, scraping method and cleaning, code and comment.
+
+### Exploratory analysis: 
+Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
+Each of us add our part, should include code that can generate the plot(please note file path), comment on the plots and answer the above corresponding initial questions part.
+I will try to revise them in a reasonable order.
+
+#### Amy:
+
+#### Ruiyang:
+
+#### Wenbo:
+
+#### Iris:
+
+
+### Additional analysis: Regression -- Ruiyang?
+If you undertake formal statistical analyses, describe these in detail
+
+
+
+### Discussion: 
+What were your findings? Are they what you expect? What insights into the data can you make?
+
+Discuss in the meeting.
+
+### Resources:
+* Open Beer Database. (n.d.). Retrieved November 6, 2020, from https://data.opendatasoft.com/explore/dataset/open-beer-database@public-us/table/
+* TTBGov—Beer Statistics. (n.d.). Retrieved November 6, 2020, from https://www.ttb.gov/beer/statistics
+* TTBGov—Beverage Alcohol. (n.d.). Retrieved November 6, 2020, from https://www.ttb.gov/alcohol/beverage-alcohol

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Author: Amy Pitts (ajp2257), Ruiyang Li (rl3034), Wenbo Fei (wf2270), Ziyi Wang (zw2716)" />
+
+
+<title>Beer Taxation Report in US</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Taxation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="taxation.html">Taxation Analysis</a>
+    </li>
+    <li>
+      <a href="viz_tax_statemap/dashboard_comsum_statemap.html">Data Exploration</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Consumption
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="consumption.html">Consumption Analysis</a>
+    </li>
+    <li>
+      <a href="viz_tax_statemap/dashboard_tax_state_map.html">Data Exploration</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="production.html">Production</a>
+</li>
+<li>
+  <a href="analysis.html">Analysis</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="proposal.html">Project Report</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+    Contact Us
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="mailto:&lt;ajp2257@columbia.edu&gt;">Amy Pitts</a>
+    </li>
+    <li>
+      <a href="mailto:&lt;rl3034@columbia.edu&gt;">Ruiyang Li</a>
+    </li>
+    <li>
+      <a href="mailto:&lt;wf2270@columbia.edu&gt;">Wenbo Fei</a>
+    </li>
+    <li>
+      <a href="mailto:&lt;ziyi.w@columbia.edu&gt;">Ziyi (Iris) Wang</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://www.youtube.com/">
+    <span class="fa fa-youtube fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/iriswangziyi/p8105_final_project">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Beer Taxation Report in US</h1>
+<h4 class="author">Author: Amy Pitts (ajp2257), Ruiyang Li (rl3034), Wenbo Fei (wf2270), Ziyi Wang (zw2716)</h4>
+
+</div>
+
+
+<div id="to-learn-our-project" class="section level3">
+<h3>To learn our project:</h3>
+<ul>
+<li>A short <a href="put%20screencast%20link%20here">review</a> of our project</li>
+<li>Explore more on our <a href="https://iriswangziyi.github.io/p8105_final_project">website</a></li>
+<li>Find our Github <a href="https://github.com/iriswangziyi/p8105_final_project">repository</a></li>
+</ul>
+</div>
+<div id="motivation" class="section level3">
+<h3>Motivation:</h3>
+<p>The US Government continues to control the consumption and production of Beer through regulations and taxes. The Alcohol and Tobacco Tax and Trade Bureau regulates people who engage in the alcohol beverage industry by requiring people to file an application before engaging in business (TTBGov - Beverage Alcohol, n.d.). For Breweries in particular they are required to file documents every year and the data is compiled into publicly available sources (TTBGov - Beer Statistics, n.d.). Through this reporting and taxation, the US profits enormously off of Beer. Since beer plays such an important role in the US economy it is important to analyze the publicly available government data all about taxation and production (TTBGov - Beverage Alcohol, n.d.). It is also equally interesting to look at the types of beer produced, location of breweries across the globe using an open-source API data set (Open Beer Database, n.d.). Our goal in this project is to get a better understanding of what kinds of beers are produced and how The US economy profits off of it.</p>
+<p>Reference??</p>
+</div>
+<div id="related-work" class="section level3">
+<h3>Related work:</h3>
+<p>Amy, do you want to include more in this section as we deleted some from the motivation last time? (Anything that inspired you, such as a paper, a web site, or something we discussed in class.)</p>
+</div>
+<div id="initial-questions" class="section level3">
+<h3>Initial questions:</h3>
+<ul>
+<li>How much profit and product does each state in the US make each year?</li>
+<li>How does the tax rate change over time per state? Which state gives more beer tax? Any trends?</li>
+<li>What category/brewer/style of beer has the most Alcohol by volume (ABV)?</li>
+<li>Map location of each US brewer with interactive label showing category/style, size of marker showing ABV.</li>
+</ul>
+<p>What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis? Discuss this in the meeting.</p>
+</div>
+<div id="data-source-scraping-method-cleaning" class="section level3">
+<h3>Data: source, scraping method, cleaning</h3>
+<ul>
+<li>Dataset 1</li>
+</ul>
+<p>Yearly Statistical Beer Data by State (2008 – 2019) from <a href="https://www.ttb.gov/beer/statistics">Alcohol and Tobacco Tax and Trade Bureau</a>. This aggregated data contained records on Tax Determined, Taxable Volume of Bottles and Cans, Taxable Volume of Barrels and Kegs each year for each state in barrels.</p>
+<pre class="r"><code>#install.packages(&quot;gdata&quot;)
+site1 = &quot;http://www.ttb.gov/images/pdfs/statistics/aggregated/aggr-data-beer_2008-2019.xlsx&quot;
+
+#Tax Determined (in Barrels)
+tax_df  =  
+  gdata::read.xls(site1, sheet = 1, header = T, skip = 6, nrow = 52) %&gt;% #skip note
+  janitor::clean_names() %&gt;%
+  select(1:13) %&gt;%
+  as_tibble() %&gt;%
+  rename_with( ~ sub(&quot;x&quot;, &quot;&quot;, .x)) %&gt;% # rename column names
+  mutate(state = factor(state)) %&gt;% #state as factor
+  mutate_at(vars(2:13), ~ gsub(&quot;,&quot;, &quot;&quot;, .x)) %&gt;% #remove &quot;,&quot; in tax values
+  mutate_at(vars(2:13), as.numeric) # tax values as numeric
+
+# Taxable Volume of Bottles and Cans* (in Barrels)
+taxable_cans_df  = 
+  gdata::read.xls(site1, sheet = 2, header = T, skip = 4, nrow = 52) %&gt;% 
+  janitor::clean_names() %&gt;%
+  select(1:13) %&gt;%
+  as_tibble() %&gt;%
+  rename_with( ~ sub(&quot;x&quot;, &quot;&quot;, .x)) %&gt;%
+  mutate(state = factor(state)) %&gt;%
+  mutate_at(vars(2:13), ~ gsub(&quot;,&quot;, &quot;&quot;, .x)) %&gt;%
+  mutate_at(vars(2:13), as.numeric)
+
+# Taxable Volume of Barrels and Kegs*
+taxable_barrels_df  = 
+  gdata::read.xls(site1, sheet = 3, header = T, skip = 4, nrow = 52) %&gt;% 
+  janitor::clean_names() %&gt;%
+  select(1:13) %&gt;%
+  as_tibble() %&gt;%
+  rename_with( ~ sub(&quot;x&quot;, &quot;&quot;, .x)) %&gt;%
+  mutate(state = factor(state)) %&gt;%
+  mutate_at(vars(2:13), ~ gsub(&quot;,&quot;, &quot;&quot;, .x)) %&gt;%
+  mutate_at(vars(2:13), as.numeric)
+
+head(tax_df)</code></pre>
+<pre><code>## # A tibble: 6 x 13
+##   state `2008` `2009` `2010` `2011` `2012` `2013` `2014` `2015` `2016` `2017`
+##   &lt;fct&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 AK     2068.  2264.  1929.  2251. 2.31e3  2156.  2115. 4.51e3 1.33e4 1.60e4
+## 2 AL      724.   239.   161.     0  4.65e1   131.   226. 6.11e3 2.38e4 2.92e4
+## 3 AR     1328.  1279.  1332.  1125. 1.27e3   558.   657. 1.61e3 6.09e3 1.34e4
+## 4 AZ    14858. 15641. 16800. 19898. 1.92e4 18764. 17173  2.99e4 4.16e4 4.54e4
+## 5 CA    61173. 54505. 58276. 65070. 6.42e4 60560. 65035. 1.25e5 2.01e5 2.94e5
+## 6 CO    48529. 49896. 50585. 60811. 5.80e4 60133. 72839. 1.22e5 1.41e5 1.63e5
+## # … with 2 more variables: `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;</code></pre>
+<pre class="r"><code>head(taxable_cans_df)</code></pre>
+<pre><code>## # A tibble: 6 x 13
+##   state  `2008`  `2009`  `2010` `2011` `2012` `2013` `2014` `2015` `2016` `2017`
+##   &lt;fct&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 AK     8.12e4  8.98e4  8.09e4 9.48e4 1.05e5 1.12e5 1.29e5 1.26e5 1.16e5 1.10e5
+## 2 AL    NA      NA      NA      6.59e2 2.49e3 6.63e3 9.52e3 1.05e4 9.98e3 1.18e4
+## 3 AR     1.21e3  1.27e3  1.45e3 1.38e3 8.00e0 8.00e0 8.00e2 8.72e2 1.74e3 8.72e3
+## 4 AZ     6.98e3  7.38e3  1.04e4 1.41e4 1.84e4 2.23e4 2.96e4 4.40e4 5.90e4 6.65e4
+## 5 CA     2.01e7  1.95e7  1.91e7 1.82e7 1.89e7 1.78e7 1.81e7 1.77e7 1.76e7 1.67e7
+## 6 CO     2.42e7  2.11e7  1.87e7 1.88e7 1.93e7 1.85e7 1.80e7 1.78e7 1.81e7 1.80e7
+## # … with 2 more variables: `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;</code></pre>
+<pre class="r"><code>head(taxable_barrels_df)</code></pre>
+<pre><code>## # A tibble: 6 x 13
+##   state `2008` `2009` `2010` `2011` `2012` `2013` `2014` `2015` `2016` `2017`
+##   &lt;fct&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 AK    5.09e4 5.23e4 5.44e4 5.85e4 6.57e4 6.89e4 7.38e4 7.46e4 6.95e4 6.62e4
+## 2 AL    1.57e2 4.60e2 5.48e2 1.81e3 6.45e3 1.17e4 1.37e4 1.15e4 1.18e4 8.77e3
+## 3 AR    8.83e2 1.08e3 1.32e3 1.14e3 1.26e2 1.08e3 2.79e3 6.97e3 9.06e3 4.82e3
+## 4 AZ    1.86e4 1.83e4 2.44e4 3.28e4 4.48e4 5.91e4 8.02e4 7.50e4 7.19e4 7.05e4
+## 5 CA    2.01e6 2.07e6 2.20e6 2.17e6 2.27e6 2.39e6 2.33e6 2.22e6 2.17e6 2.18e6
+## 6 CO    2.56e6 2.29e6 2.28e6 2.28e6 2.29e6 2.18e6 2.21e6 2.08e6 1.90e6 1.56e6
+## # … with 2 more variables: `2018` &lt;dbl&gt;, `2019` &lt;dbl&gt;</code></pre>
+<pre class="r"><code># write_csv(tax_df, &quot;data_import_cleaning/tax.csv&quot;)
+# write_csv(taxable_cans_df, &quot;data_import_cleaning/tax_cans.csv&quot;)
+# write_csv(taxable_barrels_df, &quot;data_import_cleaning/tax_barrels_df.csv&quot;)</code></pre>
+<ul>
+<li>Dataset 2</li>
+</ul>
+<p>Open Beer database from <a href="https://data.opendatasoft.com/explore/dataset/open-beer-database%40public-us/information/?rows=4588&amp;timezone=&amp;refine.country=United+States&amp;location=2,16.98232,9.498&amp;basemap=jawg.sunny&amp;dataChart=eyJxdWVyaWVzIjpbeyJjb25maWciOnsiZGF0YXNldCI6Im9wZW4tYmVlci1kYXRhYmFzZUBwdWJsaWMtdXMiLCJvcHRpb25zIjp7fX0sImNoYXJ0cyI6W3siYWxpZ25Nb250aCI6dHJ1ZSwidHlwZSI6ImxpbmUiLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJhYnYiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiIjMTQyRTdCIn1dLCJ4QXhpcyI6Imxhc3RfbW9kIiwibWF4cG9pbnRzIjoiIiwidGltZXNjYWxlIjoieWVhciIsInNvcnQiOiIifV0sImRpc3BsYXlMZWdlbmQiOnRydWUsImFsaWduTW9udGgiOnRydWV9">Opendatasoft</a>. This dataset contains information of each beer product, including product name, universal product code, style, category, brewer along with its address and website, percentage of alcohol by volume, bitterness from hops in a beer, beer color, and description in text.</p>
+<pre class="r"><code>beer_specific = 
+  read_delim(&quot;https://public-us.opendatasoft.com/explore/dataset/open-beer-database/download/?format=csv&amp;timezone=America/New_York&amp;lang=en&amp;use_labels_for_header=true&amp;csv_separator=%3B&quot;, delim = &quot;;&quot;) %&gt;% # sep = &quot;;&quot;
+  janitor::clean_names() %&gt;%
+  filter(country == &quot;United States&quot;) %&gt;% # only investigate beer in US
+  separate(coordinates, c(&quot;latitude&quot;, &quot;longitude&quot;), sep = &quot;,&quot;) # separate geographic info
+
+head(beer_specific)</code></pre>
+<pre><code>## # A tibble: 6 x 23
+##   name  id    brewery_id cat_id style_id alcohol_by_volu… international_b…
+##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;               &lt;dbl&gt;            &lt;dbl&gt;
+## 1 Port… 716   842             2 25                   0                   0
+## 2 Poss… 723   445             2 25                   5.60                0
+## 3 Fire… 754   504             3 33                   0                   0
+## 4 Maib… 736   1124            7 90                   0                   0
+## 5 Buzz… 2079  809             3 26                   0                   0
+## 6 Free… 742   1151            3 33                   4.5                 0
+## # … with 16 more variables: standard_reference_method &lt;dbl&gt;,
+## #   universal_product_code &lt;dbl&gt;, filepath &lt;chr&gt;, description &lt;chr&gt;,
+## #   add_user &lt;chr&gt;, last_mod &lt;dttm&gt;, style &lt;chr&gt;, category &lt;chr&gt;, brewer &lt;chr&gt;,
+## #   address &lt;chr&gt;, city &lt;chr&gt;, state &lt;chr&gt;, country &lt;chr&gt;, latitude &lt;chr&gt;,
+## #   longitude &lt;chr&gt;, website &lt;chr&gt;</code></pre>
+<pre class="r"><code># write_csv(beer_specific, &quot;data_import_cleaning/beer.csv&quot;)</code></pre>
+<ul>
+<li>Dataset 3 – Amy? Amy, please add your data source, scraping method and cleaning, code and comment.</li>
+</ul>
+</div>
+<div id="exploratory-analysis" class="section level3">
+<h3>Exploratory analysis:</h3>
+<p>Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas. Each of us add our part, should include code that can generate the plot(please note file path), comment on the plots and answer the above corresponding initial questions part. I will try to revise them in a reasonable order.</p>
+<div id="amy" class="section level4">
+<h4>Amy:</h4>
+</div>
+<div id="ruiyang" class="section level4">
+<h4>Ruiyang:</h4>
+</div>
+<div id="wenbo" class="section level4">
+<h4>Wenbo:</h4>
+</div>
+<div id="iris" class="section level4">
+<h4>Iris:</h4>
+</div>
+</div>
+<div id="additional-analysis-regression-ruiyang" class="section level3">
+<h3>Additional analysis: Regression – Ruiyang?</h3>
+<p>If you undertake formal statistical analyses, describe these in detail</p>
+</div>
+<div id="discussion" class="section level3">
+<h3>Discussion:</h3>
+<p>What were your findings? Are they what you expect? What insights into the data can you make?</p>
+<p>Discuss in the meeting.</p>
+</div>
+<div id="resources" class="section level3">
+<h3>Resources:</h3>
+<ul>
+<li>Open Beer Database. (n.d.). Retrieved November 6, 2020, from <a href="https://data.opendatasoft.com/explore/dataset/open-beer-database@public-us/table/" class="uri">https://data.opendatasoft.com/explore/dataset/open-beer-database@public-us/table/</a></li>
+<li>TTBGov—Beer Statistics. (n.d.). Retrieved November 6, 2020, from <a href="https://www.ttb.gov/beer/statistics" class="uri">https://www.ttb.gov/beer/statistics</a></li>
+<li>TTBGov—Beverage Alcohol. (n.d.). Retrieved November 6, 2020, from <a href="https://www.ttb.gov/alcohol/beverage-alcohol" class="uri">https://www.ttb.gov/alcohol/beverage-alcohol</a></li>
+</ul>
+</div>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+ 
+<hr />
+<p style="text-align: center;">
+A work by <a href="https://github.com/amypitts01">Amy Pitts</a>, <a href="https://github.com/ruiyangli1">Ruiyang Li</a>, <a href="https://github.com/Wenbofei">Wenbo Fei</a>, and <a href="https://github.com/iriswangziyi">Ziyi (Iris) Wang</a>
+</p>
+<p style="text-align: center;">
+Visualizations and analyses performed using <a href="https://www.r-project.org/about.html">R</a> (v4.0.2) and <a href="https://rstudio.com">RStudio</a> (v1.3.1073).
+</p>
+<p style="text-align: center;">
+© Copyright 2020 The Beer Project Team, All Rights Reserved | Powered by Github.io
+</p>
+
+<p> </p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
