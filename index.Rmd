@@ -1,5 +1,5 @@
 ---
-title: "<center> Beer taxation in the United States - P8105 Data Science I Project"
+title: "Beer taxation in the United States - P8105 Data Science I Project"
 output: 
   html_document:
     code_folding: hide
@@ -67,7 +67,7 @@ scale_fill_discrete = scale_fill_viridis_d
 
 ```
 
-```{r read_df, collapse = T, message = F, warning = F}
+```{r read_df, collapse = T, message = F, warning = F, include = F}
 tax_df = read_csv("./data_import_cleaning/tax.csv")
 beer = read_csv("./data_import_cleaning/beer.csv")
 ```
