@@ -1,5 +1,5 @@
 ---
-title: "Beer Taxation"
+title: "Beer Tax Determined (In Barrels)"
 output: 
   flexdashboard::flex_dashboard
 ---
@@ -8,7 +8,9 @@ output:
 library(tidyverse)
 library(plotly)
 library(flexdashboard)
+# rmarkdown::render("dashboard_tax_state_map.Rmd", output_format = "flexdashboard::flex_dashboard") #knit for web
 ```
+
 
 ```{r}
 tax_df = read_csv("../data_import_cleaning/tax.csv")
@@ -27,8 +29,6 @@ g <- list(
   lakecolor = toRGB('white')
 )
 
-tax_2008 <- tax %>% pull(3)
-tax_2009 <- tax %>% pull(4)
 tax_2010 <- tax %>% pull(5)
 tax_2011 <- tax %>% pull(6)
 tax_2012 <- tax %>% pull(7)
@@ -40,6 +40,9 @@ tax_2017 <- tax %>% pull(12)
 tax_2018 <- tax %>% pull(13)
 tax_2019 <- tax %>% pull(14)
 ```
+Map
+=====================================  
+Yearly Statistical Beer Data by State (2010 – 2019) from [Alcohol and Tobacco Tax and Trade Bureau](https://www.ttb.gov/beer/statistics)
 
 Column
 -------------------------------------
@@ -48,6 +51,8 @@ Column
     
 ```{r trend}
 tax_df %>%
+  select(!c(3,4)) %>%
+  filter(!(state %in% c("DC","total"))) %>%
   pivot_longer(
     c(`2008`:`2019`),
     names_to = "year",
@@ -59,30 +64,11 @@ tax_df %>%
     alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
   layout( # adding a title 
     title = "Tax collected over the years by state")
+
 ```
    
 Column {.tabset .tabset-fade}
 -------------------------------------
-### Year 2008
-```{r}
-plot_geo() %>%
-  add_trace(
-    z = ~tax_2008, text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
-  ) %>%
-  layout(geo = g)
-```
-
-### Year 2009
-```{r}
-plot_geo() %>%
-  add_trace(
-    z = ~tax_2009, text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
-  ) %>%
-  layout(geo = g) %>%
-  config( fillFrame = TRUE)
-```
 
 ### Year 2010
 ```{r}
@@ -91,7 +77,8 @@ plot_geo() %>%
     z = ~tax_2010, text = state.name, span = I(0),
     locations = state.abb, locationmode = 'USA-states'
   ) %>%
-  layout(geo = g) %>%
+  layout(geo = g,
+         title = "Tax Map") %>%
   config( fillFrame = TRUE)
 ```
 
@@ -194,7 +181,10 @@ plot_geo() %>%
   config( fillFrame = TRUE)
 ```
 
+Data
+=====================================  
+Yearly Statistical Beer Data by State (2010 – 2019) from [Alcohol and Tobacco Tax and Trade Bureau](https://www.ttb.gov/beer/statistics)
 ```{r}
-# rmarkdown::render("dashboard_tax_state_map.Rmd", output_format = "flexdashboard::flex_dashboard") #knit for web
+knitr::kable(tax[,-c(3,4)])
 ```
 
