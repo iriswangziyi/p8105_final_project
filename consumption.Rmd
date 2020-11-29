@@ -142,6 +142,16 @@ cat_abv %>%
                       zeroline = TRUE),
          yaxis = list(title = "Average ABV",
                       range = c(0, 7)))
+
+beer %>% 
+  mutate(category = fct_reorder(category, alcohol_by_volume)) %>% 
+  plot_ly(y = ~alcohol_by_volume, 
+          color = ~category, type = "box", colors = "viridis") %>% 
+  layout(title = "Boxplot of ABV by Beer Category",
+         xaxis = list(title = "Beer Category",
+                      zeroline = TRUE),
+         yaxis = list(title = "ABV",
+                      range = c(0, 21)))
 ```
 
 
@@ -221,11 +231,6 @@ tail(style_abv) %>%
   knitr::kable(caption = "Styles with Lowest 5 Average AVB") %>% 
   kableExtra::kable_styling(., bootstrap_options = c("striped", "hover"),
                             full_width = F)
-
-#style_abv %>% 
-#  rename(Style = style, `Average ABV` = mean_abv) %>% 
-#  mutate_at(2, round, 2) %>% 
-#  DT::datatable(., rownames = F) 
 
 top_20_style = style_abv %>% slice(1:20) %>% select(style) %>% unlist()
 beer %>% 
