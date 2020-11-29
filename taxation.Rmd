@@ -31,86 +31,89 @@ library(kableExtra)
 library(gifski)
 
 library(usdata)
+
+
+
 ```
 
 ---
 
 ## Cumulative Taxs Collected 
 Looking at just the taxes collected by each state over the years. This tax is specifically looking at the 
-"Beer removed for consumption or sale including beer removed tax determined for consumption or sale in a tavern or on brewery premises". This data is coming from the Alcohol and Tobacco Tax and Trade Bureau dataset.
+"Beer removed for consumption or sale including beer removed tax determined for consumption or sale in a tavern or on brewery premises". This data is coming from the Alcohol and Tobacco Tax and Trade Bureau dataset. This graph shows the average tax collected with a confidence interval for each state. This gives insight into how states differ from eachother in total tax revenue.
 
-```{r message=FALSE, warning=FALSE}
-tax_df %>%
+
+```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 5, cache=TRUE}
+# setting up the regions
+region = tibble(state = state.abb, state_region= state.region)
+
+tax_df %>% # first we need to pivot the data 
   filter(state != "total") %>%
   pivot_longer(
     c(`2008`:`2019`),
     names_to = "year",
     values_to = "tax"
-  ) %>%
-  filter(year > 2009) %>%
-  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
-  plot_ly( 
-    x = ~year, y = ~tax, color = ~factor(state), text = ~text_label,
-    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
-  layout( # adding a title 
-    title = "Tax collected over the years by state")
-```
-
-### Analysis: 
-
----
-
-```{r, warning=FALSE, message=FALSE}
-longer_tax_df = tax_df %>%
-  filter(state != "total") %>%
-  pivot_longer(
-    c(`2008`:`2019`),
-    names_to = "year",
-    values_to = "tax"
-  )
-longer_tax_df %>%
-  filter(year > 2009) %>%
+  )%>%
+  filter(year > 2009) %>% # we want to only focus on years 2010-2019
   group_by(state) %>%
   summarize(
-    mean_tax = mean(tax),
-    CI_lower = mean(tax) - 1.96 * sd(tax)/sqrt(length(tax)),
-    CI_upper = mean(tax) + 1.96 * sd(tax)/sqrt(length(tax))
+    mean_tax = mean(tax, na.rm = TRUE), # finding the mean barrels
+    CI_lower = mean(tax, na.rm = TRUE) - 
+      1.96 * sd(tax, na.rm = TRUE)/sqrt(length(tax)), # finding the lower CI
+    CI_upper = mean(tax, na.rm = TRUE) + 
+      1.96 * sd(tax,na.rm = TRUE)/sqrt(length(tax)) # finding the upper CI
   ) %>%
+  right_join(., region, by = "state") %>% # joining the regions in so we can color the graph
   mutate(
-    state = abbr2state(state),
-    state = fct_reorder(state, mean_tax)) %>% 
-  ggplot(aes(x = state, y = mean_tax, color=state)) + 
+    state = abbr2state(state), # making the states into names instead of abbs
+    state = fct_reorder(state, mean_tax) # ordering the states according to mean_barrels
+  ) %>%  # plotting!!
+  ggplot(aes(x = state, y = mean_tax,color=state_region)) + 
   geom_point() + 
   geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  theme(legend.position = "none")  +
+  #theme(legend.position = "none")  +
   labs(
     title = "Average Tax Revenue by State",
     subtitle = "Data from years 2010-2019",
     y = "Tax Revenue",
     x = "State"
   )
-
 ```
 
-### Analysis: 
+### Cummulative Tax Analysis: 
 
 
 ---
 
-## Tax per Barrel
-In the [American Beer Distributers](https://www.nbwa.org/sites/default/files/Beer%20Excise%20Tax%202019%20-%20Revised%20July%202020.pdf) dataset specifically about taxation the document reports the Effective Excise Tax (Volume Adjusted), and the Effective Excise Tax with Other and Local Taxes. 
+## Tax per Barrel over time
 
-The graphic below shows the Effective Excise Tax (Volume Adjusted). 
+In the American Beer Distributors dataset specifically about taxation, the document reports the Effective Excise Tax (Volume Adjusted). In our analysis we are choosing to look at this measurement (the Adjusted) over adding in state tax and then adding in state and local tax because they were reporting vary similar numbers. This tax per barrel variable is recorded in dollars. The moving picture cycles through the years 2010-2019 and will keep repeating. The colors show the state region and the colors for each region stay consitent throughout this whole website. 
 
-```{r fig.width = 7, fig.height = 7}
+```{r warning = FALSE, message=FALSE, fig.width = 8, fig.height = 7, cache=TRUE}
+# we had overlapping ranks, need to fix this (also there was a break where DC was)
+for(i in 1:length(state_tax_df$state)) {
+  if(state_tax_df$state[i] == "Rhode Island") {state_tax_df$rank_3[i] = 42}
+  if(state_tax_df$state[i] == "Pennsylvania") {state_tax_df$rank_3[i] = 43}
+  if(state_tax_df$state[i] == "Oregon")       {state_tax_df$rank_3[i] = 45}
+  if(state_tax_df$state[i] == "Kentucky")     {state_tax_df$rank_3[i] = 46}
+  if(state_tax_df$state[i] == "Colorado")     {state_tax_df$rank_3[i] = 47}
+  if(state_tax_df$state[i] == "Wisconsin")    {state_tax_df$rank_3[i] = 48}
+  if(state_tax_df$state[i] == "Missouri")     {state_tax_df$rank_3[i] = 49}
+  if(state_tax_df$state[i] == "Wyoming")      {state_tax_df$rank_3[i] = 50}
+}
+# setting up the regions
+region_name = tibble(state = state.name, state_region= state.region)
 
-sm3 = state_tax_df %>% filter(state != "District of Columbia")
+sm3 = state_tax_df %>% 
+  filter(year > 2009) %>%
+  filter(state != "District of Columbia")%>% 
+  left_join(., region_name)
 
-static_plot<-ggplot(sm3,aes(rank_3,group=state,fill=as.factor(state),color=as.factor(state))) +
+static_plot<-ggplot(sm3,aes(rank_3,group=state,fill=as.factor(state),color=as.factor(state_region))) +
  geom_tile(aes(y = adjusted/2,height = adjusted, width = 0.9), alpha = 0.8, color = NA) +
- geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3.5) +
- geom_text(aes(y = adjusted, label = paste(' ',adjusted)), hjust=0, size = 3.5) +
+ geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3) +
+ geom_text(aes(y = adjusted, label = paste(' $',adjusted)), hjust=0, size = 3) +
  coord_flip(clip = 'off', expand = TRUE) +
  scale_y_continuous(labels = scales::comma) +
  scale_x_reverse() +
@@ -137,44 +140,38 @@ plt
 
 
 
-### Analysis: 
+### Tax Per Barrel Time Related Analysis: 
 We can see Tennessee starting very low on the list and climbing up the ranks as the years increase. 
 
 ---
 
-## Line Graph
+## Tax per Barrel estimates
+This graph so the mean tax per barrel and confidence intervals of each state between the years of 2010-2019. This can help show which states are different from each other when it comes to tax per barrel collected. The units are in dollars. The different colors represent the state region. 
 
-```{r}
-# state_tax_df %>%
-#   filter(year > 2009) %>%
-#   mutate(text_label = str_c("state: ", state)) %>% # creating text label 
-#   plot_ly( #using plotly to plot he tmax and tmin 
-#     x = ~year, y = ~adjusted, color = ~factor(state), text = ~text_label,
-#     alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
-#   layout( # adding a title 
-#     title = "Effective Excise Tax (Volume Adjusted) (Tax per Barrel)")
-
+```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 5, cache=TRUE}
 
 state_tax_df %>% 
-  filter(state != "District of Columbia") %>%
+  filter(state != "District of Columbia") %>% # we don't want this in our moving graph
   filter(year > 2009) %>%
   group_by(state) %>%
   mutate(
     tax = adjusted
   ) %>%
   summarize(
-    mean_tax = mean(tax),
-    CI_lower = mean(tax) - 1.96 * sd(tax)/sqrt(length(tax)),
-    CI_upper = mean(tax) + 1.96 * sd(tax)/sqrt(length(tax))
+    mean_tax = mean(tax, na.rm=TRUE), 
+    CI_lower = mean(tax, na.rm=TRUE) - 1.96 * sd(tax, na.rm=TRUE)/sqrt(length(tax)),
+    CI_upper = mean(tax, na.rm=TRUE) + 1.96 * sd(tax, na.rm=TRUE)/sqrt(length(tax))
   ) %>%
+  right_join(., region_name, by = "state") %>% # joining the regions in so we can color the graph
   mutate(
-    #state = abbr2state(state),
-    state = fct_reorder(state, mean_tax)) %>% 
-  ggplot(aes(x = state, y = mean_tax, color=state)) + 
+    #state = abbr2state(state), # making the states into names instead of abbs
+    state = fct_reorder(state, mean_tax) # ordering the states according to mean_barrels
+  ) %>%  # plotting!!
+  ggplot(aes(x = state, y = mean_tax,color=state_region)) + 
   geom_point() + 
   geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  theme(legend.position = "none")  +
+  #theme(legend.position = "none")  +
   labs(
     title = "Average Tax Per Barrel by State",
     subtitle = "Data from years 2010-2019",
@@ -183,11 +180,12 @@ state_tax_df %>%
   )
 ```
 
-### Analysis: 
+
+
+### Tax per Barrel Analysis: 
 Wyoming has the lowest tax per barrel average while Alabama has the highest tax per barrel. The biggest ranges of values goes to Tennessee with Washington and Delaware also having a range of values. All the other of the states seem to have the same tax per barrel from 2010-2019. 
 
 ---
-
 
 
 

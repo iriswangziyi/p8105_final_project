@@ -35,25 +35,21 @@ library(usdata)
 --- 
 
 ## Consumption
-This graph shows data from the [Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf) document. This consumption is by captiate and only considers individuals who are 21 years old or older. 
-```{r warning=FALSE, message=FALSE, fig.width = 7, fig.height = 7}
-# state_df %>%
-#   filter(year > 2009) %>%
-#   mutate(text_label = str_c("state: ", state)) %>% # creating text label 
-#   plot_ly( #using plotly to plot he tmax and tmin 
-#     x = ~year, y = ~consumption, color = ~factor(state), text = ~text_label,
-#     alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
-#   layout( # adding a title 
-#     title = "Consumption")
+This graph shows data from the [Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf) document. This consumption is by per capita and only considers individuals who are 21 years old or older. The graph cycles through the years 2010-2019 and will keep repeating. The colors represent the different regions. 
+```{r warning=FALSE, message=FALSE, fig.width = 8, fig.height = 7, cache=TRUE}
+# setting up the regions
+region_name = tibble(state = state.name, state_region= state.region)
 
 
+sm3 = state_df %>% 
+  filter(state != "District of Columbia") %>% 
+  filter(year > 2009) %>% 
+  left_join(., region_name)
 
-sm3 = state_df %>% filter(state != "District of Columbia") %>% filter(year > 2009)
-
-static_plot<-ggplot(sm3,aes(rank_6,group=state,fill=as.factor(state),color=as.factor(state))) +
+static_plot<-ggplot(sm3,aes(rank_6,group=state,fill=as.factor(state),color=as.factor(state_region))) +
  geom_tile(aes(y = consumption/2,height = consumption, width = 0.9), alpha = 0.8, color = NA) +
- geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3.5) +
- geom_text(aes(y = consumption, label = paste(' ',consumption)), hjust=0, size = 3.5) +
+ geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3) +
+ geom_text(aes(y = consumption, label = paste(' ',consumption)), hjust=0, size = 3) +
  coord_flip(clip = 'off', expand = TRUE) +
  scale_y_continuous(labels = scales::comma) +
  scale_x_reverse() +
@@ -74,16 +70,16 @@ plt<-static_plot + transition_states(states = year, transition_length = 4, state
                         x = '', 
                         y = 'Consumption')
 
-plt
+plt #pritning our the moving graph
 
 ```
 
-### Analysis:
+### Consumption Analysis:
 
 ---
 //intro this map
 
-```{r brewer map, collapse = T, message = F, warning = F}
+```{r brewer map, collapse = T, message = F, warning = F, fig.width = 8, fig.height = 6, cache=TRUE}
 #install.packages("leaflet")
 library(leaflet)
 
@@ -125,7 +121,7 @@ First, we looked at the pattern of ABV by beer's category.
 * It seems that **Belgian and French Ale** has the **highest** average ABV while the **North American Lager** has the **lowest** average AVB. 
 * The distribution of ABV of Belgian and French Ale is relatively bell-shaped while the other categories are skewed. 
 
-```{r cat_abv,collapse=TRUE}
+```{r cat_abv,collapse = T, message = F, warning = F, fig.width = 8, fig.height = 6, cache=TRUE}
 cat_abv = 
   beer %>% 
   replace_na(list(category = "NA", y = "unknown")) %>% 
@@ -164,7 +160,7 @@ As there are 823 brewers listed in our dataset, we will show the **top 20** that
 * **Mendocino Brewing - Ukiah** has the highest average ABV. 
 * There are 424 brewers having average ABV value of 0. 
 
-```{r brewer_abv,collapse=TRUE}
+```{r brewer_abv,collapse = T, message = F, warning = F, fig.width = 8, fig.height = 6, cache=TRUE}
 brewer_abv = 
   beer %>% 
   group_by(brewer) %>% 
@@ -205,7 +201,7 @@ There are 62 styles listed in our dataset, and we will show the **top 20** that 
 
 * We can see that **Belgian-Style Quadrupel** has the higherst average ABV while both **Vienna-Style Lager** and **Specialty Honey Lager or Ale** has average ABV of 0. 
 
-```{r style_abv,collapse=TRUE}
+```{r style_abv,collapse = T, message = F, warning = F, fig.width = 8, fig.height = 6, cache=TRUE}
 style_abv = 
   beer %>% 
   group_by(style) %>% 
