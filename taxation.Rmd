@@ -106,9 +106,9 @@ for(i in 1:length(state_tax_df$state)) {
 region_name = tibble(state = state.name, state_region= state.region)
 
 sm3 = state_tax_df %>% 
-  filter(year > 2009) %>%
-  filter(state != "District of Columbia")%>% 
-  left_join(., region_name)
+  filter(year > 2009) %>% # only want years 2010-2019
+  filter(state != "District of Columbia")%>%  # we don't care about DC 
+  left_join(., region_name) # joining the region name into the data set
 
 static_plot<-ggplot(sm3,aes(rank_3,group=state,fill=state_region,color=state_region)) +
  geom_tile(aes(y = adjusted/2,height = adjusted, width = 0.9), alpha = 0.8, color = NA) +
@@ -134,7 +134,7 @@ plt<-static_plot + transition_states(states = year, transition_length = 4, state
                         x = '', 
                         y = 'Tax per Barrel')
 
-plt
+plt #printing out the moving picture 
 
 ```
 

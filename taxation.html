@@ -518,7 +518,7 @@ sm3 = state_tax_df %&gt;%
   filter(state != &quot;District of Columbia&quot;)%&gt;% 
   left_join(., region_name)
 
-static_plot&lt;-ggplot(sm3,aes(rank_3,group=state,fill=as.factor(state),color=as.factor(state_region))) +
+static_plot&lt;-ggplot(sm3,aes(rank_3,group=state,fill=state_region,color=state_region)) +
  geom_tile(aes(y = adjusted/2,height = adjusted, width = 0.9), alpha = 0.8, color = NA) +
  geom_text(aes(y = 0, label = paste(state, &#39; &#39;)), vjust = 0.2, hjust = 1, size = 3) +
  geom_text(aes(y = adjusted, label = paste(&#39; $&#39;,adjusted)), hjust=0, size = 3) +
