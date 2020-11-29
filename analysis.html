@@ -461,11 +461,15 @@ div.tocify {
 
 <p>We focus on two analyses in this section. One is to compare tax differences by jurisdiction group over time. The other is to model taxation under the regression analysis framework.</p>
 <hr />
-<div id="tax-differences-by-jurisdiction-group" class="section level1">
-<h1>Tax differences by jurisdiction group</h1>
-<p>Differing on the degree of control on liquor wholesales and retail, states can be categorized into two <a href="https://www.ncsla.org/State-Officials.html">types</a> – control jurisdiction and licensed jurisdiction, with licensed states having more control. Such categorization may lead to difference in taxation. Therefore, we are interested in examining if there is any difference in total/state taxation by these two groups of states.</p>
-<div id="jurisdiction-map" class="section level2">
-<h2>Jurisdiction Map</h2>
+<div id="preliminary-analysis" class="section level1">
+<h1>Preliminary Analysis</h1>
+<p><span class="math inline">\(~\)</span></p>
+<div id="tax-differences-by-jurisdiction-group" class="section level2">
+<h2>Tax differences by jurisdiction group</h2>
+<p>Differing on the degree of control on liquor wholesales and retail, states can be categorized into two <a href="https://www.ncsla.org/State-Officials.html">types</a> – control jurisdiction and licensed jurisdiction, with licensed states having more control. Such categorization may lead to difference in taxation. Therefore, we are interested in examining if there is any difference in taxation by these two groups of states.</p>
+<p><span class="math inline">\(~\)</span></p>
+<div id="jurisdiction-map" class="section level3">
+<h3>Jurisdiction Map</h3>
 <p>Here is a state map showing control jurisdiction and licensed jurisdiction.</p>
 <pre class="r"><code>library(maps)
 #devtools::install_github(&quot;hrbrmstr/hrbrthemes&quot;) 
@@ -506,13 +510,14 @@ p2 &lt;- p1 +
     labs(title = &quot;Jurisdiction Group&quot;, fill = NULL)
 p2 + theme_map() </code></pre>
 <p><img src="analysis_files/figure-html/state_map-1.png" width="672" /></p>
+<p><span class="math inline">\(~\)</span></p>
 </div>
-<div id="cumulative-taxes-collected" class="section level2">
-<h2>Cumulative Taxes Collected</h2>
+<div id="cumulative-tax-collected" class="section level3">
+<h3>Cumulative Tax Collected</h3>
 <p>First, we looked at the cumulative taxes collected. This tax is specifically looking at the “Beer removed for consumption or sale including beer removed tax determined for consumption or sale in a tavern or on brewery premises”.</p>
 <p>We performed t-test for each year and would like to see if there is any significant difference in the cumulative tax between control states and licensed states.</p>
-<p>The following plot gives the average tax difference (Tax in the Control States - Tax in the Licensed States), together with its estimate, 95% confidence interval and p-value, from 2010 to 2019.</p>
-<p>We can see that the mean difference in the cumulative tax collected does not deviate much from 0 for all years, though the confidence interval seems to have a fan shape over time. Large p-values from t-tests also suggest that there is <strong>no sufficient evidence showing any significant difference between two jurisdiction groups in the total taxation from 2010 to 2019</strong>.</p>
+<p>The following plot gives the average tax difference (Tax in the Control States - Tax in the Licensed States), together with its 95% confidence interval and p-value, from 2010 to 2019.</p>
+<p>We can see that the mean difference in the cumulative tax collected does not deviate much from 0 for all years, though the confidence interval seems to have a fan shape over time. Large p-values from t-tests also suggest that there is <strong>no sufficient evidence showing any significant difference between two jurisdiction groups in the cumulative tax collected from 2010 to 2019</strong>.</p>
 <pre class="r"><code># tax
 year = colnames(tax_df_group)[-c(1:3)]
 t_test_output = NULL
@@ -554,12 +559,13 @@ tax_group_result %&gt;%
     aes(label = control_minus_licensed), 
     color = &quot;#D14124&quot;, hjust = 0.6, vjust = 1.5, angle = 20)</code></pre>
 <p><img src="analysis_files/figure-html/tax_group-1.png" width="672" /></p>
+<p><span class="math inline">\(~\)</span></p>
 </div>
-<div id="tax-per-barrel" class="section level2">
-<h2>Tax per Barrel</h2>
+<div id="tax-per-barrel" class="section level3">
+<h3>Tax per Barrel</h3>
 <p>Next, we looked at the tax per barrel, which is the effective excise tax (volume adjusted). As what have been done in previous subsection, we performed t-test for each year and would like to see if there is any significant difference in the tax per barrel between control states and licensed states.</p>
-<p>The following plot gives the average tax difference (Tax in the Control States - Tax in the Licensed States), together with its estimate, 95% confidence interval and p-value, from 2010 to 2019.</p>
-<p>We can see that the mean difference in the state tax does not deviate much from 0 for all years, and the confidence interval seems to be consistently wide over time. Large p-values from t-tests again suggest that there is <strong>no sufficient evidence showing any significant difference between two jurisdiction groups in the state taxation from 2009 to 2019</strong>.</p>
+<p>The following plot gives the average tax difference (Tax in the Control States - Tax in the Licensed States), together with its 95% confidence interval and p-value, from 2010 to 2019.</p>
+<p>We can see that the mean difference in the tax per barrel does not deviate much from 0 for all years, and the confidence interval seems to be consistently wide over time. Large p-values from t-tests again suggest that there is <strong>no sufficient evidence showing any significant difference between two jurisdiction groups in the tax per barrel from 2010 to 2019</strong>.</p>
 <pre class="r"><code># state_tax
 
 state_tax_group_result = 
@@ -598,34 +604,30 @@ state_tax_group_result %&gt;%
 <hr />
 </div>
 </div>
+</div>
 <div id="regression-anlaysis" class="section level1">
 <h1>Regression Anlaysis</h1>
 <p>In this part, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption.</p>
-<div id="variable-explanation" class="section level2">
-<h2>Variable explanation</h2>
-<p>Our outcome of interest is the cumulative tax collected, and explaining variables of interest include jurisdiction group, year, shipments, population, and consumption.</p>
+<p><span class="math inline">\(~\)</span></p>
+<div id="variables" class="section level2">
+<h2>Variables</h2>
+<p>Our explaining variables of interest include jurisdiction group, year, shipments, population, and consumption.</p>
 <ul>
-<li>tax: cumulative tax collected</li>
 <li>group: jurisdiction group (control vs licensed)</li>
 <li>shipments: amount of barrels shipped</li>
 <li>population: the number of individuals who are 21 years old or older</li>
 <li>consumption: consumption of barrels per capital</li>
 </ul>
+<p><span class="math inline">\(~\)</span></p>
 </div>
-<div id="results" class="section level2">
-<h2>Results</h2>
-<p>Results are as follow. Variables with significant p-value are highlighted in blue.</p>
-<div id="full-model" class="section level3">
-<h3>Full model</h3>
-<p>First, we consider the full model:</p>
-<p><span class="math display">\[tax = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption\]</span></p>
-<ul>
-<li>All variables in our model are significant at the 5% significance level.</li>
-<li>Licensed states are estimated to have around 7.5k less tax than the control states, holding the year, shipments, population and consumption unchanged.</li>
-<li>Tax is estimate to increase 7k per year, holding the group, shipments, population and consumption unchanged.</li>
-<li>Tax is estimated to increase 1k for one unit increase in consuption per capital, holding the group, year, shipments, and population unchanged.</li>
-<li>Population and shipments have estimated coefficients close to 0, though they have significant p-values.</li>
-</ul>
+<div id="model-1---cumulative-tax-collected" class="section level2">
+<h2>Model 1 - Cumulative Tax Collected</h2>
+<p>We first focus on the <strong>cumulative tax collected</strong>.</p>
+<p><span class="math display">\[Cumulative \ tax = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<div id="results" class="section level3">
+<h3>Results</h3>
+<p>Variables with significant p-value are highlighted in blue.</p>
 <pre class="r"><code># Load state_df
 state_df = read_csv(&quot;data_import_cleaning/state_df.csv&quot;)
 ## Parsed with column specification:
@@ -692,14 +694,134 @@ summary(lm_model)
 broom::tidy(lm_model) %&gt;% 
   mutate_at(2:5, round, 2) %&gt;% 
   janitor::clean_names() %&gt;% 
+  rename(
+    Variable = term,
+    Coefficient = estimate, 
+    `Standard Error` = std_error,
+    `t-Statistic` = statistic, 
+    `P-value` = p_value
+  ) %&gt;% 
+  mutate(
+    Variable = ifelse(Variable == &quot;grouplicensed&quot;, &quot;Licensed Group&quot;, Variable), 
+    Variable = str_to_title(Variable)
+  ) %&gt;% 
   DT::datatable(., rownames = F, 
                 options = list(pageLength = 10)) %&gt;% 
   DT::formatStyle(
-    columns = &quot;p_value&quot;,
+    columns = &quot;P-value&quot;,
     background = DT::styleInterval(c(0.05),c(&quot;lightsteelblue&quot;,&quot;white&quot;)), 
     target = &quot;row&quot;)</code></pre>
-<div id="htmlwidget-ef7958ea98c3c1a7a151" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ef7958ea98c3c1a7a151">{"x":{"filter":"none","data":[["(Intercept)","grouplicensed","year","shipments","population","consumption"],[-14148057.06,-7551.04,7011.78,-0.01,0.01,1188.99],[980018.67,2972.68,485.77,0,0,339.58],[-14.44,-2.54,14.43,-4.18,6.71,3.5],[0,0.01,0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>term<\/th>\n      <th>estimate<\/th>\n      <th>std_error<\/th>\n      <th>statistic<\/th>\n      <th>p_value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-e18951e372e9145f9fd5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e18951e372e9145f9fd5">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],[-14148057.06,-7551.04,7011.78,-0.01,0.01,1188.99],[980018.67,2972.68,485.77,0,0,339.58],[-14.44,-2.54,14.43,-4.18,6.71,3.5],[0,0.01,0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<p><span class="math inline">\(~\)</span></p>
+</div>
+<div id="interpretation" class="section level3">
+<h3>Interpretation</h3>
+<ul>
+<li>All variables in our model are <strong>significant</strong> at the 5% significance level.</li>
+<li>Our model fit is acceptable with an adjusted <span class="math inline">\(R^2 = 0.51\)</span>.</li>
+<li>Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that <strong>licensed states</strong> are estimated to have approximately <strong>7.5k less cumulative tax collected</strong> than the control states.</li>
+<li><strong>Cumulative tax collected</strong> is estimate to <strong>increase approximately 7k per year</strong>, holding the group, shipments, population and consumption unchanged.</li>
+<li>Cumulative tax collected is estimated to <strong>increase approximately 1k for one unit increase in consumption per capital</strong>, holding the group, year, shipments, and population unchanged.</li>
+<li>Population and shipments have estimated coefficients close to 0, though they have significant p-values.</li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</div>
+</div>
+<div id="model-2---tax-per-barrel" class="section level2">
+<h2>Model 2 - Tax Per Barrel</h2>
+<p>We next look at the <strong>tax per barrel</strong>.</p>
+<p><span class="math display">\[Tax \ per \ barrel = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<div id="results-1" class="section level3">
+<h3>Results</h3>
+<p>Variables with significant p-value are highlighted in blue.</p>
+<pre class="r"><code># Load state_df
+state_df = read_csv(&quot;data_import_cleaning/state_df.csv&quot;)
+## Parsed with column specification:
+## cols(
+##   state = col_character(),
+##   shipments = col_double(),
+##   rank_3 = col_double(),
+##   population = col_double(),
+##   consumption = col_double(),
+##   rank_6 = col_double(),
+##   year = col_double()
+## )
+
+# Merge dataset
+reg_df2 = 
+  state_tax_df_group %&gt;% 
+  rename(adjusted_tax = adjusted) %&gt;% 
+  mutate(year = as.numeric(year)) %&gt;% 
+  left_join(., state_df, by = c(&quot;state&quot;, &quot;year&quot;)) %&gt;% 
+  select(adjusted_tax, group, year, shipments, population, consumption)
+
+# Replace 0&#39;s with NA&#39;s
+reg_df2[reg_df2 == 0] &lt;- NA
+
+# Fit model
+lm_model2 = lm(adjusted_tax ~ group + year + shipments + population + consumption, data = reg_df2)
+summary(lm_model2)
+## 
+## Call:
+## lm(formula = adjusted_tax ~ group + year + shipments + population + 
+##     consumption, data = reg_df2)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -8.989 -4.915 -2.910  1.895 30.936 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)   -1.351e+02  2.512e+02  -0.538    0.591
+## grouplicensed -2.893e-01  7.591e-01  -0.381    0.703
+## year           7.307e-02  1.245e-01   0.587    0.558
+## shipments      4.369e-07  5.861e-07   0.745    0.456
+## population    -4.517e-07  5.228e-07  -0.864    0.388
+## consumption   -9.209e-02  8.731e-02  -1.055    0.292
+## 
+## Residual standard error: 7.863 on 504 degrees of freedom
+## Multiple R-squared:  0.004557,   Adjusted R-squared:  -0.005319 
+## F-statistic: 0.4614 on 5 and 504 DF,  p-value: 0.805
+
+#broom::tidy(lm_model) %&gt;% 
+#  mutate_at(2:5, round, 2) %&gt;% 
+#  janitor::clean_names() %&gt;% 
+#  knitr::kable(caption = &quot;Regression result summary&quot;) %&gt;% 
+#  kableExtra::kable_styling(., bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;),
+#                            full_width = F) 
+
+broom::tidy(lm_model2) %&gt;% 
+  mutate_at(2:5, round, 2) %&gt;% 
+  janitor::clean_names() %&gt;% 
+  rename(
+    Variable = term,
+    Coefficient = estimate, 
+    `Standard Error` = std_error,
+    `t-Statistic` = statistic, 
+    `P-value` = p_value
+  ) %&gt;% 
+  mutate(
+    Variable = ifelse(Variable == &quot;grouplicensed&quot;, &quot;Licensed Group&quot;, Variable), 
+    Variable = str_to_title(Variable)
+  ) %&gt;% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 10)) %&gt;% 
+  DT::formatStyle(
+    columns = &quot;P-value&quot;,
+    background = DT::styleInterval(c(0.05),c(&quot;lightsteelblue&quot;,&quot;white&quot;)), 
+    target = &quot;row&quot;)</code></pre>
+<div id="htmlwidget-c9696e73228b76318305" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c9696e73228b76318305">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],[-135.13,-0.29,0.07,0,-0,-0.09],[251.25,0.76,0.12,0,0,0.09],[-0.54,-0.38,0.59,0.75,-0.86,-1.05],[0.59,0.7,0.56,0.46,0.39,0.29]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<p><span class="math inline">\(~\)</span></p>
+</div>
+<div id="interpretation-1" class="section level3">
+<h3>Interpretation</h3>
+<ul>
+<li>All variables in our model are <strong>not significant</strong> at the 5% significance level.</li>
+<li>This model does not fit well as the adjusted <span class="math inline">\(R^2\)</span> is approximately 0.</li>
+</ul>
 </div>
 </div>
 </div>

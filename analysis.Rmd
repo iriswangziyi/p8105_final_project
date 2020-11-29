@@ -57,11 +57,17 @@ We focus on two analyses in this section. One is to compare tax differences by j
 
 ---
 
-# Tax differences by jurisdiction group
+# Preliminary Analysis 
 
-Differing on the degree of control on liquor wholesales and retail, states can be categorized into two [types](https://www.ncsla.org/State-Officials.html) -- control jurisdiction and licensed jurisdiction, with licensed states having more control. Such categorization may lead to difference in taxation. Therefore, we are interested in examining if there is any difference in total/state taxation by these two groups of states. 
+$~$
 
-## Jurisdiction Map
+## Tax differences by jurisdiction group
+
+Differing on the degree of control on liquor wholesales and retail, states can be categorized into two [types](https://www.ncsla.org/State-Officials.html) -- control jurisdiction and licensed jurisdiction, with licensed states having more control. Such categorization may lead to difference in taxation. Therefore, we are interested in examining if there is any difference in taxation by these two groups of states. 
+
+$~$
+
+### Jurisdiction Map
 
 Here is a state map showing control jurisdiction and licensed jurisdiction. 
 
@@ -106,17 +112,18 @@ p2 <- p1 +
 p2 + theme_map() 
 ```
 
+$~$ 
 
-## Cumulative Taxes Collected
+### Cumulative Tax Collected
 
 First, we looked at the cumulative taxes collected. 
 This tax is specifically looking at the “Beer removed for consumption or sale including beer removed tax determined for consumption or sale in a tavern or on brewery premises”. 
 
 We performed t-test for each year and would like to see if there is any significant difference in the cumulative tax between control states and licensed states. 
 
-The following plot gives the average tax difference (Tax in the Control States - Tax in the Licensed States), together with its estimate, 95% confidence interval and p-value, from 2010 to 2019. 
+The following plot gives the average tax difference (Tax in the Control States - Tax in the Licensed States), together with its 95% confidence interval and p-value, from 2010 to 2019. 
 
-We can see that the mean difference in the cumulative tax collected does not deviate much from 0 for all years, though the confidence interval seems to have a fan shape over time. Large p-values from t-tests also suggest that there is **no sufficient evidence showing any significant difference between two jurisdiction groups in the total taxation from 2010 to 2019**.
+We can see that the mean difference in the cumulative tax collected does not deviate much from 0 for all years, though the confidence interval seems to have a fan shape over time. Large p-values from t-tests also suggest that there is **no sufficient evidence showing any significant difference between two jurisdiction groups in the cumulative tax collected from 2010 to 2019**.
 
 ```{r tax_group}
 # tax
@@ -161,14 +168,15 @@ tax_group_result %>%
     color = "#D14124", hjust = 0.6, vjust = 1.5, angle = 20)
 ```
 
+$~$ 
 
-## Tax per Barrel
+### Tax per Barrel
 
 Next, we looked at the tax per barrel, which is the effective excise tax (volume adjusted). As what have been done in previous subsection, we performed t-test for each year and would like to see if there is any significant difference in the tax per barrel between control states and licensed states. 
 
-The following plot gives the average tax difference (Tax in the Control States - Tax in the Licensed States), together with its estimate, 95% confidence interval and p-value, from 2010 to 2019. 
+The following plot gives the average tax difference (Tax in the Control States - Tax in the Licensed States), together with its 95% confidence interval and p-value, from 2010 to 2019. 
 
-We can see that the mean difference in the state tax does not deviate much from 0 for all years, and the confidence interval seems to be consistently wide over time. Large p-values from t-tests again suggest that there is **no sufficient evidence showing any significant difference between two jurisdiction groups in the state taxation from 2009 to 2019**.
+We can see that the mean difference in the tax per barrel does not deviate much from 0 for all years, and the confidence interval seems to be consistently wide over time. Large p-values from t-tests again suggest that there is **no sufficient evidence showing any significant difference between two jurisdiction groups in the tax per barrel from 2010 to 2019**.
 
 ```{r state_tax_group}
 # state_tax
@@ -215,31 +223,30 @@ state_tax_group_result %>%
   
 In this part, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption. 
 
-## Variable explanation
+$~$
 
-Our outcome of interest is the cumulative tax collected, and explaining variables of interest include jurisdiction group, year, shipments, population, and consumption. 
+## Variables
 
-* tax: cumulative tax collected
+Our explaining variables of interest include jurisdiction group, year, shipments, population, and consumption. 
+
 * group: jurisdiction group (control vs licensed)
 * shipments: amount of barrels shipped
 * population: the number of individuals who are 21 years old or older
 * consumption: consumption of barrels per capital
 
-## Results
+$~$ 
 
-Results are as follow. Variables with significant p-value are highlighted in blue. 
+## Model 1 - Cumulative Tax Collected
 
-### Full model
+We first focus on the **cumulative tax collected**. 
 
-First, we consider the full model: 
+$$Cumulative \ tax = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption$$
 
-$$tax = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption$$
+$~$ 
 
-* All variables in our model are significant at the 5% significance level. 
-* Licensed states are estimated to have around 7.5k less tax than the control states, holding the year, shipments, population and consumption unchanged.
-* Tax is estimate to increase 7k per year, holding the group, shipments, population and consumption unchanged. 
-* Tax is estimated to increase 1k for one unit increase in consuption per capital, holding the group, year, shipments, and population unchanged. 
-* Population and shipments have estimated coefficients close to 0, though they have significant p-values. 
+### Results
+
+Variables with significant p-value are highlighted in blue.
 
 ```{r reg_df,collapse=T}
 # Load state_df
@@ -274,13 +281,101 @@ summary(lm_model)
 broom::tidy(lm_model) %>% 
   mutate_at(2:5, round, 2) %>% 
   janitor::clean_names() %>% 
+  rename(
+    Variable = term,
+    Coefficient = estimate, 
+    `Standard Error` = std_error,
+    `t-Statistic` = statistic, 
+    `P-value` = p_value
+  ) %>% 
+  mutate(
+    Variable = ifelse(Variable == "grouplicensed", "Licensed Group", Variable), 
+    Variable = str_to_title(Variable)
+  ) %>% 
   DT::datatable(., rownames = F, 
                 options = list(pageLength = 10)) %>% 
   DT::formatStyle(
-    columns = "p_value",
+    columns = "P-value",
     background = DT::styleInterval(c(0.05),c("lightsteelblue","white")), 
     target = "row")
 ```
 
+$~$
 
+### Interpretation
 
+* All variables in our model are **significant** at the 5% significance level. 
+* Our model fit is acceptable with an adjusted $R^2 = 0.51$. 
+* Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that **licensed states** are estimated to have approximately **7.5k less cumulative tax collected** than the control states.
+* **Cumulative tax collected** is estimate to **increase approximately 7k per year**, holding the group, shipments, population and consumption unchanged. 
+* Cumulative tax collected is estimated to **increase approximately 1k for one unit increase in consumption per capital**, holding the group, year, shipments, and population unchanged. 
+* Population and shipments have estimated coefficients close to 0, though they have significant p-values. 
+
+$~$
+
+## Model 2 - Tax Per Barrel
+
+We next look at the **tax per barrel**. 
+
+$$Tax \ per \ barrel = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption$$
+
+$~$
+
+### Results
+
+Variables with significant p-value are highlighted in blue.
+
+```{r reg_df2,collapse=T}
+# Load state_df
+state_df = read_csv("data_import_cleaning/state_df.csv")
+
+# Merge dataset
+reg_df2 = 
+  state_tax_df_group %>% 
+  rename(adjusted_tax = adjusted) %>% 
+  mutate(year = as.numeric(year)) %>% 
+  left_join(., state_df, by = c("state", "year")) %>% 
+  select(adjusted_tax, group, year, shipments, population, consumption)
+
+# Replace 0's with NA's
+reg_df2[reg_df2 == 0] <- NA
+
+# Fit model
+lm_model2 = lm(adjusted_tax ~ group + year + shipments + population + consumption, data = reg_df2)
+summary(lm_model2)
+
+#broom::tidy(lm_model) %>% 
+#  mutate_at(2:5, round, 2) %>% 
+#  janitor::clean_names() %>% 
+#  knitr::kable(caption = "Regression result summary") %>% 
+#  kableExtra::kable_styling(., bootstrap_options = c("striped", "hover"),
+#                            full_width = F) 
+
+broom::tidy(lm_model2) %>% 
+  mutate_at(2:5, round, 2) %>% 
+  janitor::clean_names() %>% 
+  rename(
+    Variable = term,
+    Coefficient = estimate, 
+    `Standard Error` = std_error,
+    `t-Statistic` = statistic, 
+    `P-value` = p_value
+  ) %>% 
+  mutate(
+    Variable = ifelse(Variable == "grouplicensed", "Licensed Group", Variable), 
+    Variable = str_to_title(Variable)
+  ) %>% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 10)) %>% 
+  DT::formatStyle(
+    columns = "P-value",
+    background = DT::styleInterval(c(0.05),c("lightsteelblue","white")), 
+    target = "row")
+```
+
+$~$
+
+### Interpretation
+
+* All variables in our model are **not significant** at the 5% significance level. 
+* This model does not fit well as the adjusted $R^2$ is approximately 0.
