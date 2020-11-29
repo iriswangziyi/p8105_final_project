@@ -35,18 +35,17 @@ library(usdata)
 --- 
 
 ## Consumption
-This graph shows data from the [Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf) document. This consumption is by per capita and only considers individuals who are 21 years old or older. The graph cycles through the years 2010-2019 and will keep repeating. The colors represent the different regions. 
+This graph shows data from the Per Capita Consumption by state from year 2010-2019. This consumption is by per capita and only considers individuals who are 21 years old or older. The colors represent the different regions of each state.  
 ```{r warning=FALSE, message=FALSE, fig.width = 8, fig.height = 7, cache=TRUE}
 # setting up the regions
 region_name = tibble(state = state.name, state_region= state.region)
-
 
 sm3 = state_df %>% 
   filter(state != "District of Columbia") %>% 
   filter(year > 2009) %>% 
   left_join(., region_name)
 
-static_plot<-ggplot(sm3,aes(rank_6,group=state,fill=as.factor(state),color=as.factor(state_region))) +
+static_plot<-ggplot(sm3,aes(rank_6,group=state,fill=state_region,color=state_region)) +
  geom_tile(aes(y = consumption/2,height = consumption, width = 0.9), alpha = 0.8, color = NA) +
  geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3) +
  geom_text(aes(y = consumption, label = paste(' ',consumption)), hjust=0, size = 3) +
@@ -79,7 +78,7 @@ plt #pritning our the moving graph
 ---
 //intro this map
 
-```{r brewer map, collapse = T, message = F, warning = F, fig.width = 8, fig.height = 6, cache=TRUE}
+```{r brewer map, collapse = T, message = F, warning = F}
 #install.packages("leaflet")
 library(leaflet)
 
@@ -105,6 +104,7 @@ beer %>%
                    color = ~pal(alcohol_by_volume), 
                    popup = ~click_label)
 ```
+
 
 
 ---

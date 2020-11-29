@@ -469,8 +469,9 @@ div.tocify {
 #     x = ~year, y = ~barrels, color = ~factor(state), text = ~text_label,
 #     alpha = .5, type = &quot;scatter&quot;, mode = &quot;lines&quot;, colors = &quot;viridis&quot;) %&gt;%
 #   layout( # adding a title 
-#     title = &quot;Barrel production over the years by state&quot;)</code></pre>
-<pre class="r"><code>tax_cans_df %&gt;% # first we need to pivot the data 
+#     title = &quot;Barrel production over the years by state&quot;)
+
+tax_cans_df %&gt;% # first we need to pivot the data 
   filter(state != &quot;total&quot;) %&gt;%
   pivot_longer(
     c(`2008`:`2019`),
@@ -502,7 +503,7 @@ div.tocify {
     y = &quot;Barrel Production (in Barrels)&quot;,
     x = &quot;State&quot;
   )</code></pre>
-<p><img src="production_files/figure-html/unnamed-chunk-2-1.png" width="768" /></p>
+<p><img src="production_files/figure-html/unnamed-chunk-1-1.png" width="768" /></p>
 <div id="barrels-analysis" class="section level3">
 <h3>Barrels Analysis:</h3>
 <hr />
@@ -524,33 +525,30 @@ div.tocify {
 #     x = ~year, y = ~cans_bottles, color = ~factor(state), text = ~text_label,
 #     alpha = .5, type = &quot;scatter&quot;, mode = &quot;lines&quot;, colors = &quot;viridis&quot;) %&gt;%
 #   layout( # adding a title 
-#     title = &quot;Can and Bottleproduction over the years by state&quot;)</code></pre>
-<pre class="r"><code>longer_can_df = tax_cans_df %&gt;%
-  filter(state != &quot;total&quot;) %&gt;%
-  pivot_longer(
+#     title = &quot;Can and Bottleproduction over the years by state&quot;)
+
+tax_cans_df %&gt;%
+  filter(state != &quot;total&quot;) %&gt;% #do not want total revenue 
+  pivot_longer( # pivoting longer 
     c(`2008`:`2019`),
     names_to = &quot;year&quot;,
-    values_to = &quot;cans_bottles&quot;
-  )
-
-can_df = right_join(longer_can_df, region, by = &quot;state&quot;)
-
-longer_can_df %&gt;%
-  filter(year &gt; 2009) %&gt;%
+    values_to = &quot;cans_bottles&quot; # looking at cans and bottles 
+  ) %&gt;%
+  filter(year &gt; 2009) %&gt;% # only want years 2010-2019
   group_by(state) %&gt;%
-  summarize(
+  summarize( # looking at the mean and confidence intervals
     mean_barrel = mean(cans_bottles, na.rm = TRUE),
     CI_lower = mean(cans_bottles, na.rm = TRUE) - 
       1.96 * sd(cans_bottles, na.rm = TRUE)/sqrt(length(cans_bottles)),
     CI_upper = mean(cans_bottles, na.rm = TRUE) + 
       1.96 * sd(cans_bottles,na.rm = TRUE)/sqrt(length(cans_bottles))
   ) %&gt;%
-  right_join(., region, by = &quot;state&quot;) %&gt;%
+  right_join(., region, by = &quot;state&quot;) %&gt;% # adding in the region
   mutate(
-    state = abbr2state(state),
-    state = fct_reorder(state, mean_barrel)
+    state = abbr2state(state), # change abb to state names so it is easier to read 
+    state = fct_reorder(state, mean_barrel) # ordering the states by mean barrel
   ) %&gt;% 
-  ggplot(aes(x = state, y = mean_barrel,color=state_region)) + 
+  ggplot(aes(x = state, y = mean_barrel, color=state_region)) + 
   geom_point() + 
   geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
@@ -561,7 +559,7 @@ longer_can_df %&gt;%
     y = &quot;Can and Bottle Production (in Barrels)&quot;,
     x = &quot;State&quot;
   )</code></pre>
-<p><img src="production_files/figure-html/unnamed-chunk-4-1.png" width="768" /></p>
+<p><img src="production_files/figure-html/unnamed-chunk-2-1.png" width="768" /></p>
 <div id="bottles-and-cans-analysis" class="section level3">
 <h3>Bottles and Cans Analysis:</h3>
 <hr />
@@ -592,12 +590,12 @@ static_plot&lt;-ggplot(sm3,aes(rank_3,group=state,fill=as.factor(state),color=as
 plt&lt;-static_plot + transition_states(states = year, transition_length = 4, state_length = 1) +
                    ease_aes(&#39;cubic-in-out&#39;) +
                    labs(title = &#39;Shipments in Year {closest_state}&#39;,
-                        #subtitle = &#39;Shipments&#39;,
+                        subtitle = &#39;Units is Barrels&#39;,
                         x = &#39;&#39;, 
                         y = &#39;Shipments of Malt Beverages&#39;)
 
 plt</code></pre>
-<p><img src="production_files/figure-html/unnamed-chunk-5-1.gif" /><!-- --></p>
+<p><img src="production_files/figure-html/unnamed-chunk-3-1.gif" /><!-- --></p>
 <div id="shipment-analysis" class="section level3">
 <h3>Shipment Analysis:</h3>
 </div>

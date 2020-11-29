@@ -42,8 +42,6 @@
 <script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
 <link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
 <script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -472,21 +470,16 @@ div.tocify {
 <hr />
 <div id="consumption" class="section level2">
 <h2>Consumption</h2>
-<p>This graph shows data from the <a href="https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf">Shipments of Malt Beverages and Per Capita Consumption by State</a> document. This consumption is by captiate and only considers individuals who are 21 years old or older.</p>
-<pre class="r"><code># state_df %&gt;%
-#   filter(year &gt; 2009) %&gt;%
-#   mutate(text_label = str_c(&quot;state: &quot;, state)) %&gt;% # creating text label 
-#   plot_ly( #using plotly to plot he tmax and tmin 
-#     x = ~year, y = ~consumption, color = ~factor(state), text = ~text_label,
-#     alpha = .5, type = &quot;scatter&quot;, mode = &quot;lines&quot;, colors = &quot;viridis&quot;) %&gt;%
-#   layout( # adding a title 
-#     title = &quot;Consumption&quot;)
+<p>This graph shows data from the Per Capita Consumption by state from year 2010-2019. This consumption is by per capita and only considers individuals who are 21 years old or older. The colors represent the different regions of each state.</p>
+<pre class="r"><code># setting up the regions
+region_name = tibble(state = state.name, state_region= state.region)
 
+sm3 = state_df %&gt;% 
+  filter(state != &quot;District of Columbia&quot;) %&gt;% 
+  filter(year &gt; 2009) %&gt;% 
+  left_join(., region_name)
 
-
-sm3 = state_df %&gt;% filter(state != &quot;District of Columbia&quot;) %&gt;% filter(year &gt; 2009)
-
-static_plot&lt;-ggplot(sm3,aes(rank_6,group=state,fill=as.factor(state),color=as.factor(state))) +
+static_plot&lt;-ggplot(sm3,aes(rank_6,group=state,fill=state_region,color=state_region)) +
  geom_tile(aes(y = consumption/2,height = consumption, width = 0.9), alpha = 0.8, color = NA) +
  geom_text(aes(y = 0, label = paste(state, &#39; &#39;)), vjust = 0.2, hjust = 1, size = 3) +
  geom_text(aes(y = consumption, label = paste(&#39; &#39;,consumption)), hjust=0, size = 3) +
@@ -510,10 +503,10 @@ plt&lt;-static_plot + transition_states(states = year, transition_length = 4, st
                         x = &#39;&#39;, 
                         y = &#39;Consumption&#39;)
 
-plt</code></pre>
+plt #pritning our the moving graph</code></pre>
 <p><img src="consumption_files/figure-html/unnamed-chunk-1-1.gif" /><!-- --></p>
-<div id="analysis" class="section level3">
-<h3>Analysis:</h3>
+<div id="consumption-analysis" class="section level3">
+<h3>Consumption Analysis:</h3>
 </div>
 </div>
 <div id="alcohol-by-volume-abv-pattern" class="section level2">
