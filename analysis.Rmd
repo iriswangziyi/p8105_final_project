@@ -22,7 +22,7 @@ state_ref =
   read.delim("./data_import_cleaning/state_abbreviation.txt", header = F) %>%
   separate(V1, into = c("state", "state_abbrv"), sep = " - ") 
 
-# jurisdiction informatiomn
+# jurisdiction information
 license = 
   read_table("./data_import_cleaning/license_jurisdiction_modified.txt") %>%
   unlist()
