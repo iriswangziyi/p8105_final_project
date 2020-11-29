@@ -110,13 +110,48 @@ beer %>%
                    popup = ~click_label)
 ```
 
+
+---
+
+## Alcohol by volume (ABV) pattern
+
+**Alcohol by volume (ABV)** is defined to be the volume percent of alcohol (ethanol) contained in a given volume of an alcoholic beverage. 
+In our project, we are interested in exploring the pattern of ABV concerning the category/brewer/style of beer. 
+
+### By category
+
+First, we looked at the pattern of ABV by beer's category. 
+
+* It seems that **Belgian and French Ale** has the **highest** average ABV while the **North American Lager** has the **lowest** average AVB. 
+* The distribution of ABV of Belgian and French Ale is relatively bell-shaped while the other categories are skewed. 
+
+```{r cat_abv,collapse=TRUE}
+cat_abv = 
+  beer %>% 
+  replace_na(list(category = "NA", y = "unknown")) %>% 
+  group_by(category) %>% 
+  summarise(mean_abv = mean(alcohol_by_volume)) %>% 
+  arrange(desc(mean_abv)) 
+cat_abv
+cat_abv %>% 
+  mutate(category = fct_reorder(category, mean_abv)) %>% 
+  plot_ly(x = ~category, y = ~mean_abv, 
+          color = ~category, type = "bar", colors = "viridis") %>% 
+  layout(title = "Average ABV by Beer Category",
+         xaxis = list(title = "Beer Category",
+                      zeroline = TRUE),
+         yaxis = list(title = "Average ABV",
+                      range = c(0, 7)))
+```
+
+
 ### By brewer
 
 Next, we looked at the pattern of ABV by beer's brewer. 
 
 As there are 823 brewers listed in our dataset, we will show the **top 20** that has the highest average ABV, rather than all of them. 
 
-* **Mendocino Brewing - Ukiah**has the highest average ABV. 
+* **Mendocino Brewing - Ukiah** has the highest average ABV. 
 * There are 424 brewers having average ABV value of 0. 
 
 ```{r brewer_abv,collapse=TRUE}
