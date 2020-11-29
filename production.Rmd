@@ -57,6 +57,40 @@ tax_barrels_df %>%
     title = "Barrel production over the years by state")
 ```
 
+
+```{r, warning=FALSE, message=FALSE}
+longer_barrel_df = tax_barrels_df %>%
+  filter(state != "total") %>%
+  pivot_longer(
+    c(`2008`:`2019`),
+    names_to = "year",
+    values_to = "barrels"
+  )
+longer_barrel_df %>%
+  filter(year > 2009) %>%
+  group_by(state) %>%
+  summarize(
+    mean_barrel = mean(barrels),
+    CI_lower = mean(barrels) - 1.96 * sd(barrels)/sqrt(length(barrels)),
+    CI_upper = mean(barrels) + 1.96 * sd(barrels)/sqrt(length(barrels))
+  ) %>%
+  mutate(
+    state = abbr2state(state),
+    state = fct_reorder(state, mean_barrel)) %>% 
+  ggplot(aes(x = state, y = mean_barrel, color=state)) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  theme(legend.position = "none")  +
+  labs(
+    title = "Average Barrel Production by State",
+    subtitle = "Data from years 2010-2019",
+    y = "Barrel Production (in Barrels)",
+    x = "State"
+  )
+
+```
+
 ### Analysis: 
 
 ---
@@ -80,6 +114,39 @@ tax_cans_df %>%
     alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
   layout( # adding a title 
     title = "Can and Bottleproduction over the years by state")
+```
+
+```{r, warning=FALSE, message=FALSE}
+longer_can_df = tax_cans_df %>%
+  filter(state != "total") %>%
+  pivot_longer(
+    c(`2008`:`2019`),
+    names_to = "year",
+    values_to = "cans_bottles"
+  )
+longer_can_df %>%
+  filter(year > 2009) %>%
+  group_by(state) %>%
+  summarize(
+    mean_barrel = mean(cans_bottles),
+    CI_lower = mean(cans_bottles) - 1.96 * sd(cans_bottles)/sqrt(length(cans_bottles)),
+    CI_upper = mean(cans_bottles) + 1.96 * sd(cans_bottles)/sqrt(length(cans_bottles))
+  ) %>%
+  mutate(
+    state = abbr2state(state),
+    state = fct_reorder(state, mean_barrel)) %>% 
+  ggplot(aes(x = state, y = mean_barrel, color=state)) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  theme(legend.position = "none")  +
+  labs(
+    title = "Average Can and Bottle Production by State",
+    subtitle = "Data from years 2010-2019",
+    y = "Can and Bottle Production (in Barrels)",
+    x = "State"
+  )
+
 ```
 
 ### Analysis: 
