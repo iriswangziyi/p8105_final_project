@@ -305,7 +305,7 @@ $~$
 ### Interpretation
 
 * All variables in our model are **significant** at the 5% significance level. 
-* Our model fit is acceptable with an adjusted $R^2 = 0.51$. 
+* Our model fit is acceptable with an adjusted $R^2 = 0.55$. 
 * Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that **licensed states** are estimated to have approximately **7.5k less cumulative tax collected** than the control states.
 * **Cumulative tax collected** is estimate to **increase approximately 7k per year**, holding the group, shipments, population and consumption unchanged. 
 * Cumulative tax collected is estimated to **increase approximately 1k for one unit increase in consumption per capital**, holding the group, year, shipments, and population unchanged. 

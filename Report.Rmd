@@ -265,11 +265,85 @@ In the model of the **tax per barrel**, all the variables are **not significant*
 In the model of **cumulative tax collected**, we found that: 
 
 * All variables in our model are **significant** at the 5% significance level. 
-* Our model fit is acceptable with an adjusted $R^2 = 0.51$. 
+* Our model fit is acceptable with an adjusted $R^2 = 0.55$. 
 * Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that **licensed states** are estimated to have approximately **7.5k less cumulative tax collected** than the control states.
 * **Cumulative tax collected** is estimate to **increase approximately 7k per year**, holding the group, shipments, population and consumption unchanged. 
 * Cumulative tax collected is estimated to **increase approximately 1k for one unit increase in consumption per capital**, holding the group, year, shipments, and population unchanged. 
 * Population and shipments have estimated coefficients close to 0, though they have significant p-values. 
+
+```{r reg_df,collapse=T,message=FALSE,warning=FALSE}
+# Load datasets
+state_df = read_csv("data_import_cleaning/state_df.csv")
+tax_df = read_csv( "data_import_cleaning/tax.csv")
+
+# state and its abbreviation
+# https://abbreviations.yourdictionary.com/articles/state-abbrev.html
+state_ref = 
+  read.delim("./data_import_cleaning/state_abbreviation.txt", header = F) %>%
+  separate(V1, into = c("state", "state_abbrv"), sep = " - ") 
+
+# jurisdiction information
+license = 
+  read_table("./data_import_cleaning/license_jurisdiction_modified.txt") %>%
+  unlist()
+control = 
+  read_table("./data_import_cleaning/control_jurisdiction_modified.txt") %>%
+  unlist()
+
+# tidy tax data: state with abbreviation + group
+# to be consistent with other plots, remove year 2008, 2009 (starting year is 2010)
+tax_df_group =  
+  left_join(tax_df %>% rename(state_abbrv = state), 
+            state_ref, by = "state_abbrv") %>% 
+  mutate(
+    group = ifelse(state %in% license, "licensed", 
+                   ifelse(state %in% control, "control", "NA"))
+  ) %>% 
+  relocate(state_abbrv, state, group) %>% 
+  slice(-52) %>% 
+  select(-`2008`, -`2009`)
+
+# Merge dataset: tax_df_group + state_df
+reg_df = 
+  tax_df_group %>% 
+  pivot_longer(
+    "2010":"2019", 
+    names_to = "year", 
+    values_to = "total_tax"
+  ) %>% 
+  mutate(year = as.numeric(year)) %>% 
+  left_join(., state_df, by = c("state", "year")) %>% 
+  select(total_tax, group, year, shipments, population, consumption)
+
+# Replace 0's with NA's
+reg_df[reg_df == 0] <- NA
+
+# Fit model
+lm_model = lm(total_tax ~ group + year + shipments + population + consumption, data = reg_df)
+summary(lm_model)
+
+broom::tidy(lm_model) %>% 
+  mutate_at(2:5, round, 2) %>% 
+  janitor::clean_names() %>% 
+  rename(
+    Variable = term,
+    Coefficient = estimate, 
+    `Standard Error` = std_error,
+    `t-Statistic` = statistic, 
+    `P-value` = p_value
+  ) %>% 
+  mutate(
+    Variable = ifelse(Variable == "grouplicensed", "Licensed Group", Variable), 
+    Variable = str_to_title(Variable)
+  ) %>% 
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 10)) %>% 
+  DT::formatStyle(
+    columns = "P-value",
+    background = DT::styleInterval(c(0.05),c("lightsteelblue","white")), 
+    target = "row")
+```
+
 
 [ends here]
 
