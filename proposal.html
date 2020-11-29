@@ -352,18 +352,33 @@ div.tocify {
       <ul class="nav navbar-nav">
         <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Taxation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="taxation.html">Taxation Analysis</a>
+    </li>
+    <li>
+      <a href="viz_tax_statemap/dashboard_tax_state_map.html">Data Exploration</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Consumption
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="dashborad.html">tab name</a>
+      <a href="consumption.html">Consumption Analysis</a>
+    </li>
+    <li>
+      <a href="viz_tax_statemap/dashboard_comsum_statemap.html">Data Exploration</a>
     </li>
   </ul>
-</li>
-<li>
-  <a href="taxation.html">Taxation</a>
 </li>
 <li>
   <a href="production.html">Production</a>
@@ -374,7 +389,7 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="proposal.html">Project Report</a>
+  <a href="Report.html">Project Report</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -385,21 +400,17 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Amy Pitts</li>
     <li>
-      <a href="mailto:&lt;ajp2257@columbia.edu&gt;"></a>
+      <a href="mailto:&lt;ajp2257@columbia.edu&gt;">Amy Pitts</a>
     </li>
-    <li class="dropdown-header">Ruiyang Li</li>
     <li>
-      <a href="mailto:&lt;rl3034@columbia.edu&gt;"></a>
+      <a href="mailto:&lt;rl3034@columbia.edu&gt;">Ruiyang Li</a>
     </li>
-    <li class="dropdown-header">Wenbo Fei</li>
     <li>
-      <a href="mailto:&lt;wf2270@columbia.edu&gt;"></a>
+      <a href="mailto:&lt;wf2270@columbia.edu&gt;">Wenbo Fei</a>
     </li>
-    <li class="dropdown-header">Ziyi (Iris) Wang</li>
     <li>
-      <a href="mailto:&lt;ziyi.w@columbia.edu&gt;"></a>
+      <a href="mailto:&lt;ziyi.w@columbia.edu&gt;">Ziyi (Iris) Wang</a>
     </li>
   </ul>
 </li>
@@ -474,244 +485,24 @@ div.tocify {
 </ul>
 </div>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="1894.6">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #000000; -webkit-text-stroke: #000000; min-height: 14.0px}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 20.0px; font: 12.0px Menlo; color: #1f762c; -webkit-text-stroke: #1f762c}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: right; line-height: 20.0px; font: 12.0px Menlo; color: #1b1f22; -webkit-text-stroke: #1b1f22; min-height: 14.0px}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 20.0px; font: 12.0px Menlo; color: #1b1f22; -webkit-text-stroke: #1b1f22; min-height: 14.0px}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 20.0px; font: 12.0px Menlo; color: #1b1f22; -webkit-text-stroke: #1b1f22}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 20.0px; font: 12.0px Menlo; color: #06214f; -webkit-text-stroke: #06214f}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; line-height: 20.0px; font: 12.0px Courier; color: #000000; -webkit-text-stroke: #000000}
-    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Courier; color: #000000; -webkit-text-stroke: #000000}
-    span.s1 {font-kerning: none}
-    span.s2 {font-kerning: none; color: #1b1f22; -webkit-text-stroke: 0px #1b1f22}
-    span.s3 {font-kerning: none; color: #1f762c; -webkit-text-stroke: 0px #1f762c}
-    span.s4 {font-kerning: none; color: #0744b8; -webkit-text-stroke: 0px #0744b8}
-    span.s5 {font: 12.0px Menlo; font-kerning: none; color: #1b1f22; -webkit-text-stroke: 0px #1b1f22}
-    span.s6 {font-kerning: none; color: #06214f; -webkit-text-stroke: 0px #06214f}
-    table.t1 {background-color: #ffffff; border-collapse: collapse}
-    td.td1 {width: 63.4px; padding: 0.0px 10.0px 0.0px 10.0px}
-    td.td2 {width: 63.4px; min-width: 50.0px; padding: 0.0px 10.0px 0.0px 10.0px}
-    td.td3 {width: 1241.0px; padding: 0.0px 10.0px 0.0px 10.0px}
-  </style>
-</head>
-<body>
-<p class="p1"><span class="s1"></span><br></p>
-<table cellspacing="0" cellpadding="0" class="t1">
-  <tbody>
-    <tr>
-      <td valign="top" class="td1">
-        <p class="p2"><span class="s2">&lt;</span><span class="s1">html</span><span class="s2">&gt;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p4"><span class="s1"><span class="Apple-converted-space">  </span></span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p5"><span class="s1">&amp;nbsp;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p5"><span class="s1">&lt;</span><span class="s3">hr</span><span class="s1"> /&gt;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td3">
-        <p class="p4"><span class="s1"></span><br></p>
-        <p class="p4"><span class="s1"></span><br></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p2"><span class="s2">&lt;</span><span class="s1">small</span><span class="s2">&gt;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p4"><span class="s1"><span class="Apple-converted-space">  </span></span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p6"><span class="s2">&lt;</span><span class="s3">p</span><span class="s2"> </span><span class="s4">style</span><span class="s2">="</span><span class="s1">text-align: center;</span><span class="s2">"&gt;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p7"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">A work by<span class="Apple-converted-space"> </span></span></p>
-        <p class="p7"><span class="s1">&lt;a href="https://github.com/amypitts01"&gt;Amy Pitts&lt;/a&gt;,<span class="Apple-converted-space"> </span></span></p>
-        <p class="p7"><span class="s1">&lt;a href="https://github.com/ruiyangli1"&gt;Ruiyang Li&lt;/a&gt;,<span class="Apple-converted-space"> </span></span></p>
-        <p class="p7"><span class="s1">&lt;a href="https://github.com/Wenbofei"&gt;Wenbo Fei&lt;/a&gt;,<span class="Apple-converted-space"> </span></span></p>
-        <p class="p7"><span class="s1">and &lt;a href="https://github.com/iriswangziyi"&gt;Ziyi (Iris) Wang&lt;/a&gt;</span></p>
-        <p class="p4"><span class="s1"></span><br></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p5"><span class="s1">&lt;/</span><span class="s3">p</span><span class="s1">&gt;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td3">
-        <p class="p4"><span class="s1"></span><br></p>
-        <p class="p4"><span class="s1"></span><br></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p6"><span class="s2">&lt;</span><span class="s3">p</span><span class="s2"> </span><span class="s4">style</span><span class="s2">="</span><span class="s1">text-align: center;</span><span class="s2">"&gt;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p5"><span class="s1">Visualizations and analyses performed using &lt;</span><span class="s3">a</span><span class="s1"> </span><span class="s4">href</span><span class="s1">="</span><span class="s6">https://www.r-project.org/about.html</span><span class="s1">"&gt;R&lt;/</span><span class="s3">a</span><span class="s1">&gt; (v3.6.1) and &lt;</span><span class="s3">a</span><span class="s1"> </span><span class="s4">href</span><span class="s1">="</span><span class="s6">https://rstudio.com</span><span class="s1">"&gt;RStudio&lt;/</span><span class="s3">a</span><span class="s1">&gt; (v1.2.1335). &lt;</span><span class="s3">br</span><span class="s1">&gt;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td3">
-        <p class="p4"><span class="s1"></span><br></p>
-        <p class="p4"><span class="s1"></span><br></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p5"><span class="s1">Additional interactivity added using &lt;</span><span class="s3">a</span><span class="s1"> </span><span class="s4">href</span><span class="s1">="</span><span class="s6">https://plot.ly/</span><span class="s1">"&gt;plotly&lt;/</span><span class="s3">a</span><span class="s1">&gt; (v4.9.0) and &lt;</span><span class="s3">a</span><span class="s1"> </span><span class="s4">href</span><span class="s1">="</span><span class="s6">https://shiny.rstudio.com/</span><span class="s1">"&gt;Shiny&lt;/</span><span class="s3">a</span><span class="s1">&gt; (v1.3.2). &lt;</span><span class="s3">br</span><span class="s1">&gt;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td3">
-        <p class="p4"><span class="s1"></span><br></p>
-        <p class="p4"><span class="s1"></span><br></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p5"><span class="s1">&lt;</span><span class="s3">a</span><span class="s1"> </span><span class="s4">href</span><span class="s1">="</span><span class="s6">https://simmwill.github.io/evictions/packages.html</span><span class="s1">"&gt;Click here&lt;/</span><span class="s3">a</span><span class="s1">&gt; to see details on all programs used.<span class="Apple-converted-space"> </span></span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td3">
-        <p class="p4"><span class="s1"></span><br></p>
-        <p class="p4"><span class="s1"></span><br></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p5"><span class="s1">&lt;</span><span class="s3">br</span><span class="s1">&gt;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p5"><span class="s1">&lt;</span><span class="s3">br</span><span class="s1">&gt;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td3">
-        <p class="p4"><span class="s1"></span><br></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p8"><span class="s1">© Copyright 2020 The Beer Project Team, All Rights Reserved | Powered by Github.io</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p5"><span class="s1">&lt;/</span><span class="s3">p</span><span class="s1">&gt;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td3">
-        <p class="p4"><span class="s1"></span><br></p>
-        <p class="p4"><span class="s1"></span><br></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p2"><span class="s2">&lt;/</span><span class="s1">small</span><span class="s2">&gt;</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td3">
-        <p class="p4"><span class="s1"></span><br></p>
-        <p class="p4"><span class="s1"></span><br></p>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" class="td2">
-        <p class="p3"><span class="s1"></span><br></p>
-      </td>
-      <td valign="top" class="td3">
-        <p class="p2"><span class="s2">&lt;/</span><span class="s1">html</span><span class="s2">&gt;</span></p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-</body>
-</html>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+ 
+<hr />
+<p style="text-align: center;">
+A work by <a href="https://github.com/amypitts01">Amy Pitts</a>, <a href="https://github.com/ruiyangli1">Ruiyang Li</a>, <a href="https://github.com/Wenbofei">Wenbo Fei</a>, and <a href="https://github.com/iriswangziyi">Ziyi (Iris) Wang</a>
+</p>
+<p style="text-align: center;">
+Visualizations and analyses performed using <a href="https://www.r-project.org/about.html">R</a> (v4.0.2) and <a href="https://rstudio.com">RStudio</a> (v1.3.1073).
+</p>
+<p style="text-align: center;">
+© Copyright 2020 The Beer Project Team, All Rights Reserved | Powered by Github.io
+</p>
+
+<p> </p>
 
 
 </div>
