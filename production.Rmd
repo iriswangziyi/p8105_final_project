@@ -117,6 +117,9 @@ tax_cans_df %>%
 ```
 
 ```{r, warning=FALSE, message=FALSE}
+
+region = tibble(state = state.abb, state.region)
+
 longer_can_df = tax_cans_df %>%
   filter(state != "total") %>%
   pivot_longer(
