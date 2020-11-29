@@ -31,6 +31,10 @@ library(kableExtra)
 library(gifski)
 
 library(usdata)
+
+# setting up the regions
+region = tibble(state = state.abb, state_region= state.region)
+
 ```
 
 In this page we are going take an in-depth look at the production of beer across each state in the USA. 
@@ -38,50 +42,53 @@ In this page we are going take an in-depth look at the production of beer across
 ---
 
 ## Production of Barrels 
-This line graph looks at the amount of Barrels produced by state recorded in barrel units over the years. The data comes from the Alcohol and Tobacco Tax and Trade Bureau dataset. 
+This graph looks at the amount of Barrels produced by state recorded in barrel units. The points represents the mean barrel production from 2010-2019 and the lines represent the deviation of the data. The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. It helps us see the difference in can and bottle production by state. The colors represent the states region, the options are "Northeast", "South", "North Central" and "West". 
 
 ```{r warning=FALSE, message=FALSE }
-tax_barrels_df %>%
-  filter(state != "total") %>%
-  pivot_longer(
-    c(`2008`:`2019`),
-    names_to = "year",
-    values_to = "barrels"
-  ) %>%
-  filter(year > 2009) %>%
-  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
-  plot_ly( #using plotly to plot he tmax and tmin 
-    x = ~year, y = ~barrels, color = ~factor(state), text = ~text_label,
-    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
-  layout( # adding a title 
-    title = "Barrel production over the years by state")
+# tax_barrels_df %>%
+#   filter(state != "total") %>%
+#   pivot_longer(
+#     c(`2008`:`2019`),
+#     names_to = "year",
+#     values_to = "barrels"
+#   ) %>%
+#   filter(year > 2009) %>%
+#   mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+#   plot_ly( #using plotly to plot he tmax and tmin 
+#     x = ~year, y = ~barrels, color = ~factor(state), text = ~text_label,
+#     alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+#   layout( # adding a title 
+#     title = "Barrel production over the years by state")
 ```
 
 
-```{r, warning=FALSE, message=FALSE}
-longer_barrel_df = tax_barrels_df %>%
+```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 5, cashe=TRUE}
+tax_cans_df %>% # first we need to pivot the data 
   filter(state != "total") %>%
   pivot_longer(
     c(`2008`:`2019`),
     names_to = "year",
     values_to = "barrels"
-  )
-longer_barrel_df %>%
-  filter(year > 2009) %>%
+  )%>%
+  filter(year > 2009) %>% # we want to only focus on years 2010-2019
   group_by(state) %>%
   summarize(
-    mean_barrel = mean(barrels),
-    CI_lower = mean(barrels) - 1.96 * sd(barrels)/sqrt(length(barrels)),
-    CI_upper = mean(barrels) + 1.96 * sd(barrels)/sqrt(length(barrels))
+    mean_barrel = mean(barrels, na.rm = TRUE), # finding the mean barrels
+    CI_lower = mean(barrels, na.rm = TRUE) - 
+      1.96 * sd(barrels, na.rm = TRUE)/sqrt(length(barrels)), # finding the lower CI
+    CI_upper = mean(barrels, na.rm = TRUE) + 
+      1.96 * sd(barrels,na.rm = TRUE)/sqrt(length(barrels)) # finding the upper CI
   ) %>%
+  right_join(., region, by = "state") %>% # joining the regions in so we can color the graph
   mutate(
-    state = abbr2state(state),
-    state = fct_reorder(state, mean_barrel)) %>% 
-  ggplot(aes(x = state, y = mean_barrel, color=state)) + 
+    state = abbr2state(state), # making the states into names instead of abbs
+    state = fct_reorder(state, mean_barrel) # ordering the states according to mean_barrels
+  ) %>%  # plotting!!
+  ggplot(aes(x = state, y = mean_barrel,color=state_region)) + 
   geom_point() + 
   geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  theme(legend.position = "none")  +
+  #theme(legend.position = "none")  +
   labs(
     title = "Average Barrel Production by State",
     subtitle = "Data from years 2010-2019",
@@ -91,35 +98,32 @@ longer_barrel_df %>%
 
 ```
 
-### Analysis: 
+### Barrels Analysis: 
 
 ---
 
 
 ## Production Cans and Bottles
-This line graph looks at the amount of cans and bottles produced by state recorded in barrel units over the years. The data comes from the Alcohol and Tobacco Tax and Trade Bureau dataset.
+This graph looks at the amount of cans and bottles produced by state recorded in barrel units. The points represents the mean bottle production from 2010-2019 and the lines represent the deviation of the data.  The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. It helps us see the difference in can and bottle production by state. The colors represent the states region, the options are "Northeast", "South", "North Central" and "West". 
 
 ```{r}
-tax_cans_df %>%
-  filter(state != "total") %>%
-  pivot_longer(
-    c(`2008`:`2019`),
-    names_to = "year",
-    values_to = "cans_bottles"
-  ) %>%
-  filter(year > 2009) %>%
-  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
-  plot_ly( #using plotly to plot he tmax and tmin 
-    x = ~year, y = ~cans_bottles, color = ~factor(state), text = ~text_label,
-    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
-  layout( # adding a title 
-    title = "Can and Bottleproduction over the years by state")
+# tax_cans_df %>%
+#   filter(state != "total") %>%
+#   pivot_longer(
+#     c(`2008`:`2019`),
+#     names_to = "year",
+#     values_to = "cans_bottles"
+#   ) %>%
+#   filter(year > 2009) %>%
+#   mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+#   plot_ly( #using plotly to plot he tmax and tmin 
+#     x = ~year, y = ~cans_bottles, color = ~factor(state), text = ~text_label,
+#     alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+#   layout( # adding a title 
+#     title = "Can and Bottleproduction over the years by state")
 ```
 
-```{r, warning=FALSE, message=FALSE}
-
-region = tibble(state = state.abb, state.region)
-
+```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 5, cashe=TRUE}
 longer_can_df = tax_cans_df %>%
   filter(state != "total") %>%
   pivot_longer(
@@ -127,22 +131,29 @@ longer_can_df = tax_cans_df %>%
     names_to = "year",
     values_to = "cans_bottles"
   )
+
+can_df = right_join(longer_can_df, region, by = "state")
+
 longer_can_df %>%
   filter(year > 2009) %>%
   group_by(state) %>%
   summarize(
-    mean_barrel = mean(cans_bottles),
-    CI_lower = mean(cans_bottles) - 1.96 * sd(cans_bottles)/sqrt(length(cans_bottles)),
-    CI_upper = mean(cans_bottles) + 1.96 * sd(cans_bottles)/sqrt(length(cans_bottles))
+    mean_barrel = mean(cans_bottles, na.rm = TRUE),
+    CI_lower = mean(cans_bottles, na.rm = TRUE) - 
+      1.96 * sd(cans_bottles, na.rm = TRUE)/sqrt(length(cans_bottles)),
+    CI_upper = mean(cans_bottles, na.rm = TRUE) + 
+      1.96 * sd(cans_bottles,na.rm = TRUE)/sqrt(length(cans_bottles))
   ) %>%
+  right_join(., region, by = "state") %>%
   mutate(
     state = abbr2state(state),
-    state = fct_reorder(state, mean_barrel)) %>% 
-  ggplot(aes(x = state, y = mean_barrel, color=state)) + 
+    state = fct_reorder(state, mean_barrel)
+  ) %>% 
+  ggplot(aes(x = state, y = mean_barrel,color=state_region)) + 
   geom_point() + 
   geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  theme(legend.position = "none")  +
+  #theme(legend.position = "none")  +
   labs(
     title = "Average Can and Bottle Production by State",
     subtitle = "Data from years 2010-2019",
@@ -152,32 +163,21 @@ longer_can_df %>%
 
 ```
 
-### Analysis: 
+### Bottles and Cans Analysis: 
 
 --- 
 
 ## Shipments of Malt Beverages
-This is the amount of shipments the United States has made of malt beverages in barrel units. This data comes from the American Beer Distributors. 
+This is the amount of shipments of the United States has made of malt beverages in barrel units. The moving picture shows years from 2010 to 2019 and will continuously repeat.  This data comes from the American Beer Distributors. 
 
-```{r}
-# state_df %>%
-#   filter(year > 2009) %>%
-#   mutate(text_label = str_c("state: ", state)) %>% # creating text label 
-#   plot_ly( #using plotly to plot he tmax and tmin 
-#     x = ~year, y = ~shipments, color = ~factor(state), text = ~text_label,
-#     alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
-#   layout( # adding a title 
-#     title = "Shipments")
-```
-
-```{r fig.width = 7, fig.height = 7}
+```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 7, cashe=TRUE}
 
 sm3 = state_df %>% filter(state != "District of Columbia") %>% filter(year > 2009)
 
 static_plot<-ggplot(sm3,aes(rank_3,group=state,fill=as.factor(state),color=as.factor(state))) +
  geom_tile(aes(y = shipments/2,height = shipments, width = 0.9), alpha = 0.8, color = NA) +
- geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3.5) +
- geom_text(aes(y = shipments, label = paste(' ',shipments)), hjust=0, size = 3.5) +
+ geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3) +
+ geom_text(aes(y = shipments, label = paste(' ',shipments)), hjust=0, size = 3) +
  coord_flip(clip = 'off', expand = TRUE) +
  scale_y_continuous(labels = scales::comma) +
  scale_x_reverse() +
@@ -202,4 +202,4 @@ plt
 
 ```
 
-### Analysis: 
+### Shipment Analysis: 
