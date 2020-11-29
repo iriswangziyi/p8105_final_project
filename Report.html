@@ -519,6 +519,41 @@ head(beer_specific)</code></pre>
 <div id="additional-analysis-regression-ruiyang" class="section level3">
 <h3>Additional analysis: Regression – Ruiyang?</h3>
 <p>If you undertake formal statistical analyses, describe these in detail</p>
+<p>[starts here]</p>
+<p>We focus on two analyses in our project. One is to compare tax differences by jurisdiction group over time. The other is to model taxation under the regression analysis framework. More details can be found in the Analysis section on our website (link to be inserted here).</p>
+<p><strong>1. Preliminary Analysis</strong> – Tax differences by jurisdiction group</p>
+<p><strong>Motivation</strong></p>
+<p>Differing on the degree of control on liquor wholesales and retail, states can be categorized into two <a href="https://www.ncsla.org/State-Officials.html">types</a> – control jurisdiction and licensed jurisdiction, with licensed states having more control. Such categorization may lead to difference in taxation. Therefore, we are interested in examining if there is any difference in taxation by these two groups of states.</p>
+<p><strong>Procedures</strong></p>
+<p>We performed t-test for each year from 2010 to 2019 and would like to see if there is any significant difference in the cumulative tax between control states and licensed states.</p>
+<p><strong>Findings</strong></p>
+<p>Based on the test results, however, we did not find sufficient evidence showing any significant difference between two jurisdiction groups in both the cumulative tax collected and the tax per barrel from 2010 to 2019.</p>
+<p>We speculated that there may be some confounding variables that could potentially affect the relationship between taxation and the jurisdiction group. Therefore, we decided to further perform regression analysis. Specifically, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption.</p>
+<p><strong>2. Regression Analysis</strong></p>
+<p><strong>Variables of interest</strong></p>
+<p>Our explaining variables of interest include jurisdiction group, year, shipments, population, and consumption. Their detailed explanation are as below.</p>
+<ul>
+<li>group: jurisdiction group (control vs licensed)</li>
+<li>shipments: amount of barrels shipped</li>
+<li>population: the number of individuals who are 21 years old or older</li>
+<li>consumption: consumption of barrels per capital</li>
+</ul>
+<p><strong>Model</strong></p>
+<p>Our intended model is</p>
+<p><span class="math display">\[Tax = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption\]</span></p>
+<p>We looked at both the cumulative tax collected and the tax per barrel.</p>
+<p><strong>Results &amp; Findings</strong></p>
+<p>In the model of the <strong>tax per barrel</strong>, all the variables are <strong>not significant</strong> at the 5% significance level; further the model is poorly fitted as the adjusted <span class="math inline">\(R^2\)</span> is approximately 0. Therefore, we will mostly focus on the cumulative tax collected.</p>
+<p>In the model of <strong>cumulative tax collected</strong>, we found that:</p>
+<ul>
+<li>All variables in our model are <strong>significant</strong> at the 5% significance level.</li>
+<li>Our model fit is acceptable with an adjusted <span class="math inline">\(R^2 = 0.51\)</span>.</li>
+<li>Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that <strong>licensed states</strong> are estimated to have approximately <strong>7.5k less cumulative tax collected</strong> than the control states.</li>
+<li><strong>Cumulative tax collected</strong> is estimate to <strong>increase approximately 7k per year</strong>, holding the group, shipments, population and consumption unchanged.</li>
+<li>Cumulative tax collected is estimated to <strong>increase approximately 1k for one unit increase in consumption per capital</strong>, holding the group, year, shipments, and population unchanged.</li>
+<li>Population and shipments have estimated coefficients close to 0, though they have significant p-values.</li>
+</ul>
+<p>[ends here]</p>
 </div>
 <div id="discussion" class="section level3">
 <h3>Discussion:</h3>

@@ -119,6 +119,60 @@ I will try to revise them in a reasonable order.
 ### Additional analysis: Regression -- Ruiyang?
 If you undertake formal statistical analyses, describe these in detail
 
+[starts here]
+
+We focus on two analyses in our project. One is to compare tax differences by jurisdiction group over time. The other is to model taxation under the regression analysis framework. More details can be found in the Analysis section on our website (link to be inserted here). 
+
+**1. Preliminary Analysis** -- Tax differences by jurisdiction group
+
+**Motivation**
+
+Differing on the degree of control on liquor wholesales and retail, states can be categorized into two [types](https://www.ncsla.org/State-Officials.html) -- control jurisdiction and licensed jurisdiction, with licensed states having more control. Such categorization may lead to difference in taxation. Therefore, we are interested in examining if there is any difference in taxation by these two groups of states. 
+
+**Procedures**
+
+We performed t-test for each year from 2010 to 2019 and would like to see if there is any significant difference in the cumulative tax between control states and licensed states. 
+
+**Findings**
+
+Based on the test results, however, we did not find sufficient evidence showing any significant difference between two jurisdiction groups in both the cumulative tax collected and the tax per barrel from 2010 to 2019. 
+
+We speculated that there may be some confounding variables that could potentially affect the relationship between taxation and the jurisdiction group. Therefore, we decided to further perform regression analysis. Specifically, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption.
+
+**2. Regression Analysis**
+
+**Variables of interest**
+
+Our explaining variables of interest include jurisdiction group, year, shipments, population, and consumption. Their detailed explanation are as below.
+
+* group: jurisdiction group (control vs licensed)
+* shipments: amount of barrels shipped
+* population: the number of individuals who are 21 years old or older
+* consumption: consumption of barrels per capital
+
+**Model**
+
+Our intended model is 
+
+$$Tax = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption$$
+
+We looked at both the cumulative tax collected and the tax per barrel. 
+
+**Results & Findings**
+
+In the model of the **tax per barrel**, all the variables are **not significant** at the 5% significance level; further the model is poorly fitted as the adjusted $R^2$ is approximately 0. Therefore, we will mostly focus on the cumulative tax collected. 
+
+In the model of **cumulative tax collected**, we found that: 
+
+* All variables in our model are **significant** at the 5% significance level. 
+* Our model fit is acceptable with an adjusted $R^2 = 0.51$. 
+* Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that **licensed states** are estimated to have approximately **7.5k less cumulative tax collected** than the control states.
+* **Cumulative tax collected** is estimate to **increase approximately 7k per year**, holding the group, shipments, population and consumption unchanged. 
+* Cumulative tax collected is estimated to **increase approximately 1k for one unit increase in consumption per capital**, holding the group, year, shipments, and population unchanged. 
+* Population and shipments have estimated coefficients close to 0, though they have significant p-values. 
+
+[ends here]
+
 
 
 ### Discussion: 
