@@ -1,5 +1,5 @@
 ---
-title: "Beer Tax Determined (In Barrels)"
+title: "Beer Tax Determined"
 output: 
   flexdashboard::flex_dashboard
 ---
@@ -66,7 +66,7 @@ tax %>%
                       '</br> Year: ', year,
                       '</br> Tax: ', tax)) %>%
   layout( # adding a title 
-    title = "Tax Collected over Years")
+    title = "Taxation over Years (In Barrels)")
 
 ```
    
@@ -85,7 +85,7 @@ plot_geo() %>%
                       '</br> Tax: ', tax_2010)
   ) %>%
   layout(geo = g,
-         title = "Tax Map") %>%
+         title = "Taxation Choropleth of 2010 (In Barrels)") %>%
   config( fillFrame = TRUE)
 ```
 
@@ -100,7 +100,8 @@ plot_geo() %>%
                       '</br> Year: ', 2011,
                       '</br> Tax: ', tax_2011)
   ) %>%
-  layout(geo = g) %>%
+  layout(geo = g,
+         title = "Taxation Choropleth of 2011 (In Barrels)") %>%
   config( fillFrame = TRUE)
 ```
 
@@ -115,7 +116,8 @@ plot_geo() %>%
                       '</br> Year: ', 2012,
                       '</br> Tax: ', tax_2012)
   ) %>%
-  layout(geo = g) %>%
+  layout(geo = g,
+         title = "Taxation Choropleth of 2012 (In Barrels)") %>%
   config( fillFrame = TRUE)
 ```
 
@@ -130,7 +132,8 @@ plot_geo() %>%
                       '</br> Year: ', 2013,
                       '</br> Tax: ', tax_2013)
   ) %>%
-  layout(geo = g) %>%
+  layout(geo = g,
+         title = "Taxation Choropleth of 2013 (In Barrels)") %>%
   config( fillFrame = TRUE)
 ```
 
@@ -145,7 +148,8 @@ plot_geo() %>%
                       '</br> Year: ', 2014,
                       '</br> Tax: ', tax_2014)
   ) %>%
-  layout(geo = g) %>%
+  layout(geo = g,
+         title = "Taxation Choropleth of 2014 (In Barrels)") %>%
   config( fillFrame = TRUE)
 ```
 
@@ -160,7 +164,8 @@ plot_geo() %>%
                       '</br> Year: ', 2015,
                       '</br> Tax: ', tax_2015)
   ) %>%
-  layout(geo = g) %>%
+  layout(geo = g,
+         title = "Taxation Choropleth of 2015 (In Barrels)") %>%
   config( fillFrame = TRUE)
 ```
 
@@ -175,7 +180,8 @@ plot_geo() %>%
                       '</br> Year: ', 2016,
                       '</br> Tax: ', tax_2016)
   ) %>%
-  layout(geo = g) %>%
+  layout(geo = g,
+         title = "Taxation Choropleth of 2016 (In Barrels)") %>%
   config( fillFrame = TRUE)
 ```
 
@@ -190,7 +196,8 @@ plot_geo() %>%
                       '</br> Year: ', 2017,
                       '</br> Tax: ', tax_2017)
   ) %>%
-  layout(geo = g) %>%
+  layout(geo = g,
+         title = "Taxation Choropleth of 2017 (In Barrels)") %>%
   config( fillFrame = TRUE)
 ```
 
@@ -205,7 +212,8 @@ plot_geo() %>%
                       '</br> Year: ', 2018,
                       '</br> Tax: ', tax_2018)
   ) %>%
-  layout(geo = g) %>%
+  layout(geo = g,
+         title = "Taxation Choropleth of 2018 (In Barrels)") %>%
   config( fillFrame = TRUE)
 ```
 
@@ -220,7 +228,8 @@ plot_geo() %>%
                       '</br> Year: ', 2019,
                       '</br> Tax: ', tax_2019)
   ) %>%
-  layout(geo = g) %>%
+  layout(geo = g,
+         title = "Taxation Choropleth of 2010 (In Barrels)") %>%
   config( fillFrame = TRUE)
 ```
 

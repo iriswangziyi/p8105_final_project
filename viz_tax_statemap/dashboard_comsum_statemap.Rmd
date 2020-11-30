@@ -1,5 +1,5 @@
 ---
-title: "Beer Consumption (Per Capita in Barrels)"
+title: "Beer Consumption"
 output: 
   flexdashboard::flex_dashboard
 ---
@@ -51,14 +51,24 @@ Column
 ### Overall Trend
     
 ```{r warning=FALSE, message=FALSE}
-state_df %>%
-  filter(year > 2009) %>%
-  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+consumption %>%
+  select(!c(3,9)) %>%
+  pivot_longer(
+    c(`2010`:`2019`),
+    names_to = "year",
+    values_to = "consumption"
+  ) %>%
+
   plot_ly( 
-    x = ~year, y = ~consumption, color = ~factor(state), text = ~text_label,
-    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+    x = ~year, y = ~consumption, color = ~factor(state),
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis",
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year:', year,
+                      '</br> Consumption:', consumption)) %>%
   layout( # adding a title 
-    title = "Per Capita Consumption over the Years")
+    title = "Consumption over Years ( Per Capita in Barrels)")
+
 ```
 
 Column {.tabset .tabset-fade}
@@ -68,10 +78,15 @@ Column {.tabset .tabset-fade}
 consumption_2010 <- consumption %>% pull(10)
 plot_geo() %>%
   add_trace(
-    z = ~consumption_2010 , text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~consumption_2010 , span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2010,
+                      '</br> Consumption: ', consumption_2010)
   ) %>%
-  layout(geo = g)
+  layout(geo = g,
+         title = "Consumption Choropleth in 2010 ( Per Capita in Barrels)")
 ```
 
 ### Year 2011
@@ -79,10 +94,15 @@ plot_geo() %>%
 consumption_2011 <- consumption %>% pull(11)
 plot_geo() %>%
   add_trace(
-    z = ~consumption_2011 , text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~consumption_2011 ,span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2011,
+                      '</br> Consumption: ', consumption_2011)
   ) %>%
-  layout(geo = g)
+  layout(geo = g,
+         title = "Consumption Choropleth in 2011 ( Per Capita in Barrels)")
 ```
 
 ### Year 2012
@@ -90,10 +110,15 @@ plot_geo() %>%
 consumption_2012 <- consumption %>% pull(12)
 plot_geo() %>%
   add_trace(
-    z = ~consumption_2012 , text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~consumption_2012 , span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2012,
+                      '</br> Consumption: ', consumption_2012)
   ) %>%
-  layout(geo = g)
+  layout(geo = g,
+         title = "Consumption Choropleth in 2012 ( Per Capita in Barrels)")
 ```
 
 ### Year 2013
@@ -101,10 +126,15 @@ plot_geo() %>%
 consumption_2013 <- consumption %>% pull(13)
 plot_geo() %>%
   add_trace(
-    z = ~consumption_2013 , text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~consumption_2013 ,span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2013,
+                      '</br> Consumption: ', consumption_2013)
   ) %>%
-  layout(geo = g)
+  layout(geo = g,
+         title = "Consumption Choropleth in 2013 ( Per Capita in Barrels)")
 ```
 
 ### Year 2014
@@ -112,10 +142,15 @@ plot_geo() %>%
 consumption_2014 <- consumption %>% pull(14)
 plot_geo() %>%
   add_trace(
-    z = ~consumption_2014 , text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~consumption_2014, span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2014,
+                      '</br> Consumption: ', consumption_2014)
   ) %>%
-  layout(geo = g)
+  layout(geo = g,
+         title = "Consumption Choropleth in 2014 ( Per Capita in Barrels)")
 ```
 
 ### Year 2015
@@ -123,10 +158,15 @@ plot_geo() %>%
 consumption_2015 <- consumption %>% pull(15)
 plot_geo() %>%
   add_trace(
-    z = ~consumption_2015 , text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~consumption_2015, span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2015,
+                      '</br> Consumption: ', consumption_2015)
   ) %>%
-  layout(geo = g)
+  layout(geo = g,
+         title = "Consumption Choropleth in 2015 ( Per Capita in Barrels)")
 ```
 
 ### Year 2016
@@ -134,10 +174,15 @@ plot_geo() %>%
 consumption_2016 <- consumption %>% pull(16)
 plot_geo() %>%
   add_trace(
-    z = ~consumption_2016 , text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~consumption_2016 , span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2016,
+                      '</br> Consumption: ', consumption_2016)
   ) %>%
-  layout(geo = g)
+  layout(geo = g,
+         title = "Consumption Choropleth in 2016 ( Per Capita in Barrels)")
 ```
 
 ### Year 2017
@@ -145,10 +190,15 @@ plot_geo() %>%
 consumption_2017 <- consumption %>% pull(17)
 plot_geo() %>%
   add_trace(
-    z = ~consumption_2017 , text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~consumption_2017 , span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2017,
+                      '</br> Consumption: ', consumption_2017)
   ) %>%
-  layout(geo = g)
+  layout(geo = g,
+         title = "Consumption Choropleth in 2017 ( Per Capita in Barrels)")
 ```
 
 ### Year 2018
@@ -156,10 +206,15 @@ plot_geo() %>%
 consumption_2018 <- consumption %>% pull(18)
 plot_geo() %>%
   add_trace(
-    z = ~consumption_2018 , text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~consumption_2018 , span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2018,
+                      '</br> Consumption: ', consumption_2018)
   ) %>%
-  layout(geo = g)
+  layout(geo = g,
+         title = "Consumption Choropleth in 2018 ( Per Capita in Barrels)")
 ```
 
 ### Year 2019
@@ -167,10 +222,15 @@ plot_geo() %>%
 consumption_2019 <- consumption %>% pull(19)
 plot_geo() %>%
   add_trace(
-    z = ~consumption_2019 , text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~consumption_2019 , span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2019,
+                      '</br> Consumption: ', consumption_2019)
   ) %>%
-  layout(geo = g)
+  layout(geo = g,
+         title = "Consumption Choropleth in 2019 ( Per Capita in Barrels)")
 ```
 
 Data
