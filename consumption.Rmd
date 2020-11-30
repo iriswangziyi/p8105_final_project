@@ -39,37 +39,37 @@ This graph shows data from the Per Capita Consumption by state from year 2010-20
 ```{r warning=FALSE, message=FALSE, fig.width = 8, fig.height = 7, cache=TRUE}
 # setting up the regions
 region_name = tibble(state = state.name, state_region= state.region)
-# 
-# sm3 = state_df %>% 
-#   filter(state != "District of Columbia") %>% 
-#   filter(year > 2009) %>% 
-#   left_join(., region_name)
-# 
-# static_plot<-ggplot(sm3,aes(rank_6,group=state,fill=state_region,color=state_region)) +
-#  geom_tile(aes(y = consumption/2,height = consumption, width = 0.9), alpha = 0.8, color = NA) +
-#  geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3) +
-#  geom_text(aes(y = consumption, label = paste(' ',consumption)), hjust=0, size = 3) +
-#  coord_flip(clip = 'off', expand = TRUE) +
-#  scale_y_continuous(labels = scales::comma) +
-#  scale_x_reverse() +
-#  guides(color = FALSE, fill = FALSE) +
-#  theme_minimal() +
-#  theme(
-#    plot.title=element_text(size=20, hjust=0.5, face='bold', colour='grey', vjust=-1),
-#    plot.subtitle=element_text(size=10, hjust=0.5, face='italic', color='grey'),
-#    plot.caption =element_text(size=1, hjust=0.5, face='italic', color='grey'),
-#    axis.ticks.y = element_blank(),
-#    axis.text.y = element_blank(),
-#    plot.margin = margin(1,1,1,4, 'cm')
-#  )
-# plt<-static_plot + transition_states(states = year, transition_length = 4, state_length = 1) +
-#                    ease_aes('cubic-in-out') +
-#                    labs(title = 'Consumption in Year {closest_state}',
-#                         subtitle = 'Per Capita Consumption',
-#                         x = '', 
-#                         y = 'Consumption')
-# 
-# plt #pritning our the moving graph
+
+sm3 = state_df %>%
+  filter(state != "District of Columbia") %>%
+  filter(year > 2009) %>%
+  left_join(., region_name)
+
+static_plot<-ggplot(sm3,aes(rank_6,group=state,fill=state_region,color=state_region)) +
+ geom_tile(aes(y = consumption/2,height = consumption, width = 0.9), alpha = 0.8, color = NA) +
+ geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3) +
+ geom_text(aes(y = consumption, label = paste(' ',consumption)), hjust=0, size = 3) +
+ coord_flip(clip = 'off', expand = TRUE) +
+ scale_y_continuous(labels = scales::comma) +
+ scale_x_reverse() +
+ guides(color = FALSE, fill = FALSE) +
+ theme_minimal() +
+ theme(
+   plot.title=element_text(size=20, hjust=0.5, face='bold', colour='grey', vjust=-1),
+   plot.subtitle=element_text(size=10, hjust=0.5, face='italic', color='grey'),
+   plot.caption =element_text(size=1, hjust=0.5, face='italic', color='grey'),
+   axis.ticks.y = element_blank(),
+   axis.text.y = element_blank(),
+   plot.margin = margin(1,1,1,4, 'cm')
+ )
+plt<-static_plot + transition_states(states = year, transition_length = 4, state_length = 1) +
+                   ease_aes('cubic-in-out') +
+                   labs(title = 'Consumption in Year {closest_state}',
+                        subtitle = 'Per Capita Consumption',
+                        x = '',
+                        y = 'Consumption')
+
+plt #pritning our the moving graph
 
 ```
 
@@ -274,7 +274,7 @@ beer %>%
 
 ## Most common style by state
 ```{r}
-beer %>% 
+top_styles = beer %>% 
   filter(state %in% c(state.name)) %>%
   drop_na(style) %>%
   group_by(state) %>% 
@@ -282,14 +282,20 @@ beer %>%
   slice(which.max(n)) %>%
   rename(
     count = n
-  ) #%>%
-  # DT::datatable(., rownames = F, 
-  #               options = list(pageLength = 10))
-# %>% 
-#   DT::formatStyle(
-#     columns = "style",
-#     background = DT::styleEqual(c("Imperial or Double India Pale Ale"),c("lightsteelblue","white")), 
-#     target = "row")
+  ) 
+
+top_styles %>%
+ DT::datatable(., rownames = F, 
+               options = list(pageLength = 10)) %>%
+  DT::formatStyle(
+      'style',
+      #transform = 'rotateX(45deg) rotateY(20deg) rotateZ(30deg)',
+      backgroundColor = DT::styleEqual(
+        unique(top_styles$style), c('lightsteelblue','lightcyan', 'lightblue', 'lightskyblue',
+                                    'cornflowerblue', 'skyblue', 'paleturquoise', 'powderblue' )
+      )
+  )
+
 ```
 
 
