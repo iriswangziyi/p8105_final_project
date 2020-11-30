@@ -100,7 +100,7 @@ barrel %>%  # plotting!!
 
 ```
 
-## Production of Barrels Analysis:
+### Production of Barrels Analysis:
 The state with the least amount of barrel production in North Dakota (`r round(barrel$mean_barrel[barrel$state == "North Dakota"],2)`)
 with South Dakota (`r round(barrel$mean_barrel[barrel$state == "South Dakota"],2)`) very close by. The state with the most barrel production in California (`r round(barrel$mean_barrel[barrel$state == "California"],2)`) with Colorado (`r round(barrel$mean_barrel[barrel$state == "Colorado"],2)`) in second place. The trend in this graph appears to be exponential growth. The upper half of the states seem to produce a significant amount more barrels compare to the lower states. This cut off seem to be around Washington. There is a huge gap between Florida and Ohio. The states Ohio, Colorado, and California seem to make an exponential amount of barrels more than the other states. 
 
