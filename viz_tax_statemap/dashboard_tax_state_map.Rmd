@@ -50,20 +50,23 @@ Column
 ### Overall Trend
     
 ```{r trend}
-tax_df %>%
+tax %>%
   select(!c(3,4)) %>%
-  filter(!(state %in% c("DC","total"))) %>%
   pivot_longer(
-    c(`2008`:`2019`),
+    c(`2010`:`2019`),
     names_to = "year",
     values_to = "tax"
   ) %>%
-  mutate(text_label = str_c("state: ", state)) %>% # creating text label 
+
   plot_ly( 
-    x = ~year, y = ~tax, color = ~factor(state), text = ~text_label,
-    alpha = .5, type = "scatter", mode = "lines", colors = "viridis") %>%
+    x = ~year, y = ~tax, color = ~factor(state.name),
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis",
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', year,
+                      '</br> Tax: ', tax)) %>%
   layout( # adding a title 
-    title = "Tax Collected over the Years")
+    title = "Tax Collected over Years")
 
 ```
    
@@ -74,8 +77,12 @@ Column {.tabset .tabset-fade}
 ```{r}
 plot_geo() %>%
   add_trace(
-    z = ~tax_2010, text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~tax_2010, span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2010,
+                      '</br> Tax: ', tax_2010)
   ) %>%
   layout(geo = g,
          title = "Tax Map") %>%
@@ -86,8 +93,12 @@ plot_geo() %>%
 ```{r}
 plot_geo() %>%
   add_trace(
-    z = ~tax_2011, text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~tax_2011, span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2011,
+                      '</br> Tax: ', tax_2011)
   ) %>%
   layout(geo = g) %>%
   config( fillFrame = TRUE)
@@ -97,8 +108,12 @@ plot_geo() %>%
 ```{r}
 plot_geo() %>%
   add_trace(
-    z = ~tax_2012, text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~tax_2012, span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2012,
+                      '</br> Tax: ', tax_2012)
   ) %>%
   layout(geo = g) %>%
   config( fillFrame = TRUE)
@@ -108,8 +123,12 @@ plot_geo() %>%
 ```{r}
 plot_geo() %>%
   add_trace(
-    z = ~tax_2013, text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~tax_2013, span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2013,
+                      '</br> Tax: ', tax_2013)
   ) %>%
   layout(geo = g) %>%
   config( fillFrame = TRUE)
@@ -119,8 +138,12 @@ plot_geo() %>%
 ```{r}
 plot_geo() %>%
   add_trace(
-    z = ~tax_2014, text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~tax_2014, span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2014,
+                      '</br> Tax: ', tax_2014)
   ) %>%
   layout(geo = g) %>%
   config( fillFrame = TRUE)
@@ -130,8 +153,12 @@ plot_geo() %>%
 ```{r}
 plot_geo() %>%
   add_trace(
-    z = ~tax_2015, text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~tax_2015, span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2015,
+                      '</br> Tax: ', tax_2015)
   ) %>%
   layout(geo = g) %>%
   config( fillFrame = TRUE)
@@ -141,8 +168,12 @@ plot_geo() %>%
 ```{r}
 plot_geo() %>%
   add_trace(
-    z = ~tax_2016, text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~tax_2016, span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2016,
+                      '</br> Tax: ', tax_2016)
   ) %>%
   layout(geo = g) %>%
   config( fillFrame = TRUE)
@@ -152,8 +183,12 @@ plot_geo() %>%
 ```{r}
 plot_geo() %>%
   add_trace(
-    z = ~tax_2017, text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~tax_2017, span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2017,
+                      '</br> Tax: ', tax_2017)
   ) %>%
   layout(geo = g) %>%
   config( fillFrame = TRUE)
@@ -163,8 +198,12 @@ plot_geo() %>%
 ```{r}
 plot_geo() %>%
   add_trace(
-    z = ~tax_2018, text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~tax_2018, span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2018,
+                      '</br> Tax: ', tax_2018)
   ) %>%
   layout(geo = g) %>%
   config( fillFrame = TRUE)
@@ -174,8 +213,12 @@ plot_geo() %>%
 ```{r}
 plot_geo() %>%
   add_trace(
-    z = ~tax_2019, text = state.name, span = I(0),
-    locations = state.abb, locationmode = 'USA-states'
+    z = ~tax_2019, span = I(0),
+    locations = state.abb, locationmode = 'USA-states',
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', 2019,
+                      '</br> Tax: ', tax_2019)
   ) %>%
   layout(geo = g) %>%
   config( fillFrame = TRUE)
