@@ -39,37 +39,37 @@ This graph shows data from the Per Capita Consumption by state from year 2010-20
 ```{r warning=FALSE, message=FALSE, fig.width = 8, fig.height = 7, cache=TRUE}
 # setting up the regions
 region_name = tibble(state = state.name, state_region= state.region)
-
-sm3 = state_df %>% 
-  filter(state != "District of Columbia") %>% 
-  filter(year > 2009) %>% 
-  left_join(., region_name)
-
-static_plot<-ggplot(sm3,aes(rank_6,group=state,fill=state_region,color=state_region)) +
- geom_tile(aes(y = consumption/2,height = consumption, width = 0.9), alpha = 0.8, color = NA) +
- geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3) +
- geom_text(aes(y = consumption, label = paste(' ',consumption)), hjust=0, size = 3) +
- coord_flip(clip = 'off', expand = TRUE) +
- scale_y_continuous(labels = scales::comma) +
- scale_x_reverse() +
- guides(color = FALSE, fill = FALSE) +
- theme_minimal() +
- theme(
-   plot.title=element_text(size=20, hjust=0.5, face='bold', colour='grey', vjust=-1),
-   plot.subtitle=element_text(size=10, hjust=0.5, face='italic', color='grey'),
-   plot.caption =element_text(size=1, hjust=0.5, face='italic', color='grey'),
-   axis.ticks.y = element_blank(),
-   axis.text.y = element_blank(),
-   plot.margin = margin(1,1,1,4, 'cm')
- )
-plt<-static_plot + transition_states(states = year, transition_length = 4, state_length = 1) +
-                   ease_aes('cubic-in-out') +
-                   labs(title = 'Consumption in Year {closest_state}',
-                        subtitle = 'Per Capita Consumption',
-                        x = '', 
-                        y = 'Consumption')
-
-plt #pritning our the moving graph
+# 
+# sm3 = state_df %>% 
+#   filter(state != "District of Columbia") %>% 
+#   filter(year > 2009) %>% 
+#   left_join(., region_name)
+# 
+# static_plot<-ggplot(sm3,aes(rank_6,group=state,fill=state_region,color=state_region)) +
+#  geom_tile(aes(y = consumption/2,height = consumption, width = 0.9), alpha = 0.8, color = NA) +
+#  geom_text(aes(y = 0, label = paste(state, ' ')), vjust = 0.2, hjust = 1, size = 3) +
+#  geom_text(aes(y = consumption, label = paste(' ',consumption)), hjust=0, size = 3) +
+#  coord_flip(clip = 'off', expand = TRUE) +
+#  scale_y_continuous(labels = scales::comma) +
+#  scale_x_reverse() +
+#  guides(color = FALSE, fill = FALSE) +
+#  theme_minimal() +
+#  theme(
+#    plot.title=element_text(size=20, hjust=0.5, face='bold', colour='grey', vjust=-1),
+#    plot.subtitle=element_text(size=10, hjust=0.5, face='italic', color='grey'),
+#    plot.caption =element_text(size=1, hjust=0.5, face='italic', color='grey'),
+#    axis.ticks.y = element_blank(),
+#    axis.text.y = element_blank(),
+#    plot.margin = margin(1,1,1,4, 'cm')
+#  )
+# plt<-static_plot + transition_states(states = year, transition_length = 4, state_length = 1) +
+#                    ease_aes('cubic-in-out') +
+#                    labs(title = 'Consumption in Year {closest_state}',
+#                         subtitle = 'Per Capita Consumption',
+#                         x = '', 
+#                         y = 'Consumption')
+# 
+# plt #pritning our the moving graph
 
 ```
 
@@ -79,7 +79,7 @@ plt #pritning our the moving graph
 
 intro to the below map
 
-```{r brewer map, message = F, warning = F, cache = T}
+```{r brewer map, message = F, warning = F, cache = T} 
 #install.packages("leaflet")
 library(leaflet)
 
@@ -87,22 +87,22 @@ pal <- colorNumeric(
   palette = "viridis",
   domain = beer$alcohol_by_volume)
 
-beer %>% 
-  filter(alcohol_by_volume != 0) %>% 
+beer %>%
+  filter(alcohol_by_volume != 0) %>%
   mutate(
-    click_label = 
+    click_label =
       str_c("<b>Brewer: ", name,
-            "<br>ABV: ", alcohol_by_volume, 
-            "</b><br>City: ", city, 
+            "<br>ABV: ", alcohol_by_volume,
+            "</b><br>City: ", city,
             "<br>State: ", state
             )
-  ) %>% 
-  leaflet() %>% 
-  addProviderTiles(providers$CartoDB.Positron) %>% 
+  ) %>%
+  leaflet() %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
   addCircleMarkers(~longitude, ~latitude,
                    #clusterOptions = markerClusterOptions(),
-                   radius = 0.1, 
-                   color = ~pal(alcohol_by_volume), 
+                   radius = 0.1,
+                   color = ~pal(alcohol_by_volume),
                    popup = ~click_label)
 ```
 
@@ -242,7 +242,7 @@ beer %>%
 
 
 
-```{r}
+```{r warning=FALSE, message=FALSE, cache=TRUE, fig.width = 8, fig.height = 6}
 beer %>% 
   filter(alcohol_by_volume !=0 ) %>%
   group_by(state) %>% 
@@ -254,11 +254,11 @@ beer %>%
     CI_upper = mean(alcohol_by_volume, na.rm=TRUE) + 
       1.96 * sd(alcohol_by_volume, na.rm=TRUE)/sqrt(length(alcohol_by_volume))
   ) %>% 
-  filter(mean_ABV > 0) %>%
   right_join(., region_name, by = "state") %>% # joining the regions in so we can color the graph
   mutate(
     state = fct_reorder(state, mean_ABV) # ordering the states according to mean_ABV
   )  %>%  # plotting!!
+  drop_na(mean_ABV) %>%
   ggplot(aes(x = state, y = mean_ABV,color=state_region)) + 
   geom_point() + 
   geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
@@ -271,6 +271,27 @@ beer %>%
     x = "State"
   )
 ```
+
+## Most common style by state
+```{r}
+beer %>% 
+  filter(state %in% c(state.name)) %>%
+  drop_na(style) %>%
+  group_by(state) %>% 
+  count(style) %>%
+  slice(which.max(n)) %>%
+  rename(
+    count = n
+  ) #%>%
+  # DT::datatable(., rownames = F, 
+  #               options = list(pageLength = 10))
+# %>% 
+#   DT::formatStyle(
+#     columns = "style",
+#     background = DT::styleEqual(c("Imperial or Double India Pale Ale"),c("lightsteelblue","white")), 
+#     target = "row")
+```
+
 
 
 
