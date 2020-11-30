@@ -471,7 +471,7 @@ div.tocify {
 #   layout( # adding a title 
 #     title = &quot;Barrel production over the years by state&quot;)
 
-tax_cans_df %&gt;% # first we need to pivot the data 
+tax_barrels_df %&gt;% # first we need to pivot the data 
   filter(state != &quot;total&quot;) %&gt;%
   pivot_longer(
     c(`2008`:`2019`),
@@ -480,12 +480,15 @@ tax_cans_df %&gt;% # first we need to pivot the data
   )%&gt;%
   filter(year &gt; 2009) %&gt;% # we want to only focus on years 2010-2019
   group_by(state) %&gt;%
+  mutate(
+    barrels_log = barrels
+  ) %&gt;% 
   summarize(
-    mean_barrel = mean(barrels, na.rm = TRUE), # finding the mean barrels
-    CI_lower = mean(barrels, na.rm = TRUE) - 
-      1.96 * sd(barrels, na.rm = TRUE)/sqrt(length(barrels)), # finding the lower CI
-    CI_upper = mean(barrels, na.rm = TRUE) + 
-      1.96 * sd(barrels,na.rm = TRUE)/sqrt(length(barrels)) # finding the upper CI
+    mean_barrel = mean(barrels_log, na.rm = TRUE), # finding the mean barrels
+    CI_lower = mean(barrels_log, na.rm = TRUE) - 
+      1.96 * sd(barrels_log, na.rm = TRUE)/sqrt(length(barrels_log)), # finding the lower CI
+    CI_upper = mean(barrels_log, na.rm = TRUE) + 
+      1.96 * sd(barrels_log,na.rm = TRUE)/sqrt(length(barrels_log)) # finding the upper CI
   ) %&gt;%
   right_join(., region, by = &quot;state&quot;) %&gt;% # joining the regions in so we can color the graph
   mutate(
@@ -560,6 +563,42 @@ tax_cans_df %&gt;%
     x = &quot;State&quot;
   )</code></pre>
 <p><img src="production_files/figure-html/unnamed-chunk-2-1.png" width="768" /></p>
+<pre class="r"><code>tax_cans_df %&gt;% # first we need to pivot the data 
+  filter(state != &quot;total&quot;) %&gt;%
+  pivot_longer(
+    c(`2008`:`2019`),
+    names_to = &quot;year&quot;,
+    values_to = &quot;barrels&quot;
+  )%&gt;%
+  filter(year &gt; 2009) %&gt;% # we want to only focus on years 2010-2019
+  group_by(state) %&gt;%
+  mutate(
+    barrels_log = log(barrels)
+  ) %&gt;% 
+  summarize(
+    mean_barrel = mean(barrels_log, na.rm = TRUE), # finding the mean barrels
+    CI_lower = mean(barrels_log, na.rm = TRUE) - 
+      1.96 * sd(barrels_log, na.rm = TRUE)/sqrt(length(barrels_log)), # finding the lower CI
+    CI_upper = mean(barrels_log, na.rm = TRUE) + 
+      1.96 * sd(barrels_log,na.rm = TRUE)/sqrt(length(barrels_log)) # finding the upper CI
+  ) %&gt;%
+  right_join(., region, by = &quot;state&quot;) %&gt;% # joining the regions in so we can color the graph
+  mutate(
+    state = abbr2state(state), # making the states into names instead of abbs
+    state = fct_reorder(state, mean_barrel) # ordering the states according to mean_barrels
+  ) %&gt;%  # plotting!!
+  ggplot(aes(x = state, y = mean_barrel,color=state_region)) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  #theme(legend.position = &quot;none&quot;)  +
+  labs(
+    title = &quot;Average Can and Bottle Production by State&quot;,
+    subtitle = &quot;Data from years 2010-2019 log transformation &quot;,
+    y = &quot;Can and Bottle Production (in Barrels)&quot;,
+    x = &quot;State&quot;
+  )</code></pre>
+<p><img src="production_files/figure-html/unnamed-chunk-2-2.png" width="768" /></p>
 <div id="bottles-and-cans-analysis" class="section level3">
 <h3>Bottles and Cans Analysis:</h3>
 <hr />
@@ -568,9 +607,18 @@ tax_cans_df %&gt;%
 <div id="shipments-of-malt-beverages" class="section level2">
 <h2>Shipments of Malt Beverages</h2>
 <p>This is the amount of shipments of the United States has made of malt beverages in barrel units. The moving picture shows years from 2010 to 2019 and will continuously repeat. This data comes from the American Beer Distributors.</p>
-<pre class="r"><code>sm3 = state_df %&gt;% filter(state != &quot;District of Columbia&quot;) %&gt;% filter(year &gt; 2009)
+<pre class="r"><code># moving the rank so there isn&#39;t a gap where DC used to be 
+for(i in 1:length(state_df$state)) {
+  if(state_df$state[i] == &quot;Wyoming&quot;) {state_df$rank_3[i] = 50}
+}
 
-static_plot&lt;-ggplot(sm3,aes(rank_3,group=state,fill=as.factor(state),color=as.factor(state))) +
+region_name = tibble(state = state.name, state_region= state.region) 
+sm3 = state_df %&gt;% 
+  filter(state != &quot;District of Columbia&quot;) %&gt;% 
+  filter(year &gt; 2009) %&gt;% 
+  left_join(., region_name)
+
+static_plot&lt;-ggplot(sm3,aes(rank_3,group=state,fill=state_region,color=state_region)) +
  geom_tile(aes(y = shipments/2,height = shipments, width = 0.9), alpha = 0.8, color = NA) +
  geom_text(aes(y = 0, label = paste(state, &#39; &#39;)), vjust = 0.2, hjust = 1, size = 3) +
  geom_text(aes(y = shipments, label = paste(&#39; &#39;,shipments)), hjust=0, size = 3) +

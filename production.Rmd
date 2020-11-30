@@ -60,7 +60,7 @@ This graph looks at the amount of Barrels produced by state recorded in barrel u
 #   layout( # adding a title 
 #     title = "Barrel production over the years by state")
 
-tax_cans_df %>% # first we need to pivot the data 
+tax_barrels_df %>% # first we need to pivot the data 
   filter(state != "total") %>%
   pivot_longer(
     c(`2008`:`2019`),
@@ -69,12 +69,15 @@ tax_cans_df %>% # first we need to pivot the data
   )%>%
   filter(year > 2009) %>% # we want to only focus on years 2010-2019
   group_by(state) %>%
+  mutate(
+    barrels_log = barrels
+  ) %>% 
   summarize(
-    mean_barrel = mean(barrels, na.rm = TRUE), # finding the mean barrels
-    CI_lower = mean(barrels, na.rm = TRUE) - 
-      1.96 * sd(barrels, na.rm = TRUE)/sqrt(length(barrels)), # finding the lower CI
-    CI_upper = mean(barrels, na.rm = TRUE) + 
-      1.96 * sd(barrels,na.rm = TRUE)/sqrt(length(barrels)) # finding the upper CI
+    mean_barrel = mean(barrels_log, na.rm = TRUE), # finding the mean barrels
+    CI_lower = mean(barrels_log, na.rm = TRUE) - 
+      1.96 * sd(barrels_log, na.rm = TRUE)/sqrt(length(barrels_log)), # finding the lower CI
+    CI_upper = mean(barrels_log, na.rm = TRUE) + 
+      1.96 * sd(barrels_log,na.rm = TRUE)/sqrt(length(barrels_log)) # finding the upper CI
   ) %>%
   right_join(., region, by = "state") %>% # joining the regions in so we can color the graph
   mutate(
@@ -149,6 +152,42 @@ tax_cans_df %>%
   labs(
     title = "Average Can and Bottle Production by State",
     subtitle = "Data from years 2010-2019",
+    y = "Can and Bottle Production (in Barrels)",
+    x = "State"
+  )
+
+tax_cans_df %>% # first we need to pivot the data 
+  filter(state != "total") %>%
+  pivot_longer(
+    c(`2008`:`2019`),
+    names_to = "year",
+    values_to = "barrels"
+  )%>%
+  filter(year > 2009) %>% # we want to only focus on years 2010-2019
+  group_by(state) %>%
+  mutate(
+    barrels_log = log(barrels)
+  ) %>% 
+  summarize(
+    mean_barrel = mean(barrels_log, na.rm = TRUE), # finding the mean barrels
+    CI_lower = mean(barrels_log, na.rm = TRUE) - 
+      1.96 * sd(barrels_log, na.rm = TRUE)/sqrt(length(barrels_log)), # finding the lower CI
+    CI_upper = mean(barrels_log, na.rm = TRUE) + 
+      1.96 * sd(barrels_log,na.rm = TRUE)/sqrt(length(barrels_log)) # finding the upper CI
+  ) %>%
+  right_join(., region, by = "state") %>% # joining the regions in so we can color the graph
+  mutate(
+    state = abbr2state(state), # making the states into names instead of abbs
+    state = fct_reorder(state, mean_barrel) # ordering the states according to mean_barrels
+  ) %>%  # plotting!!
+  ggplot(aes(x = state, y = mean_barrel,color=state_region)) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  #theme(legend.position = "none")  +
+  labs(
+    title = "Average Can and Bottle Production by State",
+    subtitle = "Data from years 2010-2019 log transformation ",
     y = "Can and Bottle Production (in Barrels)",
     x = "State"
   )
