@@ -241,3 +241,36 @@ beer %>%
 ```
 
 
+
+```{r}
+beer %>% 
+  filter(alcohol_by_volume !=0 ) %>%
+  group_by(state) %>% 
+  filter(state %in% c(state.name) ) %>%
+  summarize(
+    mean_ABV = mean(alcohol_by_volume),
+    CI_lower = mean(alcohol_by_volume, na.rm=TRUE) - 
+      1.96 * sd(alcohol_by_volume, na.rm=TRUE)/sqrt(length(alcohol_by_volume)),
+    CI_upper = mean(alcohol_by_volume, na.rm=TRUE) + 
+      1.96 * sd(alcohol_by_volume, na.rm=TRUE)/sqrt(length(alcohol_by_volume))
+  ) %>% 
+  filter(mean_ABV > 0) %>%
+  right_join(., region_name, by = "state") %>% # joining the regions in so we can color the graph
+  mutate(
+    state = fct_reorder(state, mean_ABV) # ordering the states according to mean_ABV
+  )  %>%  # plotting!!
+  ggplot(aes(x = state, y = mean_ABV,color=state_region)) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  #theme(legend.position = "none")  +
+  labs(
+    title = "Average ABV by State",
+    #subtitle = "Data from years ",
+    y = "ABV content",
+    x = "State"
+  )
+```
+
+
+
