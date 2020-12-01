@@ -79,7 +79,7 @@ plt #pritning our the moving graph
 
 intro to the below map
 
-```{r brewer map, message = F, warning = F, cache = T} 
+```{r brewer map, message = F, warning = F} 
 #install.packages("leaflet")
 library(leaflet)
 
