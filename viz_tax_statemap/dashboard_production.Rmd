@@ -1,0 +1,113 @@
+---
+title: "dashboard_production"
+output: 
+  flexdashboard::flex_dashboard
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(plotly)
+library(flexdashboard)
+```
+
+Trend
+=====================================  
+Production data comes from taxable volume in Yearly Statistical Beer Data by State (2010 – 2019) from [Alcohol and Tobacco Tax and Trade Bureau](https://www.ttb.gov/beer/statistics)
+
+Column
+-------------------------------------
+    
+### Barrels and Kegs
+
+
+```{r}
+barrels_df = read_csv("../data_import_cleaning/tax_barrels_df.csv")
+state_df = # arrange row order
+  tibble(
+    state = state.abb, # arrange row order according default state.abb
+    state.name = state.name
+  )
+
+barrels <- 
+  left_join(state_df, barrels_df, by = "state")
+
+barrels %>%
+  select(!c(3,4)) %>%
+  pivot_longer(
+    c(`2010`:`2019`),
+    names_to = "year",
+    values_to = "production"
+  ) %>%
+
+  plot_ly( 
+    x = ~year, y = ~production, color = ~factor(state.name),
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis",
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', year,
+                      '</br> Production: ', production)) %>%
+  layout( # adding a title 
+    title = "Production of Barrels and Kegs (In Barrels)")
+
+```
+
+Column
+-------------------------------------
+    
+### Bottles and Cans
+
+
+```{r}
+cans_df = read_csv("../data_import_cleaning/tax_cans.csv")
+state_df = # arrange row order
+  tibble(
+    state = state.abb, # arrange row order according default state.abb
+    state.name = state.name
+  )
+
+cans <- 
+  left_join(state_df, cans_df, by = "state")
+
+cans %>%
+  select(!c(3,4)) %>%
+  pivot_longer(
+    c(`2010`:`2019`),
+    names_to = "year",
+    values_to = "production"
+  ) %>%
+
+  plot_ly( 
+    x = ~year, y = ~production, color = ~factor(state.name),
+    alpha = .5, type = "scatter", mode = "lines", colors = "viridis",
+    hoverinfo = 'text',
+    text = ~paste('</br>', state.name,
+                      '</br> Year: ', year,
+                      '</br> Production: ', production)) %>%
+  layout( # adding a title 
+    title = "Production of Bottles and Cans (In Barrels)")
+
+```
+
+Data
+=====================================  
+Production data comes from Taxable Volume in Yearly Statistical Beer Data by State (2010 – 2019) from [Alcohol and Tobacco Tax and Trade Bureau](https://www.ttb.gov/beer/statistics)
+
+Column
+-------------------------------------
+    
+### Barrels and Kegs
+
+```{r}
+knitr::kable(barrels[,-c(3,4)])
+```
+
+Column
+-------------------------------------
+    
+### Bottles and Cans
+
+```{r}
+knitr::kable(cans[,-c(3,4)])
+# rmarkdown::render("dashboard_tax_state_map.Rmd", output_format = "flexdashboard::flex_dashboard") #knit for web
+```
+
