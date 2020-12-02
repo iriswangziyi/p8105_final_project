@@ -20,23 +20,40 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
 <script src="site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
 <script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
 <link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
 <script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
 <link href="site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
 <script src="site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="site_libs/datatables-binding-0.15/datatables.js"></script>
+<script src="site_libs/datatables-binding-0.16/datatables.js"></script>
 <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -260,7 +277,73 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -270,6 +353,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -316,8 +409,20 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
-<li>
-  <a href="production.html">Production</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Production
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="production.html">Production Analysis</a>
+    </li>
+    <li>
+      <a href="viz_tax_statemap/dashboard_production.html">Data Exploration</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="analysis.html">Analysis</a>
@@ -369,6 +474,14 @@ $(document).ready(function () {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Beer Taxation Report in US</h1>
@@ -411,6 +524,18 @@ $(document).ready(function () {
 <li>Map location of each US brewer with interactive label showing category/style, size of marker showing ABV.</li>
 </ul>
 <p>What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis? Discuss this in the meeting.</p>
+<ul>
+<li>What is the cumulative/average taxation over time in each state?</li>
+<li>What is the beer consumption per capita over time in each state?</li>
+<li>Where are all the US breweries located?</li>
+<li>What is the average alcohol by volume (ABV) in each state?</li>
+<li>What is the common beer style in each state?</li>
+<li>What is the top 8 beer style?</li>
+<li>What is the number of barrels/cans and bottles of beer produced by each state?</li>
+<li>What is the amount of shipments made of malt beverages?</li>
+<li>Is there a difference in tax/cumulative tax/tax per barrel between the two jurisdiction groups?</li>
+<li>Is there a linear relationship between taxation and jurisdiction group, year, shipments, population, and consumption?</li>
+</ul>
 </div>
 <div id="data-source-scraping-method-cleaning" class="section level3">
 <h3>Data: source, scraping method, cleaning</h3>
@@ -564,8 +689,8 @@ cat_abv %&gt;%
                       zeroline = TRUE),
          yaxis = list(title = &quot;Average ABV&quot;,
                       range = c(0, 7)))</code></pre>
-<div id="htmlwidget-60f66a4e64073f43ece1" style="width:672px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-60f66a4e64073f43ece1">{"x":{"visdat":{"181766deb1b8d":["function () ","plotlyVisDat"]},"cur_data":"181766deb1b8d","attrs":{"181766deb1b8d":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Average ABV by Beer Category","xaxis":{"domain":[0,1],"automargin":true,"title":"Beer Category","zeroline":true,"type":"category","categoryorder":"array","categoryarray":["North American Lager","NA","Irish Ale","German Ale","German Lager","North American Ale","Other Style","British Ale","Belgian and French Ale"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Average ABV","range":[0,7]},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["North American Lager"],"y":[1.74905092352014],"type":"bar","name":"North American Lager","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["NA"],"y":[2.37783333751711],"type":"bar","name":"NA","marker":{"color":"rgba(71,45,123,1)","line":{"color":"rgba(71,45,123,1)"}},"textfont":{"color":"rgba(71,45,123,1)"},"error_y":{"color":"rgba(71,45,123,1)"},"error_x":{"color":"rgba(71,45,123,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Irish Ale"],"y":[2.38843137236157],"type":"bar","name":"Irish Ale","marker":{"color":"rgba(59,82,139,1)","line":{"color":"rgba(59,82,139,1)"}},"textfont":{"color":"rgba(59,82,139,1)"},"error_y":{"color":"rgba(59,82,139,1)"},"error_x":{"color":"rgba(59,82,139,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["German Ale"],"y":[2.66887416271258],"type":"bar","name":"German Ale","marker":{"color":"rgba(44,114,142,1)","line":{"color":"rgba(44,114,142,1)"}},"textfont":{"color":"rgba(44,114,142,1)"},"error_y":{"color":"rgba(44,114,142,1)"},"error_x":{"color":"rgba(44,114,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["German Lager"],"y":[2.96063091627066],"type":"bar","name":"German Lager","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"textfont":{"color":"rgba(33,144,141,1)"},"error_y":{"color":"rgba(33,144,141,1)"},"error_x":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["North American Ale"],"y":[3.40105119912369],"type":"bar","name":"North American Ale","marker":{"color":"rgba(39,173,129,1)","line":{"color":"rgba(39,173,129,1)"}},"textfont":{"color":"rgba(39,173,129,1)"},"error_y":{"color":"rgba(39,173,129,1)"},"error_x":{"color":"rgba(39,173,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Other Style"],"y":[3.82319501821494],"type":"bar","name":"Other Style","marker":{"color":"rgba(93,200,99,1)","line":{"color":"rgba(93,200,99,1)"}},"textfont":{"color":"rgba(93,200,99,1)"},"error_y":{"color":"rgba(93,200,99,1)"},"error_x":{"color":"rgba(93,200,99,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["British Ale"],"y":[4.39871368764357],"type":"bar","name":"British Ale","marker":{"color":"rgba(170,220,50,1)","line":{"color":"rgba(170,220,50,1)"}},"textfont":{"color":"rgba(170,220,50,1)"},"error_y":{"color":"rgba(170,220,50,1)"},"error_x":{"color":"rgba(170,220,50,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Belgian and French Ale"],"y":[6.49562791336512],"type":"bar","name":"Belgian and French Ale","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-00aaa6cac05cab962c69" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-00aaa6cac05cab962c69">{"x":{"visdat":{"3cc580925e1":["function () ","plotlyVisDat"]},"cur_data":"3cc580925e1","attrs":{"3cc580925e1":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Average ABV by Beer Category","xaxis":{"domain":[0,1],"automargin":true,"title":"Beer Category","zeroline":true,"type":"category","categoryorder":"array","categoryarray":["North American Lager","NA","Irish Ale","German Ale","German Lager","North American Ale","Other Style","British Ale","Belgian and French Ale"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Average ABV","range":[0,7]},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["North American Lager"],"y":[1.74905092352014],"type":"bar","name":"North American Lager","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["NA"],"y":[2.37783333751711],"type":"bar","name":"NA","marker":{"color":"rgba(71,45,123,1)","line":{"color":"rgba(71,45,123,1)"}},"textfont":{"color":"rgba(71,45,123,1)"},"error_y":{"color":"rgba(71,45,123,1)"},"error_x":{"color":"rgba(71,45,123,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Irish Ale"],"y":[2.38843137236157],"type":"bar","name":"Irish Ale","marker":{"color":"rgba(59,82,139,1)","line":{"color":"rgba(59,82,139,1)"}},"textfont":{"color":"rgba(59,82,139,1)"},"error_y":{"color":"rgba(59,82,139,1)"},"error_x":{"color":"rgba(59,82,139,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["German Ale"],"y":[2.66887416271258],"type":"bar","name":"German Ale","marker":{"color":"rgba(44,114,142,1)","line":{"color":"rgba(44,114,142,1)"}},"textfont":{"color":"rgba(44,114,142,1)"},"error_y":{"color":"rgba(44,114,142,1)"},"error_x":{"color":"rgba(44,114,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["German Lager"],"y":[2.96063091627066],"type":"bar","name":"German Lager","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"textfont":{"color":"rgba(33,144,141,1)"},"error_y":{"color":"rgba(33,144,141,1)"},"error_x":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["North American Ale"],"y":[3.40105119912369],"type":"bar","name":"North American Ale","marker":{"color":"rgba(39,173,129,1)","line":{"color":"rgba(39,173,129,1)"}},"textfont":{"color":"rgba(39,173,129,1)"},"error_y":{"color":"rgba(39,173,129,1)"},"error_x":{"color":"rgba(39,173,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Other Style"],"y":[3.82319501821494],"type":"bar","name":"Other Style","marker":{"color":"rgba(93,200,99,1)","line":{"color":"rgba(93,200,99,1)"}},"textfont":{"color":"rgba(93,200,99,1)"},"error_y":{"color":"rgba(93,200,99,1)"},"error_x":{"color":"rgba(93,200,99,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["British Ale"],"y":[4.39871368764357],"type":"bar","name":"British Ale","marker":{"color":"rgba(170,220,50,1)","line":{"color":"rgba(170,220,50,1)"}},"textfont":{"color":"rgba(170,220,50,1)"},"error_y":{"color":"rgba(170,220,50,1)"},"error_x":{"color":"rgba(170,220,50,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Belgian and French Ale"],"y":[6.49562791336512],"type":"bar","name":"Belgian and French Ale","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p><strong>By brewer</strong></p>
 <p>Next, we looked at the pattern of ABV by beer’s brewer.</p>
 <p>As there are 823 brewers listed in our dataset, we will show the <strong>top 20</strong> that has the highest average ABV, rather than all of them.</p>
@@ -606,8 +731,8 @@ brewer_abv %&gt;%
                       zeroline = TRUE),
          yaxis = list(title = &quot;Average ABV&quot;,
                       range = c(8, 10.8)))</code></pre>
-<div id="htmlwidget-cc5893189a00aaa6cac0" style="width:672px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-cc5893189a00aaa6cac0">{"x":{"visdat":{"1817624e63cde":["function () ","plotlyVisDat"]},"cur_data":"1817624e63cde","attrs":{"1817624e63cde":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Average ABV by Beer Brewer","xaxis":{"domain":[0,1],"automargin":true,"title":"Beer Brewer","zeroline":true,"type":"category","categoryorder":"array","categoryarray":["CJ's Brewery & Grill","Weyerbacher Brewing Company","Cat's Paw Home Brew","Gordash Brewing Company","Ukiah Brewing","Founders Brewing","Portsmouth Brewery","Amicas Pizza, Microbrews and More","The Lost Abbey","Element Brewing Company","Independence Brewing Co","Oregon Trail Brewery","Oso","Brewery Vivant","High Point Wheat Beer Company","Voodoo Brewing Co.,LLC","Dogfish Head Craft Brewery","Foothills Brewing Company","Avery Brewing Company","Mendocino Brewing - Ukiah"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Average ABV","range":[8,10.8]},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["CJ's Brewery & Grill"],"y":[8.1000003815],"type":"bar","name":"CJ's Brewery & Grill","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Weyerbacher Brewing Company"],"y":[8.13000001904333],"type":"bar","name":"Weyerbacher Brewing Company","marker":{"color":"rgba(72,21,103,1)","line":{"color":"rgba(72,21,103,1)"}},"textfont":{"color":"rgba(72,21,103,1)"},"error_y":{"color":"rgba(72,21,103,1)"},"error_x":{"color":"rgba(72,21,103,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Cat's Paw Home Brew"],"y":[8.1999998093],"type":"bar","name":"Cat's Paw Home Brew","marker":{"color":"rgba(72,38,119,1)","line":{"color":"rgba(72,38,119,1)"}},"textfont":{"color":"rgba(72,38,119,1)"},"error_y":{"color":"rgba(72,38,119,1)"},"error_x":{"color":"rgba(72,38,119,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Gordash Brewing Company"],"y":[8.25],"type":"bar","name":"Gordash Brewing Company","marker":{"color":"rgba(69,55,129,1)","line":{"color":"rgba(69,55,129,1)"}},"textfont":{"color":"rgba(69,55,129,1)"},"error_y":{"color":"rgba(69,55,129,1)"},"error_x":{"color":"rgba(69,55,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Ukiah Brewing"],"y":[8.3000001907],"type":"bar","name":"Ukiah Brewing","marker":{"color":"rgba(63,71,136,1)","line":{"color":"rgba(63,71,136,1)"}},"textfont":{"color":"rgba(63,71,136,1)"},"error_y":{"color":"rgba(63,71,136,1)"},"error_x":{"color":"rgba(63,71,136,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Founders Brewing"],"y":[8.3285713877],"type":"bar","name":"Founders Brewing","marker":{"color":"rgba(57,85,140,1)","line":{"color":"rgba(57,85,140,1)"}},"textfont":{"color":"rgba(57,85,140,1)"},"error_y":{"color":"rgba(57,85,140,1)"},"error_x":{"color":"rgba(57,85,140,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Portsmouth Brewery"],"y":[8.5],"type":"bar","name":"Portsmouth Brewery","marker":{"color":"rgba(50,100,142,1)","line":{"color":"rgba(50,100,142,1)"}},"textfont":{"color":"rgba(50,100,142,1)"},"error_y":{"color":"rgba(50,100,142,1)"},"error_x":{"color":"rgba(50,100,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Amicas Pizza, Microbrews and More"],"y":[8.6000003815],"type":"bar","name":"Amicas Pizza, Microbrews and More","marker":{"color":"rgba(45,113,142,1)","line":{"color":"rgba(45,113,142,1)"}},"textfont":{"color":"rgba(45,113,142,1)"},"error_y":{"color":"rgba(45,113,142,1)"},"error_x":{"color":"rgba(45,113,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["The Lost Abbey"],"y":[8.7071428299],"type":"bar","name":"The Lost Abbey","marker":{"color":"rgba(40,125,142,1)","line":{"color":"rgba(40,125,142,1)"}},"textfont":{"color":"rgba(40,125,142,1)"},"error_y":{"color":"rgba(40,125,142,1)"},"error_x":{"color":"rgba(40,125,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Element Brewing Company"],"y":[8.75],"type":"bar","name":"Element Brewing Company","marker":{"color":"rgba(35,138,141,1)","line":{"color":"rgba(35,138,141,1)"}},"textfont":{"color":"rgba(35,138,141,1)"},"error_y":{"color":"rgba(35,138,141,1)"},"error_x":{"color":"rgba(35,138,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Independence Brewing Co"],"y":[9],"type":"bar","name":"Independence Brewing Co","marker":{"color":"rgba(31,150,139,1)","line":{"color":"rgba(31,150,139,1)"}},"textfont":{"color":"rgba(31,150,139,1)"},"error_y":{"color":"rgba(31,150,139,1)"},"error_x":{"color":"rgba(31,150,139,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Oregon Trail Brewery"],"y":[9.1000003815],"type":"bar","name":"Oregon Trail Brewery","marker":{"color":"rgba(32,163,134,1)","line":{"color":"rgba(32,163,134,1)"}},"textfont":{"color":"rgba(32,163,134,1)"},"error_y":{"color":"rgba(32,163,134,1)"},"error_x":{"color":"rgba(32,163,134,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Oso"],"y":[9.1999998093],"type":"bar","name":"Oso","marker":{"color":"rgba(41,175,127,1)","line":{"color":"rgba(41,175,127,1)"}},"textfont":{"color":"rgba(41,175,127,1)"},"error_y":{"color":"rgba(41,175,127,1)"},"error_x":{"color":"rgba(41,175,127,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Brewery Vivant"],"y":[9.25],"type":"bar","name":"Brewery Vivant","marker":{"color":"rgba(60,187,117,1)","line":{"color":"rgba(60,187,117,1)"}},"textfont":{"color":"rgba(60,187,117,1)"},"error_y":{"color":"rgba(60,187,117,1)"},"error_x":{"color":"rgba(60,187,117,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["High Point Wheat Beer Company"],"y":[9.5],"type":"bar","name":"High Point Wheat Beer Company","marker":{"color":"rgba(86,198,103,1)","line":{"color":"rgba(86,198,103,1)"}},"textfont":{"color":"rgba(86,198,103,1)"},"error_y":{"color":"rgba(86,198,103,1)"},"error_x":{"color":"rgba(86,198,103,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Voodoo Brewing Co.,LLC"],"y":[9.6000000238375],"type":"bar","name":"Voodoo Brewing Co.,LLC","marker":{"color":"rgba(116,208,85,1)","line":{"color":"rgba(116,208,85,1)"}},"textfont":{"color":"rgba(116,208,85,1)"},"error_y":{"color":"rgba(116,208,85,1)"},"error_x":{"color":"rgba(116,208,85,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Dogfish Head Craft Brewery"],"y":[9.77555554002222],"type":"bar","name":"Dogfish Head Craft Brewery","marker":{"color":"rgba(148,216,64,1)","line":{"color":"rgba(148,216,64,1)"}},"textfont":{"color":"rgba(148,216,64,1)"},"error_y":{"color":"rgba(148,216,64,1)"},"error_x":{"color":"rgba(148,216,64,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Foothills Brewing Company"],"y":[10],"type":"bar","name":"Foothills Brewing Company","marker":{"color":"rgba(184,222,41,1)","line":{"color":"rgba(184,222,41,1)"}},"textfont":{"color":"rgba(184,222,41,1)"},"error_y":{"color":"rgba(184,222,41,1)"},"error_x":{"color":"rgba(184,222,41,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Avery Brewing Company"],"y":[10.4569230447462],"type":"bar","name":"Avery Brewing Company","marker":{"color":"rgba(220,227,24,1)","line":{"color":"rgba(220,227,24,1)"}},"textfont":{"color":"rgba(220,227,24,1)"},"error_y":{"color":"rgba(220,227,24,1)"},"error_x":{"color":"rgba(220,227,24,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Mendocino Brewing - Ukiah"],"y":[10.5],"type":"bar","name":"Mendocino Brewing - Ukiah","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-6e2e8a276ab5f7f1c2c1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6e2e8a276ab5f7f1c2c1">{"x":{"visdat":{"3cc55e563a8b":["function () ","plotlyVisDat"]},"cur_data":"3cc55e563a8b","attrs":{"3cc55e563a8b":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Average ABV by Beer Brewer","xaxis":{"domain":[0,1],"automargin":true,"title":"Beer Brewer","zeroline":true,"type":"category","categoryorder":"array","categoryarray":["CJ's Brewery & Grill","Weyerbacher Brewing Company","Cat's Paw Home Brew","Gordash Brewing Company","Ukiah Brewing","Founders Brewing","Portsmouth Brewery","Amicas Pizza, Microbrews and More","The Lost Abbey","Element Brewing Company","Independence Brewing Co","Oregon Trail Brewery","Oso","Brewery Vivant","High Point Wheat Beer Company","Voodoo Brewing Co.,LLC","Dogfish Head Craft Brewery","Foothills Brewing Company","Avery Brewing Company","Mendocino Brewing - Ukiah"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Average ABV","range":[8,10.8]},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["CJ's Brewery & Grill"],"y":[8.1000003815],"type":"bar","name":"CJ's Brewery & Grill","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Weyerbacher Brewing Company"],"y":[8.13000001904333],"type":"bar","name":"Weyerbacher Brewing Company","marker":{"color":"rgba(72,21,103,1)","line":{"color":"rgba(72,21,103,1)"}},"textfont":{"color":"rgba(72,21,103,1)"},"error_y":{"color":"rgba(72,21,103,1)"},"error_x":{"color":"rgba(72,21,103,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Cat's Paw Home Brew"],"y":[8.1999998093],"type":"bar","name":"Cat's Paw Home Brew","marker":{"color":"rgba(72,38,119,1)","line":{"color":"rgba(72,38,119,1)"}},"textfont":{"color":"rgba(72,38,119,1)"},"error_y":{"color":"rgba(72,38,119,1)"},"error_x":{"color":"rgba(72,38,119,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Gordash Brewing Company"],"y":[8.25],"type":"bar","name":"Gordash Brewing Company","marker":{"color":"rgba(69,55,129,1)","line":{"color":"rgba(69,55,129,1)"}},"textfont":{"color":"rgba(69,55,129,1)"},"error_y":{"color":"rgba(69,55,129,1)"},"error_x":{"color":"rgba(69,55,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Ukiah Brewing"],"y":[8.3000001907],"type":"bar","name":"Ukiah Brewing","marker":{"color":"rgba(63,71,136,1)","line":{"color":"rgba(63,71,136,1)"}},"textfont":{"color":"rgba(63,71,136,1)"},"error_y":{"color":"rgba(63,71,136,1)"},"error_x":{"color":"rgba(63,71,136,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Founders Brewing"],"y":[8.3285713877],"type":"bar","name":"Founders Brewing","marker":{"color":"rgba(57,85,140,1)","line":{"color":"rgba(57,85,140,1)"}},"textfont":{"color":"rgba(57,85,140,1)"},"error_y":{"color":"rgba(57,85,140,1)"},"error_x":{"color":"rgba(57,85,140,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Portsmouth Brewery"],"y":[8.5],"type":"bar","name":"Portsmouth Brewery","marker":{"color":"rgba(50,100,142,1)","line":{"color":"rgba(50,100,142,1)"}},"textfont":{"color":"rgba(50,100,142,1)"},"error_y":{"color":"rgba(50,100,142,1)"},"error_x":{"color":"rgba(50,100,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Amicas Pizza, Microbrews and More"],"y":[8.6000003815],"type":"bar","name":"Amicas Pizza, Microbrews and More","marker":{"color":"rgba(45,113,142,1)","line":{"color":"rgba(45,113,142,1)"}},"textfont":{"color":"rgba(45,113,142,1)"},"error_y":{"color":"rgba(45,113,142,1)"},"error_x":{"color":"rgba(45,113,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["The Lost Abbey"],"y":[8.7071428299],"type":"bar","name":"The Lost Abbey","marker":{"color":"rgba(40,125,142,1)","line":{"color":"rgba(40,125,142,1)"}},"textfont":{"color":"rgba(40,125,142,1)"},"error_y":{"color":"rgba(40,125,142,1)"},"error_x":{"color":"rgba(40,125,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Element Brewing Company"],"y":[8.75],"type":"bar","name":"Element Brewing Company","marker":{"color":"rgba(35,138,141,1)","line":{"color":"rgba(35,138,141,1)"}},"textfont":{"color":"rgba(35,138,141,1)"},"error_y":{"color":"rgba(35,138,141,1)"},"error_x":{"color":"rgba(35,138,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Independence Brewing Co"],"y":[9],"type":"bar","name":"Independence Brewing Co","marker":{"color":"rgba(31,150,139,1)","line":{"color":"rgba(31,150,139,1)"}},"textfont":{"color":"rgba(31,150,139,1)"},"error_y":{"color":"rgba(31,150,139,1)"},"error_x":{"color":"rgba(31,150,139,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Oregon Trail Brewery"],"y":[9.1000003815],"type":"bar","name":"Oregon Trail Brewery","marker":{"color":"rgba(32,163,134,1)","line":{"color":"rgba(32,163,134,1)"}},"textfont":{"color":"rgba(32,163,134,1)"},"error_y":{"color":"rgba(32,163,134,1)"},"error_x":{"color":"rgba(32,163,134,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Oso"],"y":[9.1999998093],"type":"bar","name":"Oso","marker":{"color":"rgba(41,175,127,1)","line":{"color":"rgba(41,175,127,1)"}},"textfont":{"color":"rgba(41,175,127,1)"},"error_y":{"color":"rgba(41,175,127,1)"},"error_x":{"color":"rgba(41,175,127,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Brewery Vivant"],"y":[9.25],"type":"bar","name":"Brewery Vivant","marker":{"color":"rgba(60,187,117,1)","line":{"color":"rgba(60,187,117,1)"}},"textfont":{"color":"rgba(60,187,117,1)"},"error_y":{"color":"rgba(60,187,117,1)"},"error_x":{"color":"rgba(60,187,117,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["High Point Wheat Beer Company"],"y":[9.5],"type":"bar","name":"High Point Wheat Beer Company","marker":{"color":"rgba(86,198,103,1)","line":{"color":"rgba(86,198,103,1)"}},"textfont":{"color":"rgba(86,198,103,1)"},"error_y":{"color":"rgba(86,198,103,1)"},"error_x":{"color":"rgba(86,198,103,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Voodoo Brewing Co.,LLC"],"y":[9.6000000238375],"type":"bar","name":"Voodoo Brewing Co.,LLC","marker":{"color":"rgba(116,208,85,1)","line":{"color":"rgba(116,208,85,1)"}},"textfont":{"color":"rgba(116,208,85,1)"},"error_y":{"color":"rgba(116,208,85,1)"},"error_x":{"color":"rgba(116,208,85,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Dogfish Head Craft Brewery"],"y":[9.77555554002222],"type":"bar","name":"Dogfish Head Craft Brewery","marker":{"color":"rgba(148,216,64,1)","line":{"color":"rgba(148,216,64,1)"}},"textfont":{"color":"rgba(148,216,64,1)"},"error_y":{"color":"rgba(148,216,64,1)"},"error_x":{"color":"rgba(148,216,64,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Foothills Brewing Company"],"y":[10],"type":"bar","name":"Foothills Brewing Company","marker":{"color":"rgba(184,222,41,1)","line":{"color":"rgba(184,222,41,1)"}},"textfont":{"color":"rgba(184,222,41,1)"},"error_y":{"color":"rgba(184,222,41,1)"},"error_x":{"color":"rgba(184,222,41,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Avery Brewing Company"],"y":[10.4569230447462],"type":"bar","name":"Avery Brewing Company","marker":{"color":"rgba(220,227,24,1)","line":{"color":"rgba(220,227,24,1)"}},"textfont":{"color":"rgba(220,227,24,1)"},"error_y":{"color":"rgba(220,227,24,1)"},"error_x":{"color":"rgba(220,227,24,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Mendocino Brewing - Ukiah"],"y":[10.5],"type":"bar","name":"Mendocino Brewing - Ukiah","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p><strong>By style</strong></p>
 <p>Finally, we looked at the pattern of ABV by beer’s style.</p>
 <p>There are 62 styles listed in our dataset, and we will show the <strong>top 20</strong> that has the highest average ABV, as well as the <strong>lowest 5</strong>.</p>
@@ -645,8 +770,8 @@ style_abv %&gt;%
                       zeroline = TRUE),
          yaxis = list(title = &quot;Average ABV&quot;,
                       range = c(5.5, 12)))</code></pre>
-<div id="htmlwidget-5cab962c696e2e8a276a" style="width:672px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5cab962c696e2e8a276a">{"x":{"visdat":{"181762cf82285":["function () ","plotlyVisDat"]},"cur_data":"181762cf82285","attrs":{"181762cf82285":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Average ABV by Beer Style","xaxis":{"domain":[0,1],"automargin":true,"title":"Beer Style","zeroline":true,"type":"category","categoryorder":"array","categoryarray":["South German-Style Weizenbock","Winter Warmer","Herb and Spice Beer","Pumpkin Beer","Other Belgian-Style Ales","German-Style Doppelbock","Belgian-Style Dubbel","Dark American-Belgo-Style Ale","American-Style Strong Pale Ale","Belgian-Style Tripel","Imperial or Double India Pale Ale","Belgian-Style Pale Strong Ale","American-Style India Black Ale","Specialty Beer","Imperial or Double Red Ale","Belgian-Style Dark Strong Ale","American-Style Imperial Stout","American-Style Barley Wine Ale","Strong Ale","Belgian-Style Quadrupel"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Average ABV","range":[5.5,12]},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["South German-Style Weizenbock"],"y":[6.09166661899167],"type":"bar","name":"South German-Style Weizenbock","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Winter Warmer"],"y":[6.27333336784762],"type":"bar","name":"Winter Warmer","marker":{"color":"rgba(72,21,103,1)","line":{"color":"rgba(72,21,103,1)"}},"textfont":{"color":"rgba(72,21,103,1)"},"error_y":{"color":"rgba(72,21,103,1)"},"error_x":{"color":"rgba(72,21,103,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Herb and Spice Beer"],"y":[6.4375000596],"type":"bar","name":"Herb and Spice Beer","marker":{"color":"rgba(72,38,119,1)","line":{"color":"rgba(72,38,119,1)"}},"textfont":{"color":"rgba(72,38,119,1)"},"error_y":{"color":"rgba(72,38,119,1)"},"error_x":{"color":"rgba(72,38,119,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Pumpkin Beer"],"y":[6.71176467222353],"type":"bar","name":"Pumpkin Beer","marker":{"color":"rgba(69,55,129,1)","line":{"color":"rgba(69,55,129,1)"}},"textfont":{"color":"rgba(69,55,129,1)"},"error_y":{"color":"rgba(69,55,129,1)"},"error_x":{"color":"rgba(69,55,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Other Belgian-Style Ales"],"y":[6.737000017162],"type":"bar","name":"Other Belgian-Style Ales","marker":{"color":"rgba(63,71,136,1)","line":{"color":"rgba(63,71,136,1)"}},"textfont":{"color":"rgba(63,71,136,1)"},"error_y":{"color":"rgba(63,71,136,1)"},"error_x":{"color":"rgba(63,71,136,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["German-Style Doppelbock"],"y":[6.79062494635625],"type":"bar","name":"German-Style Doppelbock","marker":{"color":"rgba(57,85,140,1)","line":{"color":"rgba(57,85,140,1)"}},"textfont":{"color":"rgba(57,85,140,1)"},"error_y":{"color":"rgba(57,85,140,1)"},"error_x":{"color":"rgba(57,85,140,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Belgian-Style Dubbel"],"y":[6.91999998093],"type":"bar","name":"Belgian-Style Dubbel","marker":{"color":"rgba(50,100,142,1)","line":{"color":"rgba(50,100,142,1)"}},"textfont":{"color":"rgba(50,100,142,1)"},"error_y":{"color":"rgba(50,100,142,1)"},"error_x":{"color":"rgba(50,100,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Dark American-Belgo-Style Ale"],"y":[7.891666650775],"type":"bar","name":"Dark American-Belgo-Style Ale","marker":{"color":"rgba(45,113,142,1)","line":{"color":"rgba(45,113,142,1)"}},"textfont":{"color":"rgba(45,113,142,1)"},"error_y":{"color":"rgba(45,113,142,1)"},"error_x":{"color":"rgba(45,113,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["American-Style Strong Pale Ale"],"y":[8.40769235903846],"type":"bar","name":"American-Style Strong Pale Ale","marker":{"color":"rgba(40,125,142,1)","line":{"color":"rgba(40,125,142,1)"}},"textfont":{"color":"rgba(40,125,142,1)"},"error_y":{"color":"rgba(40,125,142,1)"},"error_x":{"color":"rgba(40,125,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Belgian-Style Tripel"],"y":[8.44250003990313],"type":"bar","name":"Belgian-Style Tripel","marker":{"color":"rgba(35,138,141,1)","line":{"color":"rgba(35,138,141,1)"}},"textfont":{"color":"rgba(35,138,141,1)"},"error_y":{"color":"rgba(35,138,141,1)"},"error_x":{"color":"rgba(35,138,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Imperial or Double India Pale Ale"],"y":[8.58367346742959],"type":"bar","name":"Imperial or Double India Pale Ale","marker":{"color":"rgba(31,150,139,1)","line":{"color":"rgba(31,150,139,1)"}},"textfont":{"color":"rgba(31,150,139,1)"},"error_y":{"color":"rgba(31,150,139,1)"},"error_x":{"color":"rgba(31,150,139,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Belgian-Style Pale Strong Ale"],"y":[8.63000001907],"type":"bar","name":"Belgian-Style Pale Strong Ale","marker":{"color":"rgba(32,163,134,1)","line":{"color":"rgba(32,163,134,1)"}},"textfont":{"color":"rgba(32,163,134,1)"},"error_y":{"color":"rgba(32,163,134,1)"},"error_x":{"color":"rgba(32,163,134,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["American-Style India Black Ale"],"y":[8.6999998093],"type":"bar","name":"American-Style India Black Ale","marker":{"color":"rgba(41,175,127,1)","line":{"color":"rgba(41,175,127,1)"}},"textfont":{"color":"rgba(41,175,127,1)"},"error_y":{"color":"rgba(41,175,127,1)"},"error_x":{"color":"rgba(41,175,127,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Specialty Beer"],"y":[8.75],"type":"bar","name":"Specialty Beer","marker":{"color":"rgba(60,187,117,1)","line":{"color":"rgba(60,187,117,1)"}},"textfont":{"color":"rgba(60,187,117,1)"},"error_y":{"color":"rgba(60,187,117,1)"},"error_x":{"color":"rgba(60,187,117,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Imperial or Double Red Ale"],"y":[9.1999998093],"type":"bar","name":"Imperial or Double Red Ale","marker":{"color":"rgba(86,198,103,1)","line":{"color":"rgba(86,198,103,1)"}},"textfont":{"color":"rgba(86,198,103,1)"},"error_y":{"color":"rgba(86,198,103,1)"},"error_x":{"color":"rgba(86,198,103,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Belgian-Style Dark Strong Ale"],"y":[9.66666656075556],"type":"bar","name":"Belgian-Style Dark Strong Ale","marker":{"color":"rgba(116,208,85,1)","line":{"color":"rgba(116,208,85,1)"}},"textfont":{"color":"rgba(116,208,85,1)"},"error_y":{"color":"rgba(116,208,85,1)"},"error_x":{"color":"rgba(116,208,85,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["American-Style Imperial Stout"],"y":[9.76956522292029],"type":"bar","name":"American-Style Imperial Stout","marker":{"color":"rgba(148,216,64,1)","line":{"color":"rgba(148,216,64,1)"}},"textfont":{"color":"rgba(148,216,64,1)"},"error_y":{"color":"rgba(148,216,64,1)"},"error_x":{"color":"rgba(148,216,64,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["American-Style Barley Wine Ale"],"y":[9.95631579347632],"type":"bar","name":"American-Style Barley Wine Ale","marker":{"color":"rgba(184,222,41,1)","line":{"color":"rgba(184,222,41,1)"}},"textfont":{"color":"rgba(184,222,41,1)"},"error_y":{"color":"rgba(184,222,41,1)"},"error_x":{"color":"rgba(184,222,41,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Strong Ale"],"y":[11.25],"type":"bar","name":"Strong Ale","marker":{"color":"rgba(220,227,24,1)","line":{"color":"rgba(220,227,24,1)"}},"textfont":{"color":"rgba(220,227,24,1)"},"error_y":{"color":"rgba(220,227,24,1)"},"error_x":{"color":"rgba(220,227,24,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Belgian-Style Quadrupel"],"y":[11.7000000818143],"type":"bar","name":"Belgian-Style Quadrupel","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-13e520f2e6e36b269238" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-13e520f2e6e36b269238">{"x":{"visdat":{"3cc550b45c7":["function () ","plotlyVisDat"]},"cur_data":"3cc550b45c7","attrs":{"3cc550b45c7":{"x":{},"y":{},"color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Average ABV by Beer Style","xaxis":{"domain":[0,1],"automargin":true,"title":"Beer Style","zeroline":true,"type":"category","categoryorder":"array","categoryarray":["South German-Style Weizenbock","Winter Warmer","Herb and Spice Beer","Pumpkin Beer","Other Belgian-Style Ales","German-Style Doppelbock","Belgian-Style Dubbel","Dark American-Belgo-Style Ale","American-Style Strong Pale Ale","Belgian-Style Tripel","Imperial or Double India Pale Ale","Belgian-Style Pale Strong Ale","American-Style India Black Ale","Specialty Beer","Imperial or Double Red Ale","Belgian-Style Dark Strong Ale","American-Style Imperial Stout","American-Style Barley Wine Ale","Strong Ale","Belgian-Style Quadrupel"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Average ABV","range":[5.5,12]},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["South German-Style Weizenbock"],"y":[6.09166661899167],"type":"bar","name":"South German-Style Weizenbock","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Winter Warmer"],"y":[6.27333336784762],"type":"bar","name":"Winter Warmer","marker":{"color":"rgba(72,21,103,1)","line":{"color":"rgba(72,21,103,1)"}},"textfont":{"color":"rgba(72,21,103,1)"},"error_y":{"color":"rgba(72,21,103,1)"},"error_x":{"color":"rgba(72,21,103,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Herb and Spice Beer"],"y":[6.4375000596],"type":"bar","name":"Herb and Spice Beer","marker":{"color":"rgba(72,38,119,1)","line":{"color":"rgba(72,38,119,1)"}},"textfont":{"color":"rgba(72,38,119,1)"},"error_y":{"color":"rgba(72,38,119,1)"},"error_x":{"color":"rgba(72,38,119,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Pumpkin Beer"],"y":[6.71176467222353],"type":"bar","name":"Pumpkin Beer","marker":{"color":"rgba(69,55,129,1)","line":{"color":"rgba(69,55,129,1)"}},"textfont":{"color":"rgba(69,55,129,1)"},"error_y":{"color":"rgba(69,55,129,1)"},"error_x":{"color":"rgba(69,55,129,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Other Belgian-Style Ales"],"y":[6.737000017162],"type":"bar","name":"Other Belgian-Style Ales","marker":{"color":"rgba(63,71,136,1)","line":{"color":"rgba(63,71,136,1)"}},"textfont":{"color":"rgba(63,71,136,1)"},"error_y":{"color":"rgba(63,71,136,1)"},"error_x":{"color":"rgba(63,71,136,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["German-Style Doppelbock"],"y":[6.79062494635625],"type":"bar","name":"German-Style Doppelbock","marker":{"color":"rgba(57,85,140,1)","line":{"color":"rgba(57,85,140,1)"}},"textfont":{"color":"rgba(57,85,140,1)"},"error_y":{"color":"rgba(57,85,140,1)"},"error_x":{"color":"rgba(57,85,140,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Belgian-Style Dubbel"],"y":[6.91999998093],"type":"bar","name":"Belgian-Style Dubbel","marker":{"color":"rgba(50,100,142,1)","line":{"color":"rgba(50,100,142,1)"}},"textfont":{"color":"rgba(50,100,142,1)"},"error_y":{"color":"rgba(50,100,142,1)"},"error_x":{"color":"rgba(50,100,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Dark American-Belgo-Style Ale"],"y":[7.891666650775],"type":"bar","name":"Dark American-Belgo-Style Ale","marker":{"color":"rgba(45,113,142,1)","line":{"color":"rgba(45,113,142,1)"}},"textfont":{"color":"rgba(45,113,142,1)"},"error_y":{"color":"rgba(45,113,142,1)"},"error_x":{"color":"rgba(45,113,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["American-Style Strong Pale Ale"],"y":[8.40769235903846],"type":"bar","name":"American-Style Strong Pale Ale","marker":{"color":"rgba(40,125,142,1)","line":{"color":"rgba(40,125,142,1)"}},"textfont":{"color":"rgba(40,125,142,1)"},"error_y":{"color":"rgba(40,125,142,1)"},"error_x":{"color":"rgba(40,125,142,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Belgian-Style Tripel"],"y":[8.44250003990313],"type":"bar","name":"Belgian-Style Tripel","marker":{"color":"rgba(35,138,141,1)","line":{"color":"rgba(35,138,141,1)"}},"textfont":{"color":"rgba(35,138,141,1)"},"error_y":{"color":"rgba(35,138,141,1)"},"error_x":{"color":"rgba(35,138,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Imperial or Double India Pale Ale"],"y":[8.58367346742959],"type":"bar","name":"Imperial or Double India Pale Ale","marker":{"color":"rgba(31,150,139,1)","line":{"color":"rgba(31,150,139,1)"}},"textfont":{"color":"rgba(31,150,139,1)"},"error_y":{"color":"rgba(31,150,139,1)"},"error_x":{"color":"rgba(31,150,139,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Belgian-Style Pale Strong Ale"],"y":[8.63000001907],"type":"bar","name":"Belgian-Style Pale Strong Ale","marker":{"color":"rgba(32,163,134,1)","line":{"color":"rgba(32,163,134,1)"}},"textfont":{"color":"rgba(32,163,134,1)"},"error_y":{"color":"rgba(32,163,134,1)"},"error_x":{"color":"rgba(32,163,134,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["American-Style India Black Ale"],"y":[8.6999998093],"type":"bar","name":"American-Style India Black Ale","marker":{"color":"rgba(41,175,127,1)","line":{"color":"rgba(41,175,127,1)"}},"textfont":{"color":"rgba(41,175,127,1)"},"error_y":{"color":"rgba(41,175,127,1)"},"error_x":{"color":"rgba(41,175,127,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Specialty Beer"],"y":[8.75],"type":"bar","name":"Specialty Beer","marker":{"color":"rgba(60,187,117,1)","line":{"color":"rgba(60,187,117,1)"}},"textfont":{"color":"rgba(60,187,117,1)"},"error_y":{"color":"rgba(60,187,117,1)"},"error_x":{"color":"rgba(60,187,117,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Imperial or Double Red Ale"],"y":[9.1999998093],"type":"bar","name":"Imperial or Double Red Ale","marker":{"color":"rgba(86,198,103,1)","line":{"color":"rgba(86,198,103,1)"}},"textfont":{"color":"rgba(86,198,103,1)"},"error_y":{"color":"rgba(86,198,103,1)"},"error_x":{"color":"rgba(86,198,103,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Belgian-Style Dark Strong Ale"],"y":[9.66666656075556],"type":"bar","name":"Belgian-Style Dark Strong Ale","marker":{"color":"rgba(116,208,85,1)","line":{"color":"rgba(116,208,85,1)"}},"textfont":{"color":"rgba(116,208,85,1)"},"error_y":{"color":"rgba(116,208,85,1)"},"error_x":{"color":"rgba(116,208,85,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["American-Style Imperial Stout"],"y":[9.76956522292029],"type":"bar","name":"American-Style Imperial Stout","marker":{"color":"rgba(148,216,64,1)","line":{"color":"rgba(148,216,64,1)"}},"textfont":{"color":"rgba(148,216,64,1)"},"error_y":{"color":"rgba(148,216,64,1)"},"error_x":{"color":"rgba(148,216,64,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["American-Style Barley Wine Ale"],"y":[9.95631579347632],"type":"bar","name":"American-Style Barley Wine Ale","marker":{"color":"rgba(184,222,41,1)","line":{"color":"rgba(184,222,41,1)"}},"textfont":{"color":"rgba(184,222,41,1)"},"error_y":{"color":"rgba(184,222,41,1)"},"error_x":{"color":"rgba(184,222,41,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Strong Ale"],"y":[11.25],"type":"bar","name":"Strong Ale","marker":{"color":"rgba(220,227,24,1)","line":{"color":"rgba(220,227,24,1)"}},"textfont":{"color":"rgba(220,227,24,1)"},"error_y":{"color":"rgba(220,227,24,1)"},"error_x":{"color":"rgba(220,227,24,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Belgian-Style Quadrupel"],"y":[11.7000000818143],"type":"bar","name":"Belgian-Style Quadrupel","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>
 tail(style_abv) %&gt;% 
   rename(Style = style, `Average ABV` = mean_abv) %&gt;% 
@@ -655,34 +780,60 @@ tail(style_abv) %&gt;%
   knitr::kable(caption = &quot;Styles with Lowest 5 Average AVB&quot;) %&gt;% 
   kableExtra::kable_styling(., bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;),
                             full_width = F)</code></pre>
-<table>
-<caption>Styles with Lowest 5 Average AVB</caption>
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Styles with Lowest 5 Average AVB
+</caption>
 <thead>
-<tr class="header">
-<th align="left">Style</th>
-<th align="right">Average ABV</th>
+<tr>
+<th style="text-align:left;">
+Style
+</th>
+<th style="text-align:right;">
+Average ABV
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">American-Style Lager</td>
-<td align="right">1.53</td>
+<tr>
+<td style="text-align:left;">
+American-Style Lager
+</td>
+<td style="text-align:right;">
+1.53
+</td>
 </tr>
-<tr class="even">
-<td align="left">English-Style Pale Mild Ale</td>
-<td align="right">0.68</td>
+<tr>
+<td style="text-align:left;">
+English-Style Pale Mild Ale
+</td>
+<td style="text-align:right;">
+0.68
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Out of Category</td>
-<td align="right">0.00</td>
+<tr>
+<td style="text-align:left;">
+Out of Category
+</td>
+<td style="text-align:right;">
+0.00
+</td>
 </tr>
-<tr class="even">
-<td align="left">Specialty Honey Lager or Ale</td>
-<td align="right">0.00</td>
+<tr>
+<td style="text-align:left;">
+Specialty Honey Lager or Ale
+</td>
+<td style="text-align:right;">
+0.00
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Vienna-Style Lager</td>
-<td align="right">0.00</td>
+<tr>
+<td style="text-align:left;">
+Vienna-Style Lager
+</td>
+<td style="text-align:right;">
+0.00
+</td>
 </tr>
 </tbody>
 </table>
@@ -825,8 +976,8 @@ broom::tidy(lm_model) %&gt;%
     columns = &quot;P-value&quot;,
     background = DT::styleInterval(c(0.05),c(&quot;lightsteelblue&quot;,&quot;white&quot;)), 
     target = &quot;row&quot;)</code></pre>
-<div id="htmlwidget-b5f7f1c2c113e520f2e6" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b5f7f1c2c113e520f2e6">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],[-14148057.06,-7551.04,7011.78,-0.01,0.01,1188.99],[980018.67,2972.68,485.77,0,0,339.58],[-14.44,-2.54,14.43,-4.18,6.71,3.5],[0,0.01,0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-37c8f806afac02ba600b" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-37c8f806afac02ba600b">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],[-14148057.06,-7551.04,7011.78,-0.01,0.01,1188.99],[980018.67,2972.68,485.77,0,0,339.58],[-14.44,-2.54,14.43,-4.18,6.71,3.5],[0,0.01,0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 <p>[ends here]</p>
 </div>
 <div id="discussion" class="section level3">
@@ -837,20 +988,12 @@ broom::tidy(lm_model) %&gt;%
 <div id="resources" class="section level3">
 <h3>Resources:</h3>
 <ul>
-<li>Open Beer Database. (n.d.). Retrieved November 6, 2020, from <a href="https://data.opendatasoft.com/explore/dataset/open-beer-database@public-us/table/" class="uri">https://data.opendatasoft.com/explore/dataset/open-beer-database@public-us/table/</a></li>
-<li>TTBGov—Beer Statistics. (n.d.). Retrieved November 6, 2020, from <a href="https://www.ttb.gov/beer/statistics" class="uri">https://www.ttb.gov/beer/statistics</a></li>
-<li>TTBGov—Beverage Alcohol. (n.d.). Retrieved November 6, 2020, from <a href="https://www.ttb.gov/alcohol/beverage-alcohol" class="uri">https://www.ttb.gov/alcohol/beverage-alcohol</a></li>
-</ul>
-</div>
-<div id="updated-resources" class="section level1">
-<h1>Updated Resources:</h1>
-<p>(need to format them correctly)</p>
-<ul>
 <li><a href="https://www.ttb.gov/alcohol/beverage-alcohol">TTB.gov</a></li>
 <li>The Lady Tasting Tea by David Salsurg (page 26-28)</li>
-<li><a href="https://www.ttb.gov/beer/statistics">TTB.gov Statistics</a></li>
+<li><a href="https://www.ttb.gov/beer/statistics">TTB.gov—Beer Statistics. (n.d.). Retrieved November 6, 2020</a></li>
+<li><a href="https://www.ttb.gov/alcohol/beverage-alcohol">TTB.gov—Beer Alcohol. (n.d.). Retrieved November 6, 2020</a></li>
 <li><a href="https://www.beerinstitute.org/beer-policy/overview/">Beer Institute</a></li>
-<li><a href="https://data.opendatasoft.com/explore/dataset/open-beer-database%40public-us/table/">Open Beer Dataset</a></li>
+<li><a href="https://data.opendatasoft.com/explore/dataset/open-beer-database%40public-us/table/">Open Beer Dataset. (n.d.). Retrieved November 6, 2020</a></li>
 <li><a href="https://www.beerinstitute.org/news-media/additional-beer-resources/beer-american-history/">Beer &amp; American History</a></li>
 <li><a href="https://www.nbwa.org/sites/default/files/NBWA_Report_2009.pdf">KPMG</a></li>
 <li><a href="https://www.finance.senate.gov/imo/media/doc/Beer%20Institue%204.pdf">Beer Tax Facts</a></li>
@@ -880,6 +1023,8 @@ Visualizations and analyses performed using <a href="https://www.r-project.org/a
 <p> </p>
 
 
+</div>
+</div>
 
 </div>
 
@@ -887,7 +1032,7 @@ Visualizations and analyses performed using <a href="https://www.r-project.org/a
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -911,7 +1056,38 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

@@ -14,16 +14,29 @@ output:
 <center>
 
 ![](beer-map.jpg){width=500px}
+
+*Image from [The Best Beer By State](https://aleheads.wordpress.com/2012/07/09/the-best-beer-by-state/ )
 </center>
 
 ---
 
 ## Introduction:
-The US Government continues to control the consumption and production of Beer through regulations and taxes. The Alcohol and Tobacco Tax and Trade Bureau regulates people who engage in the alcohol beverage industry by requiring people to file an application before engaging in business (TTBGov - Beverage Alcohol, n.d.). For Breweries in particular they are required to file documents every year and the data is compiled into publicly available sources (TTBGov - Beer Statistics, n.d.). Through this reporting and taxation, the US profits enormously off of Beer. Since beer plays such an important role in the US economy it is important to analyze the publicly available government data all about taxation and production (TTBGov - Beverage Alcohol, n.d.). It is also equally interesting to look at the types of beer produced, location of breweries across the globe using an open-source API data set (Open Beer Database, n.d.). Our goal in this project is to get a better understanding of what kinds of beers are produced and how The US economy profits off of it.
+The US Government continues to control the consumption and production of Beer through regulations and taxes. The Alcohol and Tobacco Tax and Trade Bureau regulates people who engage in the alcohol beverage industry by requiring people to file an application before engaging in business [TTBGov - Beverage Alcohol, n.d.](https://www.ttb.gov/alcohol/beverage-alcohol). For Breweries in particular they are required to file documents every year and the data is compiled into publicly available sources [TTBGov - Beer Statistics, n.d.](https://www.ttb.gov/beer/statistics). Through this reporting and taxation, the US profits enormously off of Beer. Since beer plays such an important role in the US economy it is important to analyze the publicly available government data all about taxation and production [TTBGov - Beverage Alcohol, n.d.](https://www.ttb.gov/alcohol/beverage-alcohol). It is also equally interesting to look at the types of beer produced, location of breweries across the globe using an open-source API data set [Open Beer Database, n.d.](https://data.opendatasoft.com/explore/dataset/open-beer-database@public-us/table/). Our goal in this project is to get a better understanding of what kinds of beers are produced and how The US economy profits off of it.
 
 ---
 
-## Screencast (or not)
+## Longer Introduction:
+
+Statistics have been intertwined with beer since the 20th century. During his time at Guinness Brewing Company of Dublin, Ireland mathematician Gosset published a paper in 1904 about using a Poisson distribution to model the amount of yeast cells in the Beer fermentation process (The Lady Tasting Tea). This helped lead to a much more accurate assessment of the concentration of yeast cells in the beer mash and thus a much more consistent product was produced by Guinness. However, due to not wanting to leak company secrets Guinness did not let Gosset publish in appropriate papers, this led him to publish his work under the name “Student” while he worked under Pearson (The Lady Tasting Tea).   
+
+Beer has been around for centuries. When the Mayflower set sail from America they loaded up on all the essentials including lots of beer and when they ran out they decided to stop as soon as possible landing them on Plymouth rock. “We could not now take time for further search… our victuals being much spent, especially our beer…” [Beer & American History](https://www.beerinstitute.org/news-media/additional-beer-resources/beer-american-history/ ). To their surprise, the Native Americans had been brewing beer from maize way before they invaded their land. After that point brewers have been popping up all over the United States. Beer had become so important in the establishment of the American nation that “George Washington’s first acts as Commander of the Continental Army was to proclaim that every one of his troops would receive a quart of beer with his daily rations” [Beer & American History](https://www.beerinstitute.org/news-media/additional-beer-resources/beer-american-history/ ).  
+
+Fast forward to after the prohibition the American Government continues to control the consumption and production of Beer through regulations and taxes. The Alcohol and Tobacco Tax and Trade Bureau protects “the public by enforcing the provisions of the Federal Alcohol Administration Act” [TTB.gov](https://www.ttb.gov/alcohol/beverage-alcohol). This helps regulate people who engage in the alcohol beverage industry by requiring people to file an application before engaging in business. For Breweries in particular they are required to file the yearly Brewer’s Report of Operations (TTB F 5130.9) and the Quarterly Brewer’s Report of Operations (TTB F 5130.26) [TTB.gov Statistics]( https://www.ttb.gov/beer/statistics). The Breweries must report this information no later than 15 days after the close of the applicable reporting period [TTB.gov Statistics]( https://www.ttb.gov/beer/statistics). Through this reporting and taxation, the U.S. profits enormously off of this one beverage. From a report, it is estimated that the American beer industry contributes to “more than $328 billion to our economy” [Beer Institute](https://www.beerinstitute.org/beer-policy/overview/). The jobs it creates are in a wide range of areas such as farming, manufacturing, construction, transportation, service, and more. Since beer plays such an important role in the U.S. economy it is important to analyze the publicly available government data all about taxation and production [TTB.gov](https://www.ttb.gov/alcohol/beverage-alcohol). It is also equally interesting to look at the types of beer produced, location of breweries across the globe using an open-source API data set [Open Beer Dataset](https://data.opendatasoft.com/explore/dataset/open-beer-database%40public-us/table/).  
+Our goal in this project is to get a better understanding of the taxation, consumption and production of beer by each state to get a better understanding of how the United States profits off beer. 
+
+---
+
+## Screencast*
 
 ---
 
@@ -131,14 +144,4 @@ beer %>%
                    color = ~pal(alcohol_by_volume), 
                    popup = ~click_label)
 ```
-
-
----
-
-## Resources
-
-* Open Beer Database. (n.d.). Retrieved November 6, 2020, from https://data.opendatasoft.com/explore/dataset/open-beer-database@public-us/table/
-* TTBGov—Beer Statistics. (n.d.). Retrieved November 6, 2020, from https://www.ttb.gov/beer/statistics
-* TTBGov—Beverage Alcohol. (n.d.). Retrieved November 6, 2020, from https://www.ttb.gov/alcohol/beverage-alcohol
-* McHops, B. (2012, July 12). The Best Beer By State. Aleheads, https://aleheads.wordpress.com/2012/07/09/the-best-beer-by-state/ 
 
