@@ -14,7 +14,8 @@ output:
 <center>
 
 ![](beer-map.jpg){width=500px}
-*Image from [source](https://www.)
+
+*Image from [The Best Beer By State](https://aleheads.wordpress.com/2012/07/09/the-best-beer-by-state/ )
 </center>
 
 ---
@@ -143,12 +144,4 @@ beer %>%
                    color = ~pal(alcohol_by_volume), 
                    popup = ~click_label)
 ```
-
-
----
-
-## Resources
-
-?
-* McHops, B. (2012, July 12). The Best Beer By State. Aleheads, https://aleheads.wordpress.com/2012/07/09/the-best-beer-by-state/ 
 

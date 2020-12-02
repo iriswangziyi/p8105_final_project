@@ -44,12 +44,18 @@ There has been a lot of research into overall how the United States economy is p
 What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
 Discuss this in the meeting.
 
-* What is the cumulative taxation over time in each state?
-* What is the (average) tax per barrel over time in each state?
+* What is the cumulative/average taxation over time in each state?
 * What is the beer consumption per capita over time in each state?
 * Where are all the US breweries located?
 * What is the average alcohol by volume (ABV) in each state?
+* What is the common beer style in each state?
+* What is the top 8 beer style?
+* What is the number of barrels/cans and bottles of beer produced by each state?
+* What is the amount of shipments made of malt beverages?
+* Is there a difference in tax/cumulative tax/tax per barrel between the two jurisdiction groups?
+* Is there a linear relationship between taxation and jurisdiction group, year, shipments, population, and consumption?
 
+ 
 ### Data: source, scraping method, cleaning
 * Dataset 1
 
@@ -370,22 +376,13 @@ What were your findings? Are they what you expect? What insights into the data c
 Discuss in the meeting.
 
 ### Resources:
-* Open Beer Database. (n.d.). Retrieved November 6, 2020, from https://data.opendatasoft.com/explore/dataset/open-beer-database@public-us/table/
-* TTBGov—Beer Statistics. (n.d.). Retrieved November 6, 2020, from https://www.ttb.gov/beer/statistics
-* TTBGov—Beverage Alcohol. (n.d.). Retrieved November 6, 2020, from https://www.ttb.gov/alcohol/beverage-alcohol
-
-
-
-
-
-# Updated Resources: 
-(need to format them correctly)
 
 - [TTB.gov](https://www.ttb.gov/alcohol/beverage-alcohol)
 - The Lady Tasting Tea by David Salsurg (page 26-28)
-- [TTB.gov Statistics]( https://www.ttb.gov/beer/statistics)
+- [TTB.gov—Beer Statistics. (n.d.). Retrieved November 6, 2020]( https://www.ttb.gov/beer/statistics)
+- [TTB.gov—Beer Alcohol. (n.d.). Retrieved November 6, 2020]( https://www.ttb.gov/alcohol/beverage-alcohol)
 - [Beer Institute](https://www.beerinstitute.org/beer-policy/overview/) 
-- [Open Beer Dataset](https://data.opendatasoft.com/explore/dataset/open-beer-database%40public-us/table/)
+- [Open Beer Dataset. (n.d.). Retrieved November 6, 2020](https://data.opendatasoft.com/explore/dataset/open-beer-database%40public-us/table/)
 - [Beer & American History](https://www.beerinstitute.org/news-media/additional-beer-resources/beer-american-history/ )
 - [KPMG](https://www.nbwa.org/sites/default/files/NBWA_Report_2009.pdf)
 - [Beer Tax Facts](https://www.finance.senate.gov/imo/media/doc/Beer%20Institue%204.pdf) 
