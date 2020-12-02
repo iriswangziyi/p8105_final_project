@@ -109,7 +109,23 @@ p1 <- p0 + geom_polygon(color = "gray90", size = 0.1) +
     coord_map(projection = "albers", lat0 = 39, lat1 = 45) 
 p2 <- p1 +
     labs(title = "Jurisdiction Group", fill = NULL)
-p2 + theme_map() 
+p3 <- p2 + theme_map()
+
+centroids <- data.frame(region = tolower(state.name), 
+                        long = state.center$x, lat = state.center$y)
+centroids$abb <- state.abb[match(centroids$region, tolower(state.name))]
+
+# Collect names of the 32 states in my data.
+statenames <- data.frame(region = unique(states_map$region)) 
+# Merge it with centroids
+centroids <- merge(statenames, centroids, by = "region")
+
+p3 + 
+  with(centroids, 
+       annotate(geom = "text", x = long, y = lat, label = abb, 
+                size = 3, color = "white", family = "Times")
+      )
+
 ```
 
 $~$ 
