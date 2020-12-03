@@ -230,6 +230,11 @@ state_tax_group_result %>%
     color = "#D14124", hjust = 0.6, vjust = 2, angle = 20)
 ```
 
+$~$
+
+### A Brief Summary
+
+Our data showed **no significant difference between the two jurisdiction groups** in the **cumulative tax collected** and in the **tax per barrel** from 2010 to 2019. 
 
 --- 
 
@@ -314,10 +319,12 @@ $~$
 
 * All variables in our model are **significant** at the 5% significance level. 
 * Our model fit is acceptable with an adjusted $R^2 = 0.55$. 
-* Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that **licensed states** are estimated to have approximately **7.5k less cumulative tax collected** than the control states.
-* **Cumulative tax collected** is estimate to **increase approximately 7k per year**, holding the group, shipments, population and consumption unchanged. 
-* Cumulative tax collected is estimated to **increase approximately 1k for one unit increase in consumption per capital**, holding the group, year, shipments, and population unchanged. 
-* Population and shipments have estimated coefficients close to 0, though they have significant p-values. 
+* Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that **licensed states** are estimated to have approximately **$7.6k less cumulative tax collected** than the control states.
+* **Cumulative tax collected** is estimate to 
+  * **increase approximately $7k per year**, holding the group, shipments, population and consumption unchanged. 
+  * **increase approximately 1k for one unit increase in consumption per capital**, holding the group, year, shipments, and population unchanged. 
+  * **increase approximately $14 for each 1k increase in population**, holding the group, year, shipments, and consumption unchanged. 
+  * **decrease approximately $9.6 for each 1k increase in shipments**, holding the group, year, population, and consumption unchanged. 
 
 $~$
 
