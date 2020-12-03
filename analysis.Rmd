@@ -287,7 +287,7 @@ lm_model = lm(total_tax ~ group + year + shipments + population + consumption, d
 summary(lm_model)
 
 broom::tidy(lm_model) %>% 
-  mutate_at(2:5, formatC, format = "e", digits = 2) %>% 
+  mutate_at(2:5, format, digits = 2, nsmall = 1) %>% 
   janitor::clean_names() %>% 
   rename(
     Variable = term,
@@ -353,7 +353,7 @@ lm_model2 = lm(adjusted_tax ~ group + year + shipments + population + consumptio
 summary(lm_model2)
 
 broom::tidy(lm_model2) %>% 
-  mutate_at(2:5, formatC, format = "e", digits = 2) %>% 
+  mutate_at(2:5, format, digits = 2, nsmall = 1) %>% 
   janitor::clean_names() %>% 
   rename(
     Variable = term,
