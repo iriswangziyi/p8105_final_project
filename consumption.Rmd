@@ -79,7 +79,7 @@ plt #pritning our the moving graph
 
 ```
 
-### Consumption Analysis:
+### Consumption interpretation:
 
 First, we see Utah constantly at the bottom throughout all years. The top changes from New Hampshire, Montana, and North Dakota. These three top states are very interesting because they have been towards the bottom of the list on every other page and graphic except this one. One explanation is that these three states do not have very big populations so consumption is divided by a small capita making the measurement look larger. The second explanation is that all these states have a low lower tax per barrel cost therefore people from out of state might travel to purchase alcohol. Interviewing friends and family from the North East traveling to New Hampshire to buy alcohol common because they do not have sales tax. 5 states do not have sales tax as of 2019 [Alaska, Delaware, Montana, New Hampshire, and Oregon](https://taxfoundation.org/2020-sales-taxes/). This helps explain why New Hampshire and Montana are so high up on the list, not only do they have no sales tax but they also have small populations. According to the same source, California has the highest state-level sales tax which helps explain why it is so low on our rankings here but every other page so high up. 
 
@@ -119,107 +119,12 @@ beer %>%
 ```
 
 
-### Brewery Map analysis 
+### Brewery Map interpretation 
 
 We can see a concentration of breweries on the West Coast and in the North East! There are also some scattered breweries around middle America but the higher concentrations are around the edges closest to waterways. 
 
 
 ---
-
-
-
-```{r cat_abv,collapse = T, message = F, warning = F, fig.width = 8, fig.height = 6, cache=TRUE}
-
-# ## Alcohol by volume (ABV) pattern
-# 
-# **Alcohol by volume (ABV)** is defined to be the volume percent of alcohol (ethanol) contained in a given volume of an alcoholic beverage. 
-# In our project, we are interested in exploring the pattern of ABV concerning the category/brewer/style of beer. 
-# 
-# ### By category
-# 
-# First, we looked at the pattern of ABV by beer's category. 
-# 
-# * It seems that **Belgian and French Ale** has the **highest** average ABV while the **North American Lager** has the **lowest** average AVB. 
-# * The distribution of ABV of Belgian and French Ale is relatively bell-shaped while the other categories are skewed. 
-
-# cat_abv = 
-#   beer %>% 
-#   replace_na(list(category = "NA", y = "unknown")) %>% 
-#   group_by(category) %>% 
-#   summarise(mean_abv = mean(alcohol_by_volume)) %>% 
-#   arrange(desc(mean_abv)) 
-# cat_abv
-# cat_abv %>% 
-#   mutate(category = fct_reorder(category, mean_abv)) %>% 
-#   plot_ly(x = ~category, y = ~mean_abv, 
-#           color = ~category, type = "bar", colors = "viridis") %>% 
-#   layout(title = "Average ABV by Beer Category",
-#          xaxis = list(title = "Beer Category",
-#                       zeroline = TRUE),
-#          yaxis = list(title = "Average ABV",
-#                       range = c(0, 7)))
-# 
-# beer %>% 
-#   mutate(category = fct_reorder(category, alcohol_by_volume)) %>% 
-#   plot_ly(y = ~alcohol_by_volume, 
-#           color = ~category, type = "box", colors = "viridis") %>% 
-#   layout(title = "Boxplot of ABV by Beer Category",
-#          xaxis = list(title = "Beer Category",
-#                       zeroline = TRUE),
-#          yaxis = list(title = "ABV",
-#                       range = c(0, 21)))
-```
-
-
-
-
-```{r brewer_abv,collapse = T, message = F, warning = F, fig.width = 8, fig.height = 6, cache=TRUE}
-
-# ### By brewer
-# 
-# Next, we looked at the pattern of ABV by beer's brewer. 
-# 
-# As there are 823 brewers listed in our dataset, we will show the **top 20** that has the highest average ABV, rather than all of them. 
-# 
-# * **Mendocino Brewing - Ukiah** has the highest average ABV. 
-# * There are 424 brewers having average ABV value of 0. 
-
-
-
-
-# brewer_abv = 
-#   beer %>% 
-#   group_by(brewer) %>% 
-#   summarise(mean_abv = mean(alcohol_by_volume)) %>% 
-#   arrange(desc(mean_abv))
-# brewer_abv
-# 
-# #brewer_abv %>% filter(mean_abv == 0) #424
-# 
-# brewer_abv %>% 
-#   slice(1:20) %>% 
-#   mutate(brewer = fct_reorder(brewer, mean_abv)) %>%
-#   plot_ly(x = ~brewer, y = ~mean_abv, 
-#           color = ~brewer, type = "bar", colors = "viridis") %>%
-#   layout(title = "Average ABV by Beer Brewer",
-#          xaxis = list(title = "Beer Brewer",
-#                       zeroline = TRUE),
-#          yaxis = list(title = "Average ABV",
-#                       range = c(8, 10.8)))
-# 
-# top_20_brewer = brewer_abv %>% slice(1:20) %>% select(brewer) %>% unlist()
-# beer %>% 
-#   filter(brewer %in% top_20_brewer) %>% 
-#   mutate(brewer = fct_reorder(brewer, alcohol_by_volume)) %>% 
-#   plot_ly(y = ~alcohol_by_volume, 
-#           color = ~brewer, type = "box", colors = "viridis") %>% 
-#   layout(title = "Boxplot of ABV by Beer Brewer",
-#          xaxis = list(title = "ABV",
-#                       zeroline = TRUE),
-#          yaxis = list(title = "Average ABV"))
-```
-
-
 
 ## Average Alcohol by volume by State 
 
@@ -259,7 +164,7 @@ beer %>%
                 color = "black", size=1)
 ```
 
-### Average ABV Analysis:
+### Average ABV interpretation:
 The State with the lowest ABI is Idaho and Utah. The state with the highest ABV is Delaware and Florida. In a common beer the average ABI according to the [National Consumers League](https://nclnet.org/alcohol_how_it_all_adds_up/#:~:text=One%20ounce%20of%20beer%20contains,5%20percent%20alcohol%20by%20volume) is 5-7%. From this graph, we see that 5 states have averages well below that range and 6 states have an average well above that range. Delaware’s 95% lower bound of its Confidence interval is well above 7%. 
 
 ---
@@ -297,7 +202,7 @@ top_styles %>%
 ```
 
 
-### Common style analysis:
+### Common style interpretation:
 
 It is extremely easy to sort each column by selecting the top column name. When selecting the style and seeing the styles arranged by alphabetical order it is easy to see that the most common type is the American-Style Pale Ale coming up as top in 17 states. Some of those states included California (count of 97), Washington (count of 33), and Illinois (count of 29). Style: American-Style Lager came up in 9 states and American-Style India Pale Ale also came up in 9 different states. 
 
@@ -333,7 +238,7 @@ style_abv %>%
 
 ```
 
-### ABV by Style Analysis:
+### ABV by Style interpretation:
 The style with the highest ABV is the Imperial or Double India Pale Ale. The next highest is the American-Style India Pale Ale. The lowest is the American-Style Lager. All the style are within our 5% to 7% range except for the Imperial or Double India Pale Ale which is well above 7%. 
 
 

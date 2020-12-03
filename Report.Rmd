@@ -14,6 +14,9 @@ library(tidyverse)
 library(plotly)
 library(rvest)
 library(httr)
+
+state_df = read_csv("data_import_cleaning/state_df.csv")
+state_tax_df = read_csv("data_import_cleaning/state_tax_df.csv")
 ```
 
 ### To learn our project:
@@ -101,9 +104,18 @@ taxable_barrels_df  =
   mutate_at(vars(2:13), ~ gsub(",", "", .x)) %>%
   mutate_at(vars(2:13), as.numeric)
 
-head(tax_df)
-head(taxable_cans_df)
-head(taxable_barrels_df)
+DT::datatable(
+  head(tax_df[,-c(2,3)]),
+  caption = 'Head of the tax_df dataframe, (Cummulative Tax Data)'
+)
+DT::datatable(
+  head(taxable_cans_df[,-c(2,3)]),
+  caption = 'Head of the taxable_cans_df dataframe'
+)
+DT::datatable(
+  head(taxable_barrels_df[,-c(2,3)]),
+  caption = 'Head of the taxable_barrels_df dataframe'
+)
 # write_csv(tax_df, "data_import_cleaning/tax.csv")
 # write_csv(taxable_cans_df, "data_import_cleaning/tax_cans.csv")
 # write_csv(taxable_barrels_df, "data_import_cleaning/tax_barrels_df.csv")
@@ -121,12 +133,83 @@ beer_specific =
   filter(country == "United States") %>% # only investigate beer in US
   separate(coordinates, c("latitude", "longitude"), sep = ",") # separate geographic info
 
-head(beer_specific)
+beer_specific_smaller = beer_specific %>%
+  select(name, id, alcohol_by_volume, style, category, city, state, latitude, longitude)
+DT::datatable(
+  head(beer_specific_smaller),
+  caption = 'Head of the beer_specific dataframe'
+)
 # write_csv(beer_specific, "data_import_cleaning/beer.csv")
 ```
 
-* Dataset 3 -- Amy?
-Amy, please add your data source, scraping method and cleaning, code and comment.
+* Dataset 3 
+
+The third dataset that was used is from the [American Beer Distributors](https://www.nbwa.org/resources/state-data). This website aims to collect data on beer consumption, taxation and shipment. They have produced a number of there own reports but they have the data they used avaiable in pdf form. The pdf document are [Summary of Effective State Excise Tax Rates by State](https://www.nbwa.org/sites/default/files/Beer%20Excise%20Tax%202019%20-%20Revised%20July%202020.pdf)
+and [Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf). Due to the difficult of working with pdf documents in R and pdf to excel [online file converter](https://pdftables.com/blog/convert-pdf-to-csv) was used to access this data.  These files include data on taxation rate per barrel, shipment of beer, consumption of beer per capita, and population over 21 years of age. 
+Because the pdf converters were used the data cleaning process was made much similar then if we used R to read the pdf document directly.  
+In our analysis we decide to only focus on the years from 2010-2019 to make it consisten with the other datasets. 
+
+```{r data3, eval=FALSE, messages=FALSE, results=FALSE, warnings=FALSE}
+# first pdf document
+# We need to initalize the first year to make a dataframe. 
+state_df = 
+  readxl::read_excel("data_import_cleaning/2003_and_2019_State_data_Per_Capita_perpage.xlsx", 
+                      sheet = 1, range = "A5:F56") %>% # only want specific range of cells 
+                janitor::clean_names() %>%
+                mutate(
+                  year = rep(2003, 51) # adding in a year variable 
+                )
+
+# iterate over the next couple of years which are different excel sheets. 
+for( i in 2:17) { # years are (2003+1, 2019)
+  state_df = rbind(state_df, readxl::read_excel(
+    "data_import_cleaning/2003_and_2019_State_data_Per_Capita_perpage.xlsx",
+                                        sheet = i, range = "A5:F56") %>%
+                  janitor::clean_names() %>%
+                  mutate(
+                    year = rep(2002+i, 51) # adding in a year variable 
+                  )
+             ) 
+}
+#write_csv(state_df, "data_import_cleaning/state_df.csv") # save into a clean cvs file 
+
+## Second pdf document 
+# getting the first year to initialize the dataframe. 
+state_tax_df = 
+  readxl::read_excel("data_import_cleaning/Beer_Excise_Tax2019Revised_July_2020perpage.xlsx", 
+                          sheet = 1, range = "A5:G56") %>% # only want specific range of cells 
+                janitor::clean_names() %>%
+                mutate(
+                  year = rep(2009, 51) # adding in a year variable 
+                )
+
+# iterate over the next couple of sheet to get all the years 
+for( i in 2:11) { # years are (2009+1, 2019)
+  state_tax_df = rbind(state_tax_df, readxl::read_excel(
+    "data_import_cleaning/Beer_Excise_Tax2019Revised_July_2020perpage.xlsx",
+                                                sheet = i, range = "A5:G56") %>% 
+                  janitor::clean_names() %>%
+                  mutate(
+                    year = rep(2008+i, 51) # adding in a year variable 
+                  )
+             ) 
+}
+#write_csv(state_tax_df, "data_import_cleaning/state_tax_df.csv") # save into a clean cvs file
+
+```
+
+```{r message=FALSE, warning=FALSE}
+DT::datatable(
+  head(state_tax_df),
+  caption = 'Head of state_tax_df dataframe, (Tax per Barrel Data)'
+)
+DT::datatable(
+  head(state_df),
+  caption = 'Head of state_df dataframe'
+)
+```
+
+
 
 ### Exploratory analysis: 
 Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
@@ -134,6 +217,149 @@ Each of us add our part, should include code that can generate the plot(please n
 I will try to revise them in a reasonable order.
 
 #### Amy:
+
+## Taxation:
+
+### Tax per Barrel Averages
+This graph also shows the effective excise tax volume adjusted measurement describe above. This time we are looking at the average tax per barrel with the corresponding confidence intervals. We concentrate our analysis on the years 2010 to 2019 and the colors still represent the state regions just like before. This can help show which states are different from each other when it comes to tax per barrel collected. 
+
+```{r warning = FALSE, message =FALSE, fig.width = 6, fig.height = 4, cache=TRUE}
+region_name = tibble(state = state.name, state_region= state.region)
+
+perbarrel_tax = state_tax_df %>% 
+  filter(state != "District of Columbia") %>% # we don't want this in our moving graph
+  filter(year > 2009) %>%
+  group_by(state) %>%
+  mutate(
+    tax = adjusted
+  ) %>%
+  summarize(
+    mean_tax = mean(tax, na.rm=TRUE), 
+    CI_lower = mean(tax, na.rm=TRUE) - 1.96 * sd(tax, na.rm=TRUE)/sqrt(length(tax)),
+    CI_upper = mean(tax, na.rm=TRUE) + 1.96 * sd(tax, na.rm=TRUE)/sqrt(length(tax))
+  ) %>%
+  right_join(., region_name, by = "state") %>% # joining the regions in so we can color the graph
+  mutate(
+    #state = abbr2state(state), # making the states into names instead of abbs
+    state = fct_reorder(state, mean_tax) # ordering the states according to mean_barrels
+  ) 
+
+perbarrel_tax %>%  # plotting!!
+  ggplot(aes(x = state, y = mean_tax,color=state_region)) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  #theme(legend.position = "none")  +
+  labs(
+    title = "Average Tax Per Barrel by State",
+    subtitle = "Data from years 2010-2019",
+    y = "Tax per Barrel",
+    x = "State"
+  )
+```
+
+
+#### Tax per Barrel Averages interpretation:
+Wyoming has the lowest tax per barrel average of `r perbarrel_tax$mean_tax[perbarrel_tax$state == "Wyoming"]` dollars, while Alabama has the highest tax per barrel average of `r perbarrel_tax$mean_tax[perbarrel_tax$state == "Alabama"]` dollars. The biggest ranges of values go to Tennessee with Washington and Delaware also having a range of values. These big ranges of value make sense because in the moving graph before these states had the most motion in moving ranks. The states that have no confidence intervals are the states that barely moved in the rank because their tax per barrel did not change over the years 2010-2019. Just like in the graph above we see that the South and West seem to be the dominant states in the higher tax per barrel rates with the North Central state tending to have lower tax per barrel. 
+
+## Consumption:
+
+### Average Alcohol by volume by State 
+
+Alcohol by volume (ABV) is defined to be the volume percent of alcohol (ethanol) contained in a given volume of an alcoholic beverage. In our project, we are interested in exploring the pattern of ABV in beer produced in each state. This average is considering all beer that does have alcohol content. Zero values were excluded because they represented non-alcoholic beer. The color of the state represents the state region. The data we are using is of course not a complete list of every single beer made in each state but rather a sample. 
+
+```{r warning=FALSE, message=FALSE, cache=TRUE, fig.width = 6, fig.height = 4}
+beer = read_csv("./data_import_cleaning/beer.csv")
+
+beer %>% 
+  filter(alcohol_by_volume !=0 ) %>%
+  group_by(state) %>% 
+  filter(state %in% c(state.name) ) %>%
+  summarize(
+    mean_ABV = mean(alcohol_by_volume),
+    CI_lower = mean(alcohol_by_volume, na.rm=TRUE) - 
+      1.96 * sd(alcohol_by_volume, na.rm=TRUE)/sqrt(length(alcohol_by_volume)),
+    CI_upper = mean(alcohol_by_volume, na.rm=TRUE) + 
+      1.96 * sd(alcohol_by_volume, na.rm=TRUE)/sqrt(length(alcohol_by_volume))
+  ) %>% 
+  right_join(., region_name, by = "state") %>% # joining the regions in so we can color the graph
+  mutate(
+    state = fct_reorder(state, mean_ABV) # ordering the states according to mean_ABV
+  )  %>%  # plotting!!
+  drop_na(mean_ABV) %>%
+  ggplot(aes(x = state, y = mean_ABV,color=state_region)) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  #theme(legend.position = "none")  +
+  labs(
+    title = "Average ABV by State",
+    subtitle = "National ABV in beer shown by dotten lines 5%-7% ",
+    y = "ABV content",
+    x = "State"
+  ) +
+  geom_hline(yintercept=5, linetype="dashed", 
+                color = "black", size=1)+
+  geom_hline(yintercept=7, linetype="dashed", 
+                color = "black", size=1)
+```
+
+#### Average ABV interpretation:
+The State with the lowest ABI is Idaho and Utah. The state with the highest ABV is Delaware and Florida. In a common beer the average ABI according to the [National Consumers League](https://nclnet.org/alcohol_how_it_all_adds_up/#:~:text=One%20ounce%20of%20beer%20contains,5%20percent%20alcohol%20by%20volume) is 5-7%. From this graph, we see that 5 states have averages well below that range and 6 states have an average well above that range. Delaware’s 95% lower bound of its Confidence interval is well above 7%. 
+
+
+## Production: 
+
+### Production of Barrels 
+This graph looks at the number of Barrels of beer produced by state recorded in barrel units. The points represent the mean barrel production from 2010-2019 and the lines show corresponding confidence intervals The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. It helps us see the difference in barrel production of each state. The colors represent the state's region and they will stay consistent through this webpage.  
+
+```{r warning = FALSE, message =FALSE, fig.width = 6, fig.height = 4, cache=TRUE}
+# setting up the regions
+region = tibble(state = state.abb, state_region= state.region)
+
+barrel = taxable_barrels_df %>% # first we need to pivot the data 
+  filter(state != "total") %>%
+  pivot_longer(
+    c(`2008`:`2019`),
+    names_to = "year",
+    values_to = "barrels"
+  )%>%
+  filter(year > 2009) %>% # we want to only focus on years 2010-2019
+  group_by(state) %>%
+  mutate(
+    barrels_log = barrels
+  ) %>% 
+  summarize(
+    mean_barrel = mean(barrels_log, na.rm = TRUE), # finding the mean barrels
+    CI_lower = mean(barrels_log, na.rm = TRUE) - 
+      1.96 * sd(barrels_log, na.rm = TRUE)/sqrt(length(barrels_log)), # finding the lower CI
+    CI_upper = mean(barrels_log, na.rm = TRUE) + 
+      1.96 * sd(barrels_log,na.rm = TRUE)/sqrt(length(barrels_log)) # finding the upper CI
+  ) %>%
+  right_join(., region, by = "state") %>% # joining the regions in so we can color the graph
+  mutate(
+    state = usdata::abbr2state(state), # making the states into names instead of abbs
+    state = fct_reorder(state, mean_barrel) # ordering the states according to mean_barrels
+  ) 
+barrel %>%  # plotting!!
+  ggplot(aes(x = state, y = mean_barrel,color=state_region)) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  #theme(legend.position = "none")  +
+  labs(
+    title = "Average Barrel Production by State",
+    subtitle = "Data from years 2010-2019",
+    y = "Barrel Production (in Barrels)",
+    x = "State"
+  )
+
+```
+
+#### Production of Barrels interpretation:
+The state with the least amount of barrel production in North Dakota (`r round(barrel$mean_barrel[barrel$state == "North Dakota"],2)`)
+with South Dakota (`r round(barrel$mean_barrel[barrel$state == "South Dakota"],2)`) very close by. The state with the most barrel production in California (`r round(barrel$mean_barrel[barrel$state == "California"],2)`) with Colorado (`r round(barrel$mean_barrel[barrel$state == "Colorado"],2)`) in second place. The trend in this graph appears to be exponential growth. The upper half of the states seem to produce a significant amount more barrels compare to the lower states. This cut off seem to be around Washington. There is a huge gap between Florida and Ohio. The states Ohio, Colorado, and California seem to make an exponential amount of barrels more than the other states. 
+
 
 #### Ruiyang:
 
