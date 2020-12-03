@@ -383,8 +383,20 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li>
-  <a href="production.html">Production</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Production
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="production.html">Production Analysis</a>
+    </li>
+    <li>
+      <a href="viz_tax_statemap/dashboard_production.html">Data Exploration</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="analysis.html">Analysis</a>
@@ -493,8 +505,8 @@ cumulative_tax %&gt;%  # plotting!!
     x = &quot;State&quot;
   )</code></pre>
 <p><img src="taxation_files/figure-html/unnamed-chunk-1-1.png" width="768" /></p>
-<div id="cumulative-tax-analysis" class="section level3">
-<h3>Cumulative Tax Analysis:</h3>
+<div id="cumulative-tax-interpretation" class="section level3">
+<h3>Cumulative Tax interpretation:</h3>
 <p>The state with the lowest amount of taxes collected in North Dakota with a mean of 3240.424 dollars. South Dakota is a close second for the lowest amount of taxes with an average of 3487.608 dollars. Both of these states are located in the North Central part of America. The state with the largest amount in cumulative taxes is California with a mean of 1.692105410^{5} dollars. It also appears that California also has the wides confidence interval. In second place in Colorado with a mean of 1.081001710^{5} dollars. These top two states are in the West part of the United States. This measurement of tax does not account for the population base or size of the state. It makes sense that California is at the top because it a state with a lot of people.</p>
 <hr />
 </div>
@@ -547,8 +559,8 @@ plt&lt;-static_plot + transition_states(states = year, transition_length = 4, st
 
 plt #printing out the moving picture </code></pre>
 <p><img src="taxation_files/figure-html/unnamed-chunk-2-1.gif" /><!-- --></p>
-<div id="tax-per-barrel-time-analysis" class="section level3">
-<h3>Tax Per Barrel Time Analysis:</h3>
+<div id="tax-per-barrel-time-interpretation" class="section level3">
+<h3>Tax Per Barrel Time interpretation:</h3>
 <p>We can see Tennessee starts very low in the ranking but as the years increase it climbing up the ranks ending up on top from 2014-2019 with a tax per barrel of 39.98 dollars. The lowest tax per barrel state is Wyoming. Looking for North Dakota and South Dakota on the list we see both towards the center of the list. This is interesting because in the graph above these two states had the lowest cumulative tax. Looking for California it is also in the middle of the list with a constant $6.2 taxation per barrel unit. Looking at the colors of the graph we see that the South and the West seem to be the dominant color towards the top of the list with the North Central and Northeast towards the middle and bottom of the list.</p>
 <hr />
 </div>
@@ -587,8 +599,8 @@ perbarrel_tax %&gt;%  # plotting!!
     x = &quot;State&quot;
   )</code></pre>
 <p><img src="taxation_files/figure-html/unnamed-chunk-3-1.png" width="768" /></p>
-<div id="tax-per-barrel-averages-analysis" class="section level3">
-<h3>Tax per Barrel Averages Analysis:</h3>
+<div id="tax-per-barrel-averages-interpretation" class="section level3">
+<h3>Tax per Barrel Averages interpretation:</h3>
 <p>Wyoming has the lowest tax per barrel average of 0.59 dollars, while Alabama has the highest tax per barrel average of 32.936 dollars. The biggest ranges of values go to Tennessee with Washington and Delaware also having a range of values. These big ranges of value make sense because in the moving graph before these states had the most motion in moving ranks. The states that have no confidence intervals are the states that barely moved in the rank because their tax per barrel did not change over the years 2010-2019. Just like in the graph above we see that the South and West seem to be the dominant states in the higher tax per barrel rates with the North Central state tending to have lower tax per barrel.</p>
 <hr />
 </div>

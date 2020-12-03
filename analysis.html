@@ -628,6 +628,11 @@ state_tax_group_result %&gt;%
     aes(label = control_minus_licensed), 
     color = &quot;#D14124&quot;, hjust = 0.6, vjust = 2, angle = 20)</code></pre>
 <p><img src="analysis_files/figure-html/state_tax_group-1.png" width="672" /></p>
+<p><span class="math inline">\(~\)</span></p>
+</div>
+<div id="a-brief-summary" class="section level3">
+<h3>A Brief Summary</h3>
+<p>Our data showed <strong>no significant difference between the two jurisdiction groups</strong> in the <strong>cumulative tax collected</strong> and in the <strong>tax per barrel</strong> from 2010 to 2019.</p>
 <hr />
 </div>
 </div>
@@ -731,8 +736,8 @@ broom::tidy(lm_model) %&gt;%
     columns = &quot;P-value&quot;,
     background = DT::styleInterval(c(0.05),c(&quot;lightsteelblue&quot;,&quot;white&quot;)), 
     target = &quot;row&quot;)</code></pre>
-<div id="htmlwidget-97d534eae7df56725f26" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-97d534eae7df56725f26">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],["-1.4e+07","-7.6e+03"," 7.0e+03","-9.5e-03"," 1.4e-02"," 1.2e+03"],["9.8e+05","3.0e+03","4.9e+02","2.3e-03","2.0e-03","3.4e+02"],["-14.4"," -2.5"," 14.4"," -4.2","  6.7","  3.5"],["9.7e-40","1.1e-02","9.9e-40","3.5e-05","5.2e-11","5.0e-04"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-f62fd49da1afcd6ea5e2" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f62fd49da1afcd6ea5e2">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],["-1.4e+07","-7.6e+03"," 7.0e+03","-9.5e-03"," 1.4e-02"," 1.2e+03"],["9.8e+05","3.0e+03","4.9e+02","2.3e-03","2.0e-03","3.4e+02"],["-14.4"," -2.5"," 14.4"," -4.2","  6.7","  3.5"],["9.7e-40","1.1e-02","9.9e-40","3.5e-05","5.2e-11","5.0e-04"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 <p><span class="math inline">\(~\)</span></p>
 </div>
 <div id="interpretation" class="section level3">
@@ -740,10 +745,14 @@ broom::tidy(lm_model) %&gt;%
 <ul>
 <li>All variables in our model are <strong>significant</strong> at the 5% significance level.</li>
 <li>Our model fit is acceptable with an adjusted <span class="math inline">\(R^2 = 0.55\)</span>.</li>
-<li>Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that <strong>licensed states</strong> are estimated to have approximately <strong>7.5k less cumulative tax collected</strong> than the control states.</li>
-<li><strong>Cumulative tax collected</strong> is estimate to <strong>increase approximately 7k per year</strong>, holding the group, shipments, population and consumption unchanged.</li>
-<li>Cumulative tax collected is estimated to <strong>increase approximately 1k for one unit increase in consumption per capital</strong>, holding the group, year, shipments, and population unchanged.</li>
-<li>Population and shipments have estimated coefficients close to 0, though they have significant p-values.</li>
+<li>Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that <strong>licensed states</strong> are estimated to have approximately <strong>$7.6k less cumulative tax collected</strong> than the control states.</li>
+<li><strong>Cumulative tax collected</strong> is estimate to
+<ul>
+<li><strong>increase approximately $7k per year</strong>, holding the group, shipments, population and consumption unchanged.</li>
+<li><strong>increase approximately 1k for one unit increase in consumption per capital</strong>, holding the group, year, shipments, and population unchanged.</li>
+<li><strong>increase approximately $14 for each 1k increase in population</strong>, holding the group, year, shipments, and consumption unchanged.</li>
+<li><strong>decrease approximately $9.6 for each 1k increase in shipments</strong>, holding the group, year, population, and consumption unchanged.</li>
+</ul></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
 </div>
@@ -825,8 +834,8 @@ broom::tidy(lm_model2) %&gt;%
     columns = &quot;P-value&quot;,
     background = DT::styleInterval(c(0.05),c(&quot;lightsteelblue&quot;,&quot;white&quot;)), 
     target = &quot;row&quot;)</code></pre>
-<div id="htmlwidget-79636651f8235deeef94" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-79636651f8235deeef94">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],["-1.4e+02","-2.9e-01"," 7.3e-02"," 4.4e-07","-4.5e-07","-9.2e-02"],["2.5e+02","7.6e-01","1.2e-01","5.9e-07","5.2e-07","8.7e-02"],["-0.54","-0.38"," 0.59"," 0.75","-0.86","-1.05"],["0.59","0.70","0.56","0.46","0.39","0.29"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-2094113183393d4bf79b" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2094113183393d4bf79b">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],["-1.4e+02","-2.9e-01"," 7.3e-02"," 4.4e-07","-4.5e-07","-9.2e-02"],["2.5e+02","7.6e-01","1.2e-01","5.9e-07","5.2e-07","8.7e-02"],["-0.54","-0.38"," 0.59"," 0.75","-0.86","-1.05"],["0.59","0.70","0.56","0.46","0.39","0.29"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 <p><span class="math inline">\(~\)</span></p>
 </div>
 <div id="interpretation-1" class="section level3">
