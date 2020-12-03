@@ -156,7 +156,7 @@ beer %>%
 ```
 
 ### Average ABV interpretation:
-The dotted lines at 5% and 7% represent the national average of Alchol content in beer according to the [National Consumers League](https://nclnet.org/alcohol_how_it_all_adds_up/#:~:text=One%20ounce%20of%20beer%20contains,5%20percent%20alcohol%20by%20volume). From this graph, we see that 5 states have averages well below that range (Idaho, Utah, Mississippi, Iowa and Tennessee) and 6 states have an average well above that range (Maryland, Wyoming, Alaska, Illinois, Flordia and Deleware). Looking specifically at Delaware the 95% lower bound of its confidence interval is well above 7% implying that this state produces beer that has an alcohol content larger than the national average in a regular beer.  
+The dotted lines at 5% and 7% represent the national average of Alcohol content in beer according to the [National Consumers League](https://nclnet.org/alcohol_how_it_all_adds_up/#:~:text=One%20ounce%20of%20beer%20contains,5%20percent%20alcohol%20by%20volume). From this graph, we see that 5 states have averages well below that range (Idaho, Utah, Mississippi, Iowa and Tennessee) and 6 states have an average well above that range (Maryland, Wyoming, Alaska, Illinois, Flordia and Deleware). Looking specifically at Delaware the 95% lower bound of its confidence interval is well above 7% implying that this state produces beer that has an alcohol content larger than the national average in a regular beer.  
 
 ---
 

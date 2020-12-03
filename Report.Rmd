@@ -221,9 +221,9 @@ I will try to revise them in a reasonable order.
 ## Taxation:
 
 ### Tax per Barrel Averages
-This graph also shows the effective excise tax volume adjusted measurement describe above. This time we are looking at the average tax per barrel with the corresponding confidence intervals. We concentrate our analysis on the years 2010 to 2019 and the colors still represent the state regions just like before. This can help show which states are different from each other when it comes to tax per barrel collected. 
+The American Beer Distributors also collected information tax per barrel unit.  This measurement focuses on more than just breweries but rather taxation of beer sold anywhere. The measurement that we are displaying is an effective excise tax with a volume adjustment. In the dataset, there were two other similar variables about tax one adjusting for state tax and another for local laws about tax.  However, we chose to go with the volume adjusted measurement since they all reported very similar number. his graph also shows the effective excise tax volume adjusted measurement from the year 2010 to 2019 with the corresponding confidence intervals. This can help show which states are different from each other when it comes to tax per barrel collected. 
 
-```{r warning = FALSE, message =FALSE, fig.width = 6, fig.height = 4, cache=TRUE}
+```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 4.5, cache=TRUE}
 region_name = tibble(state = state.name, state_region= state.region)
 
 perbarrel_tax = state_tax_df %>% 
@@ -259,16 +259,16 @@ perbarrel_tax %>%  # plotting!!
 ```
 
 
-#### Tax per Barrel Averages interpretation:
-Wyoming has the lowest tax per barrel average of `r perbarrel_tax$mean_tax[perbarrel_tax$state == "Wyoming"]` dollars, while Alabama has the highest tax per barrel average of `r perbarrel_tax$mean_tax[perbarrel_tax$state == "Alabama"]` dollars. The biggest ranges of values go to Tennessee with Washington and Delaware also having a range of values. These big ranges of value make sense because in the moving graph before these states had the most motion in moving ranks. The states that have no confidence intervals are the states that barely moved in the rank because their tax per barrel did not change over the years 2010-2019. Just like in the graph above we see that the South and West seem to be the dominant states in the higher tax per barrel rates with the North Central state tending to have lower tax per barrel. 
+Wyoming has the lowest tax per barrel average of `r round(perbarrel_tax$mean_tax[perbarrel_tax$state == "Wyoming"],2)` dollars, while Alabama has the highest tax per barrel average of `r round(perbarrel_tax$mean_tax[perbarrel_tax$state == "Alabama"],2)` dollars. The biggest ranges of values go to Tennessee with Washington and Delaware also having a range of values. These big ranges of value make sense because in the moving graph before these states had the most motion in moving ranks. The states that have no confidence intervals are the states that did not see changes to their tax per barrel between the  years 2010-2019. Just like in the graph above we see that the South and West seem to be the dominant states in the higher tax per barrel rates with the North Central state tending to have lower tax per barrel. 
+
 
 ## Consumption:
 
 ### Average Alcohol by volume by State 
 
-Alcohol by volume (ABV) is defined to be the volume percent of alcohol (ethanol) contained in a given volume of an alcoholic beverage. In our project, we are interested in exploring the pattern of ABV in beer produced in each state. This average is considering all beer that does have alcohol content. Zero values were excluded because they represented non-alcoholic beer. The color of the state represents the state region. The data we are using is of course not a complete list of every single beer made in each state but rather a sample. 
+Alcohol by volume (ABV) is defined to be the volume percent of alcohol (ethanol) contained in a given volume of an alcoholic beverage. In our project, we are interested in exploring the pattern of ABV in beer produced in each state. This average is considering all beer that do have alcohol content. Zero values were excluded because they represented non-alcoholic beer. The color of the state represents the state region. The data we are using is of course not a complete list of every single beer made in each state but rather a sample. 
 
-```{r warning=FALSE, message=FALSE, cache=TRUE, fig.width = 6, fig.height = 4}
+```{r warning=FALSE, message=FALSE, cache=TRUE, fig.width = 8, fig.height = 4.5}
 beer = read_csv("./data_import_cleaning/beer.csv")
 
 beer %>% 
@@ -304,16 +304,17 @@ beer %>%
                 color = "black", size=1)
 ```
 
-#### Average ABV interpretation:
-The State with the lowest ABI is Idaho and Utah. The state with the highest ABV is Delaware and Florida. In a common beer the average ABI according to the [National Consumers League](https://nclnet.org/alcohol_how_it_all_adds_up/#:~:text=One%20ounce%20of%20beer%20contains,5%20percent%20alcohol%20by%20volume) is 5-7%. From this graph, we see that 5 states have averages well below that range and 6 states have an average well above that range. Delaware’s 95% lower bound of its Confidence interval is well above 7%. 
+
+The dotted lines at 5% and 7% represent the national average of Alcohol content in beer according to the [National Consumers League](https://nclnet.org/alcohol_how_it_all_adds_up/#:~:text=One%20ounce%20of%20beer%20contains,5%20percent%20alcohol%20by%20volume). From this graph, we see that 5 states have averages well below that range (Idaho, Utah, Mississippi, Iowa and Tennessee) and 6 states have an average well above that range (Maryland, Wyoming, Alaska, Illinois, Flordia and Deleware). Looking specifically at Delaware the 95% lower bound of its confidence interval is well above 7% implying that this state produces beer that has an alcohol content larger than the national average in a regular beer.  
+
 
 
 ## Production: 
 
 ### Production of Barrels 
-This graph looks at the number of Barrels of beer produced by state recorded in barrel units. The points represent the mean barrel production from 2010-2019 and the lines show corresponding confidence intervals The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. It helps us see the difference in barrel production of each state. The colors represent the state's region and they will stay consistent through this webpage.  
+This graph looks at the taxable volume of beer Barrels produced by state recorded in barrel units. The points represent the mean barrel production from 2010-2019 and the lines show corresponding confidence intervals. The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. This visualization helps us see the difference in barrel production of each state. The colors represent the state's region and they will stay consistent through this page. 
 
-```{r warning = FALSE, message =FALSE, fig.width = 6, fig.height = 4, cache=TRUE}
+```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 4.5, cache=TRUE}
 # setting up the regions
 region = tibble(state = state.abb, state_region= state.region)
 
@@ -346,121 +347,23 @@ barrel %>%  # plotting!!
   geom_point() + 
   geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  #theme(legend.position = "none")  +
   labs(
-    title = "Average Barrel Production by State",
+    title = "Taxable Volume of Barrel Production by State",
     subtitle = "Data from years 2010-2019",
-    y = "Barrel Production (in Barrels)",
+    y = "Taxable Volume (in Barrels)",
     x = "State"
   )
 
 ```
 
-#### Production of Barrels interpretation:
-The state with the least amount of barrel production in North Dakota (`r round(barrel$mean_barrel[barrel$state == "North Dakota"],2)`)
-with South Dakota (`r round(barrel$mean_barrel[barrel$state == "South Dakota"],2)`) very close by. The state with the most barrel production in California (`r round(barrel$mean_barrel[barrel$state == "California"],2)`) with Colorado (`r round(barrel$mean_barrel[barrel$state == "Colorado"],2)`) in second place. The trend in this graph appears to be exponential growth. The upper half of the states seem to produce a significant amount more barrels compare to the lower states. This cut off seem to be around Washington. There is a huge gap between Florida and Ohio. The states Ohio, Colorado, and California seem to make an exponential amount of barrels more than the other states. 
+
+The state with the least amount of taxable barrel volume is North Dakota (`r round(barrel$mean_barrel[barrel$state == "North Dakota"],2)`)
+with South Dakota (`r round(barrel$mean_barrel[barrel$state == "South Dakota"],2)`) very close by. The state with the most barrel production in California (2,195,187) with Colorado (1,994,354) in second place. The trend in this graph appears to be exponential growth. The upper half of the states seem to produce a significant amount more barrels compare to the lower states. This cut off seem to be around Washington. There is a huge gap between Florida and Ohio. The states Ohio, Colorado, and California seem to make an exponential amount more of taxable barrels than the other states. 
+
+These findings also make sense comparing the locations of the top states to the bottom states. On the consumption page the interactive state map showed that states on coastlines or on the edges of the United States has more brewery location, therefore they produce more taxable volume of cans and bottles. The states in middle America did not have a lot of brewery location so it makes sense that they don't produce a lot of taxable volume of beer.
 
 
 #### Ruiyang:
-
-**Alcohol by volume (ABV)** is defined to be the volume percent of alcohol (ethanol) contained in a given volume of an alcoholic beverage. In our project, we are interested in exploring the pattern of ABV concerning the category/brewer/style of beer (initial question 3). 
-
-**By category**
-
-First, we looked at the pattern of ABV by beer's category. 
-
-* Based on our dataset, **Belgian and French Ale** has the **highest** average ABV while the **North American Lager** has the **lowest** average ABV. 
-
-```{r cat_abv,collapse=TRUE,message=FALSE,warning=FALSE}
-beer = read_csv("./data_import_cleaning/beer.csv")
-
-cat_abv = 
-  beer %>% 
-  replace_na(list(category = "NA", y = "unknown")) %>% 
-  group_by(category) %>% 
-  summarise(mean_abv = mean(alcohol_by_volume)) %>% 
-  arrange(desc(mean_abv)) 
-cat_abv
-cat_abv %>% 
-  mutate(category = fct_reorder(category, mean_abv)) %>% 
-  plot_ly(x = ~category, y = ~mean_abv, 
-          color = ~category, type = "bar", colors = "viridis") %>% 
-  layout(title = "Average ABV by Beer Category",
-         xaxis = list(title = "Beer Category",
-                      zeroline = TRUE),
-         yaxis = list(title = "Average ABV",
-                      range = c(0, 7)))
-```
-
-**By brewer**
-
-Next, we looked at the pattern of ABV by beer's brewer. 
-
-As there are 823 brewers listed in our dataset, we will show the **top 20** that has the highest average ABV, rather than all of them. 
-
-* **Mendocino Brewing - Ukiah** has the highest average ABV. 
-* There are 424 brewers having average ABV value of 0. 
-
-```{r brewer_abv,collapse=TRUE,message=FALSE,warning=FALSE}
-brewer_abv = 
-  beer %>% 
-  group_by(brewer) %>% 
-  summarise(mean_abv = mean(alcohol_by_volume)) %>% 
-  arrange(desc(mean_abv))
-brewer_abv
-
-#brewer_abv %>% filter(mean_abv == 0) #424
-
-brewer_abv %>% 
-  slice(1:20) %>% 
-  mutate(brewer = fct_reorder(brewer, mean_abv)) %>%
-  plot_ly(x = ~brewer, y = ~mean_abv, 
-          color = ~brewer, type = "bar", colors = "viridis") %>%
-  layout(title = "Average ABV by Beer Brewer",
-         xaxis = list(title = "Beer Brewer",
-                      zeroline = TRUE),
-         yaxis = list(title = "Average ABV",
-                      range = c(8, 10.8)))
-```
-
-**By style**
-
-Finally, we looked at the pattern of ABV by beer's style. 
-
-There are 62 styles listed in our dataset, and we will show the **top 20** that has the highest average ABV, as well as the **lowest 5**. 
-
-* We can see that **Belgian-Style Quadrupel** has the higherst average ABV while both **Vienna-Style Lager** and **Specialty Honey Lager or Ale** has average ABV of 0. 
-
-```{r style_abv,collapse=TRUE,message=FALSE,warning=FALSE}
-style_abv = 
-  beer %>% 
-  group_by(style) %>% 
-  summarise(mean_abv = mean(alcohol_by_volume)) %>% 
-  arrange(desc(mean_abv))
-style_abv
-
-style_abv %>% 
-  slice(1:20) %>% 
-  mutate(style = fct_reorder(style, mean_abv)) %>% 
-  plot_ly(x = ~style, y = ~mean_abv, 
-          color = ~style, type = "bar", colors = "viridis")  %>%
-  layout(title = "Average ABV by Beer Style",
-         xaxis = list(title = "Beer Style",
-                      zeroline = TRUE),
-         yaxis = list(title = "Average ABV",
-                      range = c(5.5, 12)))
-
-tail(style_abv) %>% 
-  rename(Style = style, `Average ABV` = mean_abv) %>% 
-  slice(-1) %>% 
-  mutate_at(2, round, 2) %>% 
-  knitr::kable(caption = "Styles with Lowest 5 Average AVB") %>% 
-  kableExtra::kable_styling(., bootstrap_options = c("striped", "hover"),
-                            full_width = F)
-```
-
-
-
 
 #### Wenbo:
 
