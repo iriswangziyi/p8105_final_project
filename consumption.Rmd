@@ -13,27 +13,18 @@ library(tidyverse)
 library(plotly)
 library(flexdashboard)
 
+# data used in this page 
 state_df = read_csv("data_import_cleaning/state_df.csv")
 beer = read_csv("./data_import_cleaning/beer.csv")
 
 library(ggplot2)
 library(broom)
-library(plotly)
-library(highcharter)
-library(rworldmap)
 library(gganimate)
-library(transformr)
-library(corrplot)
-library(leaps)
-library(kableExtra)
-
-library(gifski)
-
 library(usdata)
 ```
 
 
-This page concentrates on data collected from the American Beer Distributors and the Beer API. Its goal of this page is to explore how the consumption of beer differs between each state. Please view the dashboard to get a better understanding of the consumption per capita over time and by the state as well as a view of our data! 
+The goal of this page is to explore how the consumption of beer differs between each state. Th data on this page is collected from the American Beer Distributors and the Beer API.  Please view the dashboard to get a better understanding of the consumption per capita over time and by the state as well as a view of our data! 
 
 --- 
 
@@ -81,7 +72,7 @@ plt #pritning our the moving graph
 
 ### Consumption interpretation:
 
-First, we see Utah constantly at the bottom throughout all years. The top changes from New Hampshire, Montana, and North Dakota. These three top states are very interesting because they have been towards the bottom of the list on every other page and graphic except this one. One explanation is that these three states do not have very big populations so consumption is divided by a small capita making the measurement look larger. The second explanation is that all these states have a low lower tax per barrel cost therefore people from out of state might travel to purchase alcohol. Interviewing friends and family from the North East traveling to New Hampshire to buy alcohol common because they do not have sales tax. 5 states do not have sales tax as of 2019 [Alaska, Delaware, Montana, New Hampshire, and Oregon](https://taxfoundation.org/2020-sales-taxes/). This helps explain why New Hampshire and Montana are so high up on the list, not only do they have no sales tax but they also have small populations. According to the same source, California has the highest state-level sales tax which helps explain why it is so low on our rankings here but every other page so high up. 
+First, we see Utah constantly at the bottom throughout all years. The top per captia consumption rates are from New Hampshire, Montana, and North Dakota. These three states are very interesting because they have been towards the bottom of the list on the taxation and production page visualization. One explanation is that these three states do not have very big populations so consumption is divided by a smaller number making the measurement look larger. The second explanation is that all these states have a low lower tax per barrel cost therefore people from out of state might travel to purchase alcohol. Interviewing friends and family from the North East traveling to New Hampshire to buy alcohol common because they do not have sales tax. There are 5 states that do not have sales tax as of 2019 [Alaska, Delaware, Montana, New Hampshire, and Oregon](https://taxfoundation.org/2020-sales-taxes/). This helps explain why New Hampshire and Montana are so high up on the list, not only do they have no sales tax but they also have small populations making their consumption per capita large. According to the same source, California has the highest state-level sales tax which helps explain why it is so low on our rankings here but high up in the ranking on the Taxation and Production page. 
 
 
 
@@ -121,14 +112,14 @@ beer %>%
 
 ### Brewery Map interpretation 
 
-We can see a concentration of breweries on the West Coast and in the North East! There are also some scattered breweries around middle America but the higher concentrations are around the edges closest to waterways. 
+We can see a concentration of breweries on the West Coast and in the North East! There are also some scattered breweries around middle America but the higher concentrations are around the edges closest to waterways/ coastlines. 
 
 
 ---
 
 ## Average Alcohol by volume by State 
 
-Alcohol by volume (ABV) is defined to be the volume percent of alcohol (ethanol) contained in a given volume of an alcoholic beverage. In our project, we are interested in exploring the pattern of ABV in beer produced in each state. This average is considering all beer that does have alcohol content. Zero values were excluded because they represented non-alcoholic beer. The color of the state represents the state region. The data we are using is of course not a complete list of every single beer made in each state but rather a sample. 
+Alcohol by volume (ABV) is defined to be the volume percent of alcohol (ethanol) contained in a given volume of an alcoholic beverage. In our project, we are interested in exploring the pattern of ABV in beer produced in each state. This average is considering all beer that do have alcohol content. Zero values were excluded because they represented non-alcoholic beer. The color of the state represents the state region. The data we are using is of course not a complete list of every single beer made in each state but rather a sample. 
 
 ```{r warning=FALSE, message=FALSE, cache=TRUE, fig.width = 8, fig.height = 6}
 beer %>% 
@@ -165,37 +156,38 @@ beer %>%
 ```
 
 ### Average ABV interpretation:
-The State with the lowest ABI is Idaho and Utah. The state with the highest ABV is Delaware and Florida. In a common beer the average ABI according to the [National Consumers League](https://nclnet.org/alcohol_how_it_all_adds_up/#:~:text=One%20ounce%20of%20beer%20contains,5%20percent%20alcohol%20by%20volume) is 5-7%. From this graph, we see that 5 states have averages well below that range and 6 states have an average well above that range. Delaware’s 95% lower bound of its Confidence interval is well above 7%. 
+The dotted lines at 5% and 7% represent the national average of Alchol content in beer according to the [National Consumers League](https://nclnet.org/alcohol_how_it_all_adds_up/#:~:text=One%20ounce%20of%20beer%20contains,5%20percent%20alcohol%20by%20volume). From this graph, we see that 5 states have averages well below that range (Idaho, Utah, Mississippi, Iowa and Tennessee) and 6 states have an average well above that range (Maryland, Wyoming, Alaska, Illinois, Flordia and Deleware). Looking specifically at Delaware the 95% lower bound of its confidence interval is well above 7% implying that this state produces beer that has an alcohol content larger than the national average in a regular beer.  
 
 ---
 
 
 ## Common style by state
 
-There are 62 styles listed in our dataset, and we will show the most common in each state displayed in the table. There are 8 different most common styles, each shown in a different shade. The count of how many beers are of that style in each state is shown by the count. Only 10 entries are showed per page so please click the next button to see more! 
-
+There are 62 different styles listed in our dataset, and we will show the most common in each state displayed in the table. There are 8 different most common styles, each shown in a different color.  The count of how many beers are of that style in each state is shown by the count. Only 10 entries are showed per page so please click the next button to see more! 
 
 ```{r}
+# selecting the top styles in each state 
 top_styles = beer %>% 
-  filter(state %in% c(state.name)) %>%
-  drop_na(style) %>%
-  group_by(state) %>% 
-  count(style) %>%
-  slice(which.max(n)) %>%
+  filter(state %in% c(state.name)) %>% # only care about the state in this list 
+    # this excluded DC and other territories
+  drop_na(style) %>% # we do not care about missing value so they are dropped 
+  group_by(state) %>% # grouping by state to see how each state differs
+  count(style) %>% # counting the style 
+  slice(which.max(n)) %>% # only selecting the top count from each state 
   rename(
     count = n
   ) %>%
-  relocate(style) 
+  relocate(style) # bringing style to the front 
 
+# this is making the table look pretty on the html page. 
 top_styles %>%
- DT::datatable(., rownames = F, 
-               options = list(pageLength = 10)) %>%
+  DT::datatable(., rownames = F, 
+                options = list(pageLength = 10)) %>%
   DT::formatStyle(
-      'style',
-      #transform = 'rotateX(45deg) rotateY(20deg) rotateZ(30deg)',
-      backgroundColor = DT::styleEqual(
-        unique(top_styles$style), c(  "greenyellow", "steelblue", "lightyellow",   "lightblue", "paleturquoise",  "blueviolet", "slateblue","lightgreen")
-        #c('lightsteelblue','lightcyan', 'lightblue', 'lightskyblue', 'cornflowerblue', 'skyblue', 'paleturquoise', 'powderblue' )
+    'style',
+    backgroundColor = DT::styleEqual(
+      unique(top_styles$style), 
+      c(  "greenyellow", "steelblue", "lightyellow",   "lightblue", "paleturquoise",  "blueviolet", "slateblue","lightgreen")
       )
   )
 
@@ -204,7 +196,7 @@ top_styles %>%
 
 ### Common style interpretation:
 
-It is extremely easy to sort each column by selecting the top column name. When selecting the style and seeing the styles arranged by alphabetical order it is easy to see that the most common type is the American-Style Pale Ale coming up as top in 17 states. Some of those states included California (count of 97), Washington (count of 33), and Illinois (count of 29). Style: American-Style Lager came up in 9 states and American-Style India Pale Ale also came up in 9 different states. 
+It is easy to sort each column by selecting the top column name. When selecting the style and seeing the styles arranged by alphabetical order it is easy to see that the most common type is the American-Style Pale Ale coming up as top in 17 states. Some of those states included California (count of 97), Washington (count of 33), and Illinois (count of 29). Style: American-Style Lager came up in 9 states and American-Style India Pale Ale also came up in 9 different states. 
 
 Sorting by the counts the three top states are California (count of 97) with winning style American-Style Pale Ale, Wisconsin (count 77) winning style: American Style Lager, and Pennsylvania (count 37) winning style of American-style India Pale Ale. 
 
@@ -213,7 +205,7 @@ Sorting by the counts the three top states are California (count of 97) with win
 
 ## ABI by our top 8 styles
 
-Finally, we looked at the pattern of ABV by beer's style. There are 62 styles listed in our dataset, and we will show the **top 8** from the table above.  The colors are similar to the table. 
+Finally, we looked at the pattern of ABV by beer's style. There are 62 different styles listed in our dataset, and we will show the **top 8** from the table above.  The colors are similar to the table above as well. 
 
 ```{r style_abv,collapse = T, message = F, warning = F, fig.width = 8, fig.height = 6, cache=TRUE}
 style_abv = 
