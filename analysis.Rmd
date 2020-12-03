@@ -85,18 +85,18 @@ states_map =
              ifelse(region %in% str_to_lower(control), "control", "NA"))
   )
 
-theme_map <- function(base_size=9, base_family="") {
+theme_map <- function(base_size = 9, base_family = "") {
     require(grid)
-    theme_bw(base_size=base_size, base_family=base_family) %+replace%
-        theme(axis.line=element_blank(),
-              axis.text=element_blank(),
-              axis.ticks=element_blank(),
-              axis.title=element_blank(),
-              panel.background=element_blank(),
-              panel.border=element_blank(),
-              panel.grid=element_blank(),
-              panel.spacing=unit(0, "lines"),
-              plot.background=element_blank(),
+    theme_bw(base_size = base_size, base_family = base_family) %+replace%
+        theme(axis.line = element_blank(),
+              axis.text = element_blank(),
+              axis.ticks = element_blank(),
+              axis.title = element_blank(),
+              panel.background = element_blank(),
+              panel.border = element_blank(),
+              panel.grid = element_blank(),
+              panel.spacing = unit(0, "lines"),
+              plot.background = element_blank(),
               legend.justification = c(0,0),
               legend.position = c(0,0)
               )
@@ -123,9 +123,8 @@ centroids <- merge(statenames, centroids, by = "region")
 p3 + 
   with(centroids, 
        annotate(geom = "text", x = long, y = lat, label = abb, 
-                size = 3, color = "white", family = "Times")
+                size = 3, color = "white")
       )
-
 ```
 
 $~$ 
@@ -287,15 +286,8 @@ reg_df[reg_df == 0] <- NA
 lm_model = lm(total_tax ~ group + year + shipments + population + consumption, data = reg_df)
 summary(lm_model)
 
-#broom::tidy(lm_model) %>% 
-#  mutate_at(2:5, round, 2) %>% 
-#  janitor::clean_names() %>% 
-#  knitr::kable(caption = "Regression result summary") %>% 
-#  kableExtra::kable_styling(., bootstrap_options = c("striped", "hover"),
-#                            full_width = F) 
-
 broom::tidy(lm_model) %>% 
-  mutate_at(2:5, round, 2) %>% 
+  mutate_at(2:5, formatC, format = "e", digits = 2) %>% 
   janitor::clean_names() %>% 
   rename(
     Variable = term,
@@ -360,15 +352,8 @@ reg_df2[reg_df2 == 0] <- NA
 lm_model2 = lm(adjusted_tax ~ group + year + shipments + population + consumption, data = reg_df2)
 summary(lm_model2)
 
-#broom::tidy(lm_model) %>% 
-#  mutate_at(2:5, round, 2) %>% 
-#  janitor::clean_names() %>% 
-#  knitr::kable(caption = "Regression result summary") %>% 
-#  kableExtra::kable_styling(., bootstrap_options = c("striped", "hover"),
-#                            full_width = F) 
-
 broom::tidy(lm_model2) %>% 
-  mutate_at(2:5, round, 2) %>% 
+  mutate_at(2:5, formatC, format = "e", digits = 2) %>% 
   janitor::clean_names() %>% 
   rename(
     Variable = term,
