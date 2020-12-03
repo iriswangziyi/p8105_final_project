@@ -38,12 +38,12 @@ region = tibble(state = state.abb, state_region= state.region)
 ```
 
 
-This page concentrates on data collected from the Alcohol and Tobacco Tax and Trade Bureau and the American Beer Distributors. Its goal of this page is to explore how the production of barrels, can and bottles, and the shipment of the product differs between each state. please view the dashboard to get a better understanding of the production of barrels, and cans, and bottles over time, and a view of our data.
+This page concentrates on data collected from the Alcohol and Tobacco Tax and Trade Bureau and the American Beer Distributors. Its goal of this page is to explore how the production of barrels, can and bottles, and the shipment of the product differs between each state. please view the dashboard to get a better understanding of the production taxable volumes of barrels, and cans, and bottles over time, and a view of our data.
 
 ---
 
 ## Production of Barrels 
-This graph looks at the number of Barrels of beer produced by state recorded in barrel units. The points represent the mean barrel production from 2010-2019 and the lines show corresponding confidence intervals The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. It helps us see the difference in barrel production of each state. The colors represent the state's region and they will stay consistent through this webpage.  
+This graph looks at the taxable volume of beer Barrels produced by state recorded in barrel units. The points represent the mean barrel production from 2010-2019 and the lines show corresponding confidence intervals The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. It helps us see the difference in barrel production of each state. The colors represent the state's region and they will stay consistent through this webpage.  
 
 ```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 5, cache=TRUE}
 barrel = tax_barrels_df %>% # first we need to pivot the data 
@@ -77,23 +77,23 @@ barrel %>%  # plotting!!
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   #theme(legend.position = "none")  +
   labs(
-    title = "Average Barrel Production by State",
+    title = "Taxable Volume of Barrel Production by State",
     subtitle = "Data from years 2010-2019",
-    y = "Barrel Production (in Barrels)",
+    y = "Taxable Volume (in Barrels)",
     x = "State"
   )
 
 ```
 
 ### Production of Barrels interpretation:
-The state with the least amount of barrel production in North Dakota (`r round(barrel$mean_barrel[barrel$state == "North Dakota"],2)`)
+The state with the least amount of taxable barrel volume is North Dakota (`r round(barrel$mean_barrel[barrel$state == "North Dakota"],2)`)
 with South Dakota (`r round(barrel$mean_barrel[barrel$state == "South Dakota"],2)`) very close by. The state with the most barrel production in California (`r round(barrel$mean_barrel[barrel$state == "California"],2)`) with Colorado (`r round(barrel$mean_barrel[barrel$state == "Colorado"],2)`) in second place. The trend in this graph appears to be exponential growth. The upper half of the states seem to produce a significant amount more barrels compare to the lower states. This cut off seem to be around Washington. There is a huge gap between Florida and Ohio. The states Ohio, Colorado, and California seem to make an exponential amount of barrels more than the other states. 
 
 
 ---
 
 ## Production of Cans and Bottles
-This graph looks at the number of cans and bottles produced by the state recorded in barrel units. The points represent the mean bottle production from 2010-2019 and the lines represent the corresponding confidence intervals. The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. The colors represent the state's region. 
+This graph looks at the taxable volume of cans and bottles produced by the state recorded in barrel units. The points represent the mean bottle production from 2010-2019 and the lines represent the corresponding confidence intervals. The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. The colors represent the state's region. 
 
 
 ```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 5, cashe=TRUE}
@@ -125,16 +125,16 @@ cans_bottles %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   #theme(legend.position = "none")  +
   labs(
-    title = "Average Can and Bottle Production by State",
+    title = "Taxable Volume of Can and Bottle Production by State",
     subtitle = "Data from years 2010-2019",
-    y = "Can and Bottle Production (in Barrels)",
+    y = "Taxable Volume (in Barrels)",
     x = "State"
   )
 ```
 
 
 ### Production of cans and bottles interpretation: 
-The state with the lowest barrel production in West Virginia  (`r round(cans_bottles$mean_barrel[cans_bottles$state == "West Virginia"],2)`), South Dakota  (`r round(cans_bottles$mean_barrel[cans_bottles$state == "South Dakota"],2)`), and North Dakota  (`r round(cans_bottles$mean_barrel[cans_bottles$state == "North Dakota"],2)`). 
+The state with the lowest taxable volume barrel production in West Virginia  (`r round(cans_bottles$mean_barrel[cans_bottles$state == "West Virginia"],2)`), South Dakota  (`r round(cans_bottles$mean_barrel[cans_bottles$state == "South Dakota"],2)`), and North Dakota  (`r round(cans_bottles$mean_barrel[cans_bottles$state == "North Dakota"],2)`). 
 The state with the highest barrel production is Texas (`r round(cans_bottles$mean_barrel[cans_bottles$state == "Texas"],2)`). In second place is Colorado and in third place is California  (`r round(cans_bottles$mean_barrel[cans_bottles$state == "California"],2)`). In fourth place in Ohio  (`r round(cans_bottles$mean_barrel[cans_bottles$state == "Ohio"],2)`). These four states produce a massive amount of more than all the other states. 
 Looking right around New Hampshire there all the states on the right side seem to be significantly higher than the states on the left side. It is really hard to tell if there is a difference in the states on the left side of New Hampshire. This is primarily because the 4 highest states increase our y-axis so that we can not see the variation in the states with a lower amount of bottle production. 
 
