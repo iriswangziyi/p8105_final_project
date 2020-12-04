@@ -123,7 +123,7 @@ centroids <- merge(statenames, centroids, by = "region")
 p3 + 
   with(centroids, 
        annotate(geom = "text", x = long, y = lat, label = abb, 
-                size = 3, color = "white")
+                size = 2.5, color = "gray30")
       )
 ```
 
