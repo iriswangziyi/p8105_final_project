@@ -49,6 +49,7 @@ library(flexdashboard)
 library(leaflet)
 library(sf)
 library(mapview)
+
 knitr::opts_chunk$set(
   fig.width = 6,
   fig.asp = .6,
@@ -71,7 +72,7 @@ beer = read_csv("./data_import_cleaning/beer.csv")
 ---
 
 ### Beer Tax in U.S. State
-```{r tax map, collapse = T, message = F, warning = F}
+```{r tax map, collapse = T, message = F, warning = F, fig.width = 6, fig.height = 6}
 state_df = # arrange row order
   tibble(
     state = state.abb, # arrange row order according default state.abb
@@ -105,8 +106,8 @@ plot_geo() %>%
 ---
 
 ### U.S. brewers Location mapping
- Map location of each US brewer with category/style, size of marker showing ABV (Alcohol by volume) and interactive label showing the tax info by state.
-```{r brewer map, collapse = T, message = F, warning = F}
+Map location of each US brewer with category/style, size of marker showing ABV (Alcohol by volume) and interactive label showing the tax info by state.
+```{r brewer map, collapse = T, message = F, warning = F, fig.width = 6, fig.height = 6}
 #install.packages("leaflet")
 library(leaflet)
 pal <- colorNumeric(
