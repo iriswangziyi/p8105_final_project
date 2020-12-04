@@ -203,6 +203,9 @@ DT::datatable(
   head(state_tax_df),
   caption = 'Head of state_tax_df dataframe, (Tax per Barrel Data)'
 )
+```
+
+```{r message=FALSE, warning=FALSE}
 DT::datatable(
   head(state_df),
   caption = 'Head of state_df dataframe'
