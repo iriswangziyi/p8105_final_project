@@ -463,11 +463,11 @@ div.tocify {
 </div>
 
 
-<p>This page concentrates on data collected from the Alcohol and Tobacco Tax and Trade Bureau and the American Beer Distributors. It goal of this page is to explore how taxation differs between states. please view the dashboard to get a better understanding of the cumulative taxation over time, a state map by year, and a view of our data.</p>
+<p>This page concentrates on data collected from the Alcohol and Tobacco Tax and Trade Bureau and the American Beer Distributors. The goal of this page is to explore how taxation differs between each state. For further exploration please view the dashboard to get a better understanding of the cumulative taxation over time, a state map by year, and a view of our data.</p>
 <hr />
 <div id="cumulative-tax" class="section level2">
 <h2>Cumulative Tax</h2>
-<p>This graph is displaying the average cumulative tax from beer collected by each state. This tax measurement is collected by the Alcohol and Tobacco Tax and Trade Bureau and is specifically looking at taxes on beer that is consumed, sold, or removed from the premises of breweries. These points represent the average tax collected from the years 2010-2019 with a confidence interval for each state. This gives insight into how states differ from each other in total tax revenue. The colors represent the region of each state.</p>
+<p>This graph is displaying the average cumulative tax collected from breweries by each state. This tax measurement is collected by the Alcohol and Tobacco Tax and Trade Bureau and is specifically looking at taxes on beer that is consumed, sold, or removed from the premises of breweries. These points represent the average tax collected from the years 2010-2019 with a confidence interval for each state. This gives insight into how states differ from each other in cumulative tax revenue from breweries. The colors represent the region of each state.</p>
 <pre class="r"><code># setting up the regions
 region = tibble(state = state.abb, state_region= state.region)
 
@@ -507,13 +507,13 @@ cumulative_tax %&gt;%  # plotting!!
 <p><img src="taxation_files/figure-html/unnamed-chunk-1-1.png" width="768" /></p>
 <div id="cumulative-tax-interpretation" class="section level3">
 <h3>Cumulative Tax interpretation:</h3>
-<p>The state with the lowest amount of taxes collected in North Dakota with a mean of 3240.424 dollars. South Dakota is a close second for the lowest amount of taxes with an average of 3487.608 dollars. Both of these states are located in the North Central part of America. The state with the largest amount in cumulative taxes is California with a mean of 1.692105410^{5} dollars. It also appears that California also has the wides confidence interval. In second place in Colorado with a mean of 1.081001710^{5} dollars. These top two states are in the West part of the United States. This measurement of tax does not account for the population base or size of the state. It makes sense that California is at the top because it a state with a lot of people.</p>
+<p>The state with the lowest amount of taxes collected from breweries is North Dakota with a mean of 3240.42 dollars. South Dakota is a close second for the lowest amount of taxes with an average of 3487.61 dollars. Both of these states are located in the North Central part of America. The state with the largest amount in cumulative taxes collected from breweries is California with a mean of 169,210.50 dollars. It also appears that California also has the widest confidence interval. This implies that over the years it has the most variation in dollars collected. In second place for top cumulative tax is Colorado with a mean of 108,100.20 dollars. These top two states are in the West part of the United States represented by the purple color. This measurement of tax does not account for the population base or size of the state. It makes sense that California is at the top because it a state with a lot of people and that North and South Dakota is at the bottom because the population mass is much less. Overall, looking at the states, the states with a smaller population has a smaller cumulative beer tax rate.</p>
 <hr />
 </div>
 </div>
 <div id="tax-per-barrel" class="section level2">
 <h2>Tax per Barrel</h2>
-<p>The American Beer Distributors also collected information on taxation but they chose to measure tax per barrel unit. This helps account for the inflation we were seeing from population mass in larger states. The measurement that we are displaying is an Effective excise tax with a volume adjustment. In the dataset, there were two other similar variables about tax one adjusting for state tax and another for local laws but we chose to go with the volume adjusted measurement since they were all very similar. The below graph displays the tax per barrel in each state over the year 2010-2019. The colors represent the state region and are consistent with the key from the previous graph above.</p>
+<p>The American Beer Distributors also collected information on taxation but they chose to measure tax per barrel unit. This helps account for the inflation we were seeing from population mass in larger states. This measurement also focuses on more than just breweries but rather taxation on beer sold anywhere. The measurement that we are displaying is an effective excise tax with a volume adjustment. In the dataset, there were two other similar variables about tax one adjusting for state tax and another for local laws about tax. However, we chose to go with the volume adjusted measurement since they all reported very similar number. The below graph displays the tax per barrel in each state over the year 2010-2019. The colors represent the state region and are consistent with the key from the previous graph above.</p>
 <pre class="r"><code># we had overlapping ranks, need to fix this (also there was a break where DC was)
 for(i in 1:length(state_tax_df$state)) {
   if(state_tax_df$state[i] == &quot;Rhode Island&quot;) {state_tax_df$rank_3[i] = 42}
@@ -561,7 +561,7 @@ plt #printing out the moving picture </code></pre>
 <p><img src="taxation_files/figure-html/unnamed-chunk-2-1.gif" /><!-- --></p>
 <div id="tax-per-barrel-time-interpretation" class="section level3">
 <h3>Tax Per Barrel Time interpretation:</h3>
-<p>We can see Tennessee starts very low in the ranking but as the years increase it climbing up the ranks ending up on top from 2014-2019 with a tax per barrel of 39.98 dollars. The lowest tax per barrel state is Wyoming. Looking for North Dakota and South Dakota on the list we see both towards the center of the list. This is interesting because in the graph above these two states had the lowest cumulative tax. Looking for California it is also in the middle of the list with a constant $6.2 taxation per barrel unit. Looking at the colors of the graph we see that the South and the West seem to be the dominant color towards the top of the list with the North Central and Northeast towards the middle and bottom of the list.</p>
+<p>We can see Tennessee starts very low in the ranking but as the years increase it climbing up the ranks ending up on top from 2014-2019 with a tax per barrel of 39.98 dollars. The lowest tax per barrel state is Wyoming. Looking for North Dakota and South Dakota on the list we see both towards the center of the list. This is interesting because in the graph above these two states had the lowest cumulative tax. Our hypothesized explanation for this is that population mass as well as amount of breweries in each state has a big impact on this. Looking for California it is also in the middle of the list with a constant $6.2 taxation per barrel unit. Looking at the colors of the graph we see that the South and the West seem to be the dominant color towards the top of the list with the North Central and Northeast towards the middle and bottom of the list.</p>
 <hr />
 </div>
 </div>
@@ -601,8 +601,7 @@ perbarrel_tax %&gt;%  # plotting!!
 <p><img src="taxation_files/figure-html/unnamed-chunk-3-1.png" width="768" /></p>
 <div id="tax-per-barrel-averages-interpretation" class="section level3">
 <h3>Tax per Barrel Averages interpretation:</h3>
-<p>Wyoming has the lowest tax per barrel average of 0.59 dollars, while Alabama has the highest tax per barrel average of 32.936 dollars. The biggest ranges of values go to Tennessee with Washington and Delaware also having a range of values. These big ranges of value make sense because in the moving graph before these states had the most motion in moving ranks. The states that have no confidence intervals are the states that barely moved in the rank because their tax per barrel did not change over the years 2010-2019. Just like in the graph above we see that the South and West seem to be the dominant states in the higher tax per barrel rates with the North Central state tending to have lower tax per barrel.</p>
-<hr />
+<p>Wyoming has the lowest tax per barrel average of 0.59 dollars, while Alabama has the highest tax per barrel average of 32.94 dollars. The biggest ranges of values go to Tennessee with Washington and Delaware also having a range of values. These big ranges of value make sense because in the moving graph before these states had the most motion in moving ranks. The states that have no confidence intervals are the states that did not see changes to their tax per barrel between the years 2010-2019. Just like in the graph above we see that the South and West seem to be the dominant states in the higher tax per barrel rates with the North Central state tending to have lower tax per barrel.</p>
 </div>
 </div>
 

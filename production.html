@@ -463,11 +463,11 @@ div.tocify {
 </div>
 
 
-<p>This page concentrates on data collected from the Alcohol and Tobacco Tax and Trade Bureau and the American Beer Distributors. Its goal of this page is to explore how the production of barrels, can and bottles, and the shipment of the product differs between each state. please view the dashboard to get a better understanding of the production taxable volumes of barrels, and cans, and bottles over time, and a view of our data.</p>
+<p>This page concentrates on data collected from the Alcohol and Tobacco Tax and Trade Bureau and the American Beer Distributors. The goal of this page is to explore how the production taxable volume of barrels, can and bottles, and the shipment of the product differs between each state. For further visualizations please view the dashboard to get a better understanding of the production taxable volumes of barrels, and cans, and bottles over time, and a view of our data.</p>
 <hr />
 <div id="production-of-barrels" class="section level2">
 <h2>Production of Barrels</h2>
-<p>This graph looks at the taxable volume of beer Barrels produced by state recorded in barrel units. The points represent the mean barrel production from 2010-2019 and the lines show corresponding confidence intervals The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. It helps us see the difference in barrel production of each state. The colors represent the state’s region and they will stay consistent through this webpage.</p>
+<p>This graph looks at the taxable volume of beer Barrels produced by state recorded in barrel units. The points represent the mean barrel production from 2010-2019 and the lines show corresponding confidence intervals. The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. This visualization helps us see the difference in barrel production of each state. The colors represent the state’s region and they will stay consistent through this page.</p>
 <pre class="r"><code>barrel = tax_barrels_df %&gt;% # first we need to pivot the data 
   filter(state != &quot;total&quot;) %&gt;%
   pivot_longer(
@@ -497,7 +497,6 @@ barrel %&gt;%  # plotting!!
   geom_point() + 
   geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  #theme(legend.position = &quot;none&quot;)  +
   labs(
     title = &quot;Taxable Volume of Barrel Production by State&quot;,
     subtitle = &quot;Data from years 2010-2019&quot;,
@@ -507,7 +506,7 @@ barrel %&gt;%  # plotting!!
 <p><img src="production_files/figure-html/unnamed-chunk-1-1.png" width="768" /></p>
 <div id="production-of-barrels-interpretation" class="section level3">
 <h3>Production of Barrels interpretation:</h3>
-<p>The state with the least amount of taxable barrel volume is North Dakota (1740.12) with South Dakota (2033.03) very close by. The state with the most barrel production in California (2.195186910^{6}) with Colorado (1.994354110^{6}) in second place. The trend in this graph appears to be exponential growth. The upper half of the states seem to produce a significant amount more barrels compare to the lower states. This cut off seem to be around Washington. There is a huge gap between Florida and Ohio. The states Ohio, Colorado, and California seem to make an exponential amount of barrels more than the other states.</p>
+<p>The state with the least amount of taxable barrel volume is North Dakota (1740.12) with South Dakota (2033.03) very close by. The state with the most barrel production in California (2,195,187) with Colorado (1,994,354) in second place. The trend in this graph appears to be exponential growth. The upper half of the states seem to produce a significant amount more barrels compare to the lower states. This cut off seem to be around Washington. There is a huge gap between Florida and Ohio. The states Ohio, Colorado, and California seem to make an exponential amount more of taxable barrels than the other states.</p>
 <hr />
 </div>
 </div>
@@ -550,13 +549,13 @@ cans_bottles %&gt;%
 <p><img src="production_files/figure-html/unnamed-chunk-2-1.png" width="768" /></p>
 <div id="production-of-cans-and-bottles-interpretation" class="section level3">
 <h3>Production of cans and bottles interpretation:</h3>
-<p>The state with the lowest taxable volume barrel production in West Virginia (99.66), South Dakota (765.98), and North Dakota (845.66). The state with the highest barrel production is Texas (1.818429710^{7}). In second place is Colorado and in third place is California (1.757271810^{7}). In fourth place in Ohio (1.738972110^{7}). These four states produce a massive amount of more than all the other states. Looking right around New Hampshire there all the states on the right side seem to be significantly higher than the states on the left side. It is really hard to tell if there is a difference in the states on the left side of New Hampshire. This is primarily because the 4 highest states increase our y-axis so that we can not see the variation in the states with a lower amount of bottle production.</p>
+<p>The state with the lowest taxable volume barrel production in West Virginia (99.66), South Dakota (765.98), and North Dakota (845.66). The state with the highest barrel production is Texas (18,184,297). In second place is Colorado (18,104,916), third place is California (17,572,718), and fourth place is Ohio (17,389,721). These four states produce a massive amount of more than all the other states. Looking right around New Hampshire there all the states on the right side seem to be significantly higher than the states on the left side. It is really hard to tell if there is a difference in the states on the left side of New Hampshire. This is primarily because the 4 highest states increase our y-axis so that we can not see the variation in the states with a lower amount of bottle production. These findings also make sense comparing the locations of the top states to the bottom states. On the consumption page the interactive state map showed that states on coastlines or on the edges of the United States has more brewery location, therefore they produce more taxable volume of cans and bottles. The states in middle America did not have a lot of brewery location so it makes sense that they don’t produce a lot of taxable volume of beer.</p>
 <hr />
 </div>
 </div>
 <div id="shipments-of-malt-beverages" class="section level2">
 <h2>Shipments of Malt Beverages</h2>
-<p>This is the number of shipments the United States has made of malt beverages in barrel units. The moving picture shows years from 2010 to 2019 and will continuously repeat. This data comes from the American Beer Distributors. The different colors represent the state regions in the united states.</p>
+<p>This visualization shows the number of shipments the United States has made of malt beverages in barrel units. The moving picture shows years from 2010 to 2019 and will continuously repeat. This data comes from the American Beer Distributors. The different colors represent the state regions in the united states.</p>
 <pre class="r"><code># moving the rank so there isn&#39;t a gap where DC used to be 
 for(i in 1:length(state_df$state)) {
   if(state_df$state[i] == &quot;Wyoming&quot;) {state_df$rank_3[i] = 50}
@@ -596,7 +595,7 @@ plt</code></pre>
 <p><img src="production_files/figure-html/unnamed-chunk-3-1.gif" /><!-- --></p>
 <div id="shipments-interpretation" class="section level3">
 <h3>Shipments interpretation:</h3>
-<p>Wyoming consistently has the lowest amount of shipments and close behind it is Alaska. The state with the top amount shipment is California with Texas close behind it. These two state’s shipments seem to be way more compared to all the other states. This variable does not control the population base. Therefore, it makes sense why California and Texas have the highest shipment because they have the most people. The states at the very bottom of the list definitely have the lowest amount of populations base.</p>
+<p>Wyoming consistently has the lowest amount of shipments and close behind it is Alaska. The state with the top amount shipment is California with Texas close behind it. These two state’s shipments seem to be way more compared to all the other states. This variable does not control for the population base. Therefore, it makes sense why California and Texas have the highest shipment because they have the most people. The states at the very bottom of the list definitely have the lowest amount of populations base.</p>
 </div>
 </div>
 
