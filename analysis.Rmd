@@ -11,6 +11,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
+library(maps)         # for state maps
+#devtools::install_github("hrbrmstr/hrbrthemes") 
 ```
 
 ```{r df_tidy, collapse=TRUE,message=FALSE, include=FALSE}
@@ -61,20 +63,15 @@ We focus on two analyses in this section. One is to compare tax differences by j
 
 $~$
 
-## Tax differences by jurisdiction group
+## Goal
+
+**To Compare Tax differences by jurisdiction group** 
 
 Differing on the degree of control on liquor wholesales and retail, states can be categorized into two [types](https://www.ncsla.org/State-Officials.html) -- control jurisdiction and licensed jurisdiction, with licensed states having more control. Such categorization may lead to difference in taxation. Therefore, we are interested in examining if there is any difference in taxation by these two groups of states. 
 
-$~$
-
-### Jurisdiction Map
-
-Here is a state map showing control jurisdiction and licensed jurisdiction. 
+For viewing convenience, we display a state map showing the control jurisdiction and the licensed jurisdiction. 
 
 ```{r state_map, collapse=T, message=F}
-library(maps)
-#devtools::install_github("hrbrmstr/hrbrthemes") 
-
 us_states <- map_data("state")
 
 states_map = 
@@ -123,18 +120,18 @@ centroids <- merge(statenames, centroids, by = "region")
 p3 + 
   with(centroids, 
        annotate(geom = "text", x = long, y = lat, label = abb, 
-                size = 2.5, color = "gray30")
+                size = 2.3, color = "gray30")
       )
 ```
 
 $~$ 
 
-### Cumulative Tax Collected
+## Cumulative Tax Collected
 
 First, we looked at the cumulative taxes collected. 
 This tax is specifically looking at the “Beer removed for consumption or sale including beer removed tax determined for consumption or sale in a tavern or on brewery premises”. 
 
-We performed t-test for each year and would like to see if there is any significant difference in the cumulative tax between control states and licensed states. 
+We performed t-test for each year and would like to see if the cumulative taxes collected differ significantly between the control states and the licensed states. 
 
 The following plot gives the average tax difference (Tax in the Control States - Tax in the Licensed States), together with its 95% confidence interval and p-value, from 2010 to 2019. 
 
@@ -185,9 +182,9 @@ tax_group_result %>%
 
 $~$ 
 
-### Tax per Barrel
+## Tax per Barrel
 
-Next, we looked at the tax per barrel, which is the effective excise tax (volume adjusted). As what have been done in previous subsection, we performed t-test for each year and would like to see if there is any significant difference in the tax per barrel between control states and licensed states. 
+Next, we looked at the tax per barrel, which is the effective excise tax (volume adjusted). Similar to what have been done in previous subsection, we performed t-test for each year and would like to see if there is any significant difference in the tax per barrel between the control states and the licensed states. 
 
 The following plot gives the average tax difference (Tax in the Control States - Tax in the Licensed States), together with its 95% confidence interval and p-value, from 2010 to 2019. 
 
@@ -232,16 +229,18 @@ state_tax_group_result %>%
 
 $~$
 
-### A Brief Summary
+## Recap
 
-Our data showed **no significant difference between the two jurisdiction groups** in the **cumulative tax collected** and in the **tax per barrel** from 2010 to 2019. 
+* **Cumulative tax collected** does **not differ significantly by jurisdiction groups** from 2010 to 2019. 
+* **Tax per barrel** does **not differ significantly by jurisdiction groups** from 2010 to 2019. 
+
 
 --- 
 
   
 # Regression Anlaysis
   
-In this part, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption. 
+In this part, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption. To be consistent with our focus in the previous section, we fit two regression models -- one for the cumulative tax collected and the other for the tax per barrel.  
 
 $~$
 
@@ -258,9 +257,9 @@ $~$
 
 ## Model 1 - Cumulative Tax Collected
 
-We first focus on the **cumulative tax collected**. 
+We first focus on the **cumulative tax collected**. Our model of interest is: 
 
-$$Cumulative \ tax = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption$$
+$$Cumulative \ tax = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption.$$
 
 $~$ 
 
@@ -322,7 +321,7 @@ $~$
 * Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that **licensed states** are estimated to have approximately **$7.6k less cumulative tax collected** than the control states.
 * **Cumulative tax collected** is estimate to 
   * **increase approximately $7k per year**, holding the group, shipments, population and consumption unchanged. 
-  * **increase approximately 1k for one unit increase in consumption per capital**, holding the group, year, shipments, and population unchanged. 
+  * **increase approximately $1.2k for one unit increase in consumption per capital**, holding the group, year, shipments, and population unchanged. 
   * **increase approximately $14 for each 1k increase in population**, holding the group, year, shipments, and consumption unchanged. 
   * **decrease approximately $9.6 for each 1k increase in shipments**, holding the group, year, population, and consumption unchanged. 
 
@@ -330,9 +329,9 @@ $~$
 
 ## Model 2 - Tax Per Barrel
 
-We next look at the **tax per barrel**. 
+We next look at the **tax per barrel**. Our model of interest is
 
-$$Tax \ per \ barrel = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption$$
+$$Tax \ per \ barrel = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption.$$
 
 $~$
 
@@ -387,3 +386,16 @@ $~$
 
 * All variables in our model are **not significant** at the 5% significance level. 
 * This model does not fit well as the adjusted $R^2$ is approximately 0.
+
+
+--- 
+
+
+# Highlights
+
+* Our data suggested that **tax per barrel** does **not differ significantly by jurisdiction groups** from 2010 to 2019. 
+* After controlling for year, shipments, population and consumption, we found that **licensed states** are estimated to have **less cumulative tax collected** than the control states from 2010 to 2019. 
+  * In addition, **Cumulative tax collected** is estimate to **increase** with **year, consumption per capital and population** but **decrease** with **shipments**.  
+
+$~$
+
