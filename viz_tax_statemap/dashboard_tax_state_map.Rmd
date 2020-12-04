@@ -229,7 +229,7 @@ plot_geo() %>%
                       '</br> Tax: ', tax_2019)
   ) %>%
   layout(geo = g,
-         title = "Taxation Choropleth of 2010 (In Barrels)") %>%
+         title = "Taxation Choropleth of 2019 (In Barrels)") %>%
   config( fillFrame = TRUE)
 ```
 
