@@ -15,6 +15,7 @@ library(flexdashboard)
 
 tax_df = read_csv( "data_import_cleaning/tax.csv")
 state_tax_df = read_csv("data_import_cleaning/state_tax_df.csv")
+state_df = read_csv("data_import_cleaning/state_df.csv")
 
 
 library(ggplot2)
@@ -83,8 +84,50 @@ cumulative_tax %>%  # plotting!!
   )
 ```
 
+
+
 ### Cumulative Tax interpretation:
 The state with the lowest amount of taxes collected from breweries is North Dakota with a mean of `r round(cumulative_tax$mean_tax[cumulative_tax$state == "North Dakota"],2)` dollars. South Dakota is a close second for the lowest amount of taxes with an average of `r round(cumulative_tax$mean_tax[cumulative_tax$state == "South Dakota"],2)` dollars. Both of these states are located in the North Central part of America. The state with the largest amount in cumulative taxes collected from breweries is California with a mean of 169,210.50 dollars. It also appears that California also has the widest confidence interval. This implies that over the years it has the most variation in dollars collected. In second place for top cumulative tax is Colorado with a mean of 108,100.20 dollars. These top two states are in the West part of the United States represented by the purple color. This measurement of tax does not account for the population base or size of the state. It makes sense that California is at the top because it a state with a lot of people and that North and South Dakota is at the bottom because the population mass is much less. Overall, looking at the states, the states with a smaller population has a smaller cumulative beer tax rate. 
+
+#### Population graph based on cumulation tax
+To see if population seems to have the same upwards trend we can make a similar graph but now look at population means and confidence intervals and order the states in the same order as above. 
+
+```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 5, cache=TRUE}
+
+cumulative_tax_pop = state_df %>% 
+  filter(state != "District of Columbia") %>% # we don't want this in our moving graph
+  filter(year > 2009) %>%
+  group_by(state) %>%
+  summarize(
+    mean_pop = mean(population, na.rm=TRUE), 
+    CI_lower_pop = mean(population, na.rm=TRUE) - 
+      1.96 * sd(population, na.rm=TRUE)/sqrt(length(population)),
+    CI_upper_pop = mean(population, na.rm=TRUE) + 
+      1.96 * sd(population, na.rm=TRUE)/sqrt(length(population))
+  )
+
+
+
+df = right_join(cumulative_tax, cumulative_tax_pop)
+df %>%
+  mutate(
+    state = fct_reorder(state, mean_tax) # ordering the states according to mean_barrels
+  ) %>%
+  ggplot(aes(x = state, y = mean_pop,color=state_region)) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = CI_lower_pop, ymax = CI_upper_pop)) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  #theme(legend.position = "none")  +
+  labs(
+    title = "Average Population by State",
+    subtitle = "State ordering dependent on cumative tax",
+    y = "Population",
+    x = "State"
+  )
+```
+
+The same increasing pattern with the smaller population states towards the left of the plot and the higher population states towards the right is present. This indicated that population is an explaining reason why we see some states accumulated a lot of money compared to others. Another explanation could be the number of breweries located in each state, but since we do not have information on how many breweries are in each state this hypothesis is harder to test. 
+
 
 ---
 
@@ -141,7 +184,7 @@ plt #printing out the moving picture
 
 
 ### Tax Per Barrel Time interpretation:
-We can see Tennessee starts very low in the ranking but as the years increase it climbing up the ranks ending up on top from 2014-2019 with a tax per barrel of 39.98 dollars. The lowest tax per barrel state is Wyoming. Looking for North Dakota and South Dakota on the list we see both towards the center of the list. This is interesting because in the graph above these two states had the lowest cumulative tax. Our hypothesized explanation for this is that population mass as well as amount of breweries in each state has a big impact on this. Looking for California it is also in the middle of the list with a constant $6.2 taxation per barrel unit. Looking at the colors of the graph we see that the South and the West seem to be the dominant color towards the top of the list with the North Central and Northeast towards the middle and bottom of the list. 
+We can see Tennessee starts very low in the ranking but as the years increase it climbing up the ranks ending up on top from 2014-2019 with a tax per barrel of 39.98 dollars. The lowest tax per barrel state is Wyoming. Looking for North Dakota and South Dakota on the list we see both towards the center of the list. This is interesting because in the graph above these two states had the lowest cumulative tax. Looking for California it is also in the middle of the list with a constant $6.2 taxation per barrel unit. The regions represented by the colors of the graph show that the South and the West seem to be the dominant color towards the top of the list with the North Central and Northeast towards the middle and bottom of the list. 
  
 ---
 
@@ -180,6 +223,9 @@ perbarrel_tax %>%  # plotting!!
     y = "Tax per Barrel",
     x = "State"
   )
+
+
+
 ```
 
 
