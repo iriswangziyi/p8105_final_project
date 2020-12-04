@@ -1,11 +1,11 @@
 ---
-title: "Beer taxation in the United States - P8105 Data Science I Project"
+title: "US Beer Project - P8105 Data Science I Project"
 output: 
   html_document:
     code_folding: hide
 ---
 
-<h2 style="text-align: center;" markdown="1">Exploring the consumption, taxation, and production of beer in the United States.  </h2>
+<h2 style="text-align: center;" markdown="1"> Exploring the Consumption, Taxation, and Production of Beer in the US. </h2>
 <h6 style="text-align: center;" markdown="1">By: Amy Pitts (ajp2257)| Ruiyang Li (rl3034)| Wenbo Fei (wf2270)| Ziyi Wang (zw2716)</h6>
 
 
@@ -23,10 +23,6 @@ The US Government continues to control the consumption and production of Beer th
 
 ---
 
-## Screencast*
-
----
-
 ## Datasets
 
 * Yearly Statistical Beer Data by State (2008 – 2019) from [Alcohol and Tobacco Tax and Trade Bureau](https://www.ttb.gov/beer/statistics). This aggregated data contained records on Tax Determined, Taxable Volume of Bottles and Cans, Taxable Volume of Barrels and Kegs each year for each state in barrels.
@@ -37,8 +33,6 @@ The US Government continues to control the consumption and production of Beer th
 and [Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf). Due to the difficult of working with pdf documents in R and pdf to excel online file converter was used to access this data. These files include data on taxation rate per barrel, shipment of beer, consumption of beer per capita, and population over the age of 21. 
 
 ---
-
-## Findings
 
 ```{r setup, include = F}
 library(tidyverse)
@@ -69,41 +63,7 @@ beer = read_csv("./data_import_cleaning/beer.csv")
 
 ---
 
-### Beer Tax in U.S. State
-```{r tax map, collapse = T, message = F, warning = F, fig.width = 6, fig.height = 6, eval=F}
-state_df = # arrange row order
-  tibble(
-    state = state.abb, # arrange row order according default state.abb
-    state.name = state.name
-  )
-
-tax <- 
-  left_join(state_df, tax_df, by = "state")
-
-g <- list(
-  scope = 'usa',
-  projection = list(type = 'albers usa'),
-  lakecolor = toRGB('white')
-)
-
-tax_2019 <- tax %>% pull(14)         
-plot_geo() %>%
-  add_trace(
-    z = ~tax_2019, span = I(0),
-    locations = state.abb, locationmode = 'USA-states',
-    hoverinfo = 'text',
-    text = ~paste('</br>', state.name,
-                      '</br> Year: ', 2019,
-                      '</br> Tax: ', tax_2019)
-  ) %>%
-  layout(geo = g,
-         title = "Taxation Choropleth of 2019 (In Barrels)") %>%
-  config( fillFrame = TRUE)
-```
-
----
-
-### U.S. brewers Location mapping
+### U.S. Brewery locations
 Map location of each US brewer with category/style, size of marker showing ABV (Alcohol by volume) and interactive label showing the tax info by state.
 ```{r brewer map, collapse = T, message = F, warning = F, fig.width = 6, fig.height = 6}
 #install.packages("leaflet")
@@ -131,4 +91,17 @@ beer %>%
 ```
 
 ## Website Overview
+- Taxation
+  - Taxation Analysis
+  - Data Exploration
+- Consumption
+  - Consumption Analysis
+  - Data Exploration
+- Production
+  - Production Analysis
+  - Data Exploration
+- Analysis
 
+---
+
+## Key Findings
