@@ -370,7 +370,7 @@ These findings also make sense comparing the locations of the top states to the 
 #### Iris:
 
 
-### Regression Analysis: -- Ruiyang?
+### Additional analysis: Regression -- Ruiyang?
 If you undertake formal statistical analyses, describe these in detail
 
 [starts here]
@@ -507,4 +507,3 @@ broom::tidy(lm_model) %>%
 What were your findings? Are they what you expect? What insights into the data can you make?
 
 Discuss in the meeting.
-
