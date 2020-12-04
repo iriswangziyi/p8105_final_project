@@ -562,25 +562,19 @@ taxable_barrels_df  =
   mutate_at(vars(2:13), ~ gsub(&quot;,&quot;, &quot;&quot;, .x)) %&gt;%
   mutate_at(vars(2:13), as.numeric)
 
-DT::datatable(
-  head(tax_df[,-c(2,3)]),
-  caption = &#39;Head of the tax_df dataframe, (Cummulative Tax Data)&#39;
-)</code></pre>
-<div id="htmlwidget-750b3f792cb891751fb0" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-750b3f792cb891751fb0">{"x":{"filter":"none","caption":"<caption>Head of the tax_df dataframe, (Cummulative Tax Data)<\/caption>","data":[["1","2","3","4","5","6"],["AK","AL","AR","AZ","CA","CO"],[1929.15,161.24,1331.85,16800.24,58276.38,50584.87],[2251.02,0,1124.98,19897.83,65069.7,60811.37],[2312.43,46.5,1265.93,19165.96,64239.95,57966.73],[2155.6,130.55,558.14,18763.52,60559.56,60133.43],[2114.97,226.25,657.12,17173,65035.4,72839.26],[4511.48,6109.99,1609.38,29869.1,124974.7,121814.79],[13315.93,23810.78,6091.89,41613.95,201066.01,141312.55],[15974.1,29160.56,13441.2,45424.11,293554.62,163026.9],[30620.23,41718.66,25150.46,47009.71,359636.06,176577.49],[32849.37,47160.08,16568.73,49699.26,399692.97,175934.31]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>state<\/th>\n      <th>2010<\/th>\n      <th>2011<\/th>\n      <th>2012<\/th>\n      <th>2013<\/th>\n      <th>2014<\/th>\n      <th>2015<\/th>\n      <th>2016<\/th>\n      <th>2017<\/th>\n      <th>2018<\/th>\n      <th>2019<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8,9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-<pre class="r"><code>DT::datatable(
-  head(taxable_cans_df[,-c(2,3)]),
-  caption = &#39;Head of the taxable_cans_df dataframe&#39;
-)</code></pre>
-<div id="htmlwidget-3f5e154909b1605a9ca7" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3f5e154909b1605a9ca7">{"x":{"filter":"none","caption":"<caption>Head of the taxable_cans_df dataframe<\/caption>","data":[["1","2","3","4","5","6"],["AK","AL","AR","AZ","CA","CO"],[80889.21,null,1445.82,10380.26,19095643.27,18742266.67],[94781.57,658.96,1382.06,14057.56,18204514.85,18820319.55],[105416.32,2485.79,8,18411.25,18940276.02,19267902.29],[112008.59,6634.43,8,22318.65,17838853.36,18549122.13],[129181.74,9521.26,800.09,29645.05,18052809.23,18035909.8],[126309.22,10543,872.11,44032.85,17701780.59,17755216.77],[115823.75,9977.46,1737.1,59031.78,17569308.63,18105206.85],[109652.22,11797.8,8723.15,66483.94,16705423.6,17964522.31],[100038.94,14241.33,1668.5,56861.38,16122748.84,16457400.82],[92235.04,15337.81,10033.89,213919.27,15495820.4,17351292.18]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>state<\/th>\n      <th>2010<\/th>\n      <th>2011<\/th>\n      <th>2012<\/th>\n      <th>2013<\/th>\n      <th>2014<\/th>\n      <th>2015<\/th>\n      <th>2016<\/th>\n      <th>2017<\/th>\n      <th>2018<\/th>\n      <th>2019<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8,9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-<pre class="r"><code>DT::datatable(
-  head(taxable_barrels_df[,-c(2,3)]),
-  caption = &#39;Head of the taxable_barrels_df dataframe&#39;
-)</code></pre>
-<div id="htmlwidget-438df344478de99aa7ca" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-438df344478de99aa7ca">{"x":{"filter":"none","caption":"<caption>Head of the taxable_barrels_df dataframe<\/caption>","data":[["1","2","3","4","5","6"],["AK","AL","AR","AZ","CA","CO"],[54395.32,547.69,1318.17,24410.52,2198550.1,2279812.02],[58519.66,1810.06,1144.17,32848.92,2166028.35,2277201.65],[65679.13,6453.45,125.94,44792.72,2272768.96,2290799.82],[68867.58,11747.74,1078.21,59074.04,2388676.84,2177094.68],[73823.62,13749.96,2787.48,80214.06,2330092.84,2207491.04],[74606.28,11465.23,6965.83,74997.94,2220498.84,2083226.02],[69473.78,11846.23,9058.3,71863.7,2165833.96,1898362.52],[66217.06,8771.22,4824.97,70469.77,2178070.92,1560670.89],[62922.15,9873.67,1623.57,71892.05,2054263.98,1598523.94],[55454.19,9014.92,3959.08,88478.11,1977084,1570358.69]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>state<\/th>\n      <th>2010<\/th>\n      <th>2011<\/th>\n      <th>2012<\/th>\n      <th>2013<\/th>\n      <th>2014<\/th>\n      <th>2015<\/th>\n      <th>2016<\/th>\n      <th>2017<\/th>\n      <th>2018<\/th>\n      <th>2019<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8,9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-<pre class="r"><code># write_csv(tax_df, &quot;data_import_cleaning/tax.csv&quot;)
+# DT::datatable(
+#   head(tax_df[,-c(2,3)]),
+#   caption = &#39;Head of the tax_df dataframe, (Cummulative Tax Data)&#39;
+# )
+# DT::datatable(
+#   head(taxable_cans_df[,-c(2,3)]),
+#   caption = &#39;Head of the taxable_cans_df dataframe&#39;
+# )
+# DT::datatable(
+#   head(taxable_barrels_df[,-c(2,3)]),
+#   caption = &#39;Head of the taxable_barrels_df dataframe&#39;
+# )
+# write_csv(tax_df, &quot;data_import_cleaning/tax.csv&quot;)
 # write_csv(taxable_cans_df, &quot;data_import_cleaning/tax_cans.csv&quot;)
 # write_csv(taxable_barrels_df, &quot;data_import_cleaning/tax_barrels_df.csv&quot;)</code></pre>
 <ul>
@@ -593,15 +587,14 @@ DT::datatable(
   filter(country == &quot;United States&quot;) %&gt;% # only investigate beer in US
   separate(coordinates, c(&quot;latitude&quot;, &quot;longitude&quot;), sep = &quot;,&quot;) # separate geographic info
 
-beer_specific_smaller = beer_specific %&gt;%
-  select(name, id, alcohol_by_volume, style, category, city, state, latitude, longitude)
-DT::datatable(
-  head(beer_specific_smaller),
-  caption = &#39;Head of the beer_specific dataframe&#39;
-)</code></pre>
-<div id="htmlwidget-486ad51ffd16a56691da" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-486ad51ffd16a56691da">{"x":{"filter":"none","caption":"<caption>Head of the beer_specific dataframe<\/caption>","data":[["1","2","3","4","5","6"],["Porter","Possession Porter","Firehouse Red","Maibock","Buzz Beer","Free Bike Amber"],["716","723","754","736","2079","742"],[0,5.5999999046,0,0,0,4.5],["Porter","Porter","American-Style Amber/Red Ale","Traditional German-Style Bock","American-Style Pale Ale","American-Style Amber/Red Ale"],["Irish Ale","Irish Ale","North American Ale","German Lager","North American Ale","North American Ale"],["Mill Creek","Mukilteo","Tacoma","Everett","Strongsville","Mount Vernon"],["Washington","Washington","Washington","Washington","Ohio","Washington"],["47.8774","47.9485","47.256","47.9975","41.3145","48.4192"],["-122.211","-122.305","-122.473","-122.214","-81.8357","-122.335"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>name<\/th>\n      <th>id<\/th>\n      <th>alcohol_by_volume<\/th>\n      <th>style<\/th>\n      <th>category<\/th>\n      <th>city<\/th>\n      <th>state<\/th>\n      <th>latitude<\/th>\n      <th>longitude<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":3},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-<pre class="r"><code># write_csv(beer_specific, &quot;data_import_cleaning/beer.csv&quot;)</code></pre>
+# printing the head of the table 
+# beer_specific_smaller = beer_specific %&gt;%
+#   select(name, id, alcohol_by_volume, style, category, city, state, latitude, longitude)
+# DT::datatable(
+#   head(beer_specific_smaller),
+#   caption = &#39;Head of the beer_specific dataframe&#39;
+# )
+# write_csv(beer_specific, &quot;data_import_cleaning/beer.csv&quot;)</code></pre>
 <ul>
 <li>Dataset 3</li>
 </ul>
@@ -652,18 +645,14 @@ for( i in 2:11) { # years are (2009+1, 2019)
              ) 
 }
 #write_csv(state_tax_df, &quot;data_import_cleaning/state_tax_df.csv&quot;) # save into a clean cvs file</code></pre>
-<pre class="r"><code>DT::datatable(
-  head(state_tax_df),
-  caption = &#39;Head of state_tax_df dataframe, (Tax per Barrel Data)&#39;
-)</code></pre>
-<div id="htmlwidget-486ad51ffd16a56691da" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-486ad51ffd16a56691da">{"x":{"filter":"none","caption":"<caption>Head of state_tax_df dataframe, (Tax per Barrel Data)<\/caption>","data":[["1","2","3","4","5","6"],["Alabama","Alaska","Arizona","Arkansas","California","Colorado"],[32.65,27.59,4.96,7.51,6.2,2.48],[1,3,31,20,23,48],[0,27.59,4.96,7.75,6.2,2.48],[51,4,32,22,25,47],[32.65,27.59,4.96,7.75,6.2,2.48],[2,5,34,24,26,48],[2009,2009,2009,2009,2009,2009]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>state<\/th>\n      <th>adjusted<\/th>\n      <th>rank_3<\/th>\n      <th>state_taxes<\/th>\n      <th>rank_5<\/th>\n      <th>and_local_taxes<\/th>\n      <th>rank_7<\/th>\n      <th>year<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-<pre class="r"><code>DT::datatable(
-  head(state_df),
-  caption = &#39;Head of state_df dataframe&#39;
-)</code></pre>
-<div id="htmlwidget-c338235666aaed82a18a" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c338235666aaed82a18a">{"x":{"filter":"none","caption":"<caption>Head of state_df dataframe<\/caption>","data":[["1","2","3","4","5","6"],["Alabama","Alaska","Arizona","Arkansas","California","Colorado"],[3115155,428056,4432753,1709626,20712308,3355375],[25,49,14,34,1,23],[3191110,431841,3886750,1929399,24329705,3201895],[30.3,30.7,35.4,27.5,26.4,32.5],[32,29,14,44,45,21],[2003,2003,2003,2003,2003,2003]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>state<\/th>\n      <th>shipments<\/th>\n      <th>rank_3<\/th>\n      <th>population<\/th>\n      <th>consumption<\/th>\n      <th>rank_6<\/th>\n      <th>year<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code># DT::datatable(
+#   head(state_tax_df),
+#   caption = &#39;Head of state_tax_df dataframe, (Tax per Barrel Data)&#39;
+# )</code></pre>
+<pre class="r"><code># DT::datatable(
+#   head(state_df),
+#   caption = &#39;Head of state_df dataframe&#39;
+# )</code></pre>
 </div>
 <div id="exploratory-analysis" class="section level3">
 <h3>Exploratory analysis:</h3>
@@ -942,8 +931,8 @@ broom::tidy(lm_model) %&gt;%
     columns = &quot;P-value&quot;,
     background = DT::styleInterval(c(0.05),c(&quot;lightsteelblue&quot;,&quot;white&quot;)), 
     target = &quot;row&quot;)</code></pre>
-<div id="htmlwidget-45234ca0f5effead97e7" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-45234ca0f5effead97e7">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],[-14148057.06,-7551.04,7011.78,-0.01,0.01,1188.99],[980018.67,2972.68,485.77,0,0,339.58],[-14.44,-2.54,14.43,-4.18,6.71,3.5],[0,0.01,0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-486ad51ffd16a56691da" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-486ad51ffd16a56691da">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],[-14148057.06,-7551.04,7011.78,-0.01,0.01,1188.99],[980018.67,2972.68,485.77,0,0,339.58],[-14.44,-2.54,14.43,-4.18,6.71,3.5],[0,0.01,0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 <p>[ends here]</p>
 </div>
 <div id="discussion" class="section level3">

@@ -104,18 +104,18 @@ taxable_barrels_df  =
   mutate_at(vars(2:13), ~ gsub(",", "", .x)) %>%
   mutate_at(vars(2:13), as.numeric)
 
-DT::datatable(
-  head(tax_df[,-c(2,3)]),
-  caption = 'Head of the tax_df dataframe, (Cummulative Tax Data)'
-)
-DT::datatable(
-  head(taxable_cans_df[,-c(2,3)]),
-  caption = 'Head of the taxable_cans_df dataframe'
-)
-DT::datatable(
-  head(taxable_barrels_df[,-c(2,3)]),
-  caption = 'Head of the taxable_barrels_df dataframe'
-)
+# DT::datatable(
+#   head(tax_df[,-c(2,3)]),
+#   caption = 'Head of the tax_df dataframe, (Cummulative Tax Data)'
+# )
+# DT::datatable(
+#   head(taxable_cans_df[,-c(2,3)]),
+#   caption = 'Head of the taxable_cans_df dataframe'
+# )
+# DT::datatable(
+#   head(taxable_barrels_df[,-c(2,3)]),
+#   caption = 'Head of the taxable_barrels_df dataframe'
+# )
 # write_csv(tax_df, "data_import_cleaning/tax.csv")
 # write_csv(taxable_cans_df, "data_import_cleaning/tax_cans.csv")
 # write_csv(taxable_barrels_df, "data_import_cleaning/tax_barrels_df.csv")
@@ -133,12 +133,13 @@ beer_specific =
   filter(country == "United States") %>% # only investigate beer in US
   separate(coordinates, c("latitude", "longitude"), sep = ",") # separate geographic info
 
-beer_specific_smaller = beer_specific %>%
-  select(name, id, alcohol_by_volume, style, category, city, state, latitude, longitude)
-DT::datatable(
-  head(beer_specific_smaller),
-  caption = 'Head of the beer_specific dataframe'
-)
+# printing the head of the table 
+# beer_specific_smaller = beer_specific %>%
+#   select(name, id, alcohol_by_volume, style, category, city, state, latitude, longitude)
+# DT::datatable(
+#   head(beer_specific_smaller),
+#   caption = 'Head of the beer_specific dataframe'
+# )
 # write_csv(beer_specific, "data_import_cleaning/beer.csv")
 ```
 
@@ -199,17 +200,17 @@ for( i in 2:11) { # years are (2009+1, 2019)
 ```
 
 ```{r message=FALSE, warning=FALSE}
-DT::datatable(
-  head(state_tax_df),
-  caption = 'Head of state_tax_df dataframe, (Tax per Barrel Data)'
-)
+# DT::datatable(
+#   head(state_tax_df),
+#   caption = 'Head of state_tax_df dataframe, (Tax per Barrel Data)'
+# )
 ```
 
 ```{r message=FALSE, warning=FALSE}
-DT::datatable(
-  head(state_df),
-  caption = 'Head of state_df dataframe'
-)
+# DT::datatable(
+#   head(state_df),
+#   caption = 'Head of state_df dataframe'
+# )
 ```
 
 
