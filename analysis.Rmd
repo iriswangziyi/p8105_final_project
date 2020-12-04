@@ -394,7 +394,7 @@ $~$
 # Highlights
 
 * Our data suggested that **tax per barrel** does **not differ significantly by jurisdiction groups** from 2010 to 2019. 
-* After controlling for year, shipments, population and consumption, we found that **licensed states** are estimated to have **less cumulative tax collected** than the control states from 2010 to 2019. 
+* After controlling for year, amount of barrels shipped, population above 21 years old and consumption of barrels per capital, we found that **licensed states** are estimated to have **less cumulative tax collected** than the control states from 2010 to 2019. 
   * In addition, **Cumulative tax collected** is estimate to **increase** with **year, consumption per capital and population** but **decrease** with **shipments**.  
 
 $~$
