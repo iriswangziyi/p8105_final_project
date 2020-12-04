@@ -54,17 +54,17 @@ tax %>%
   select(!c(3,4)) %>%
   pivot_longer(
     c(`2010`:`2019`),
-    names_to = "year",
-    values_to = "tax"
+    names_to = "Year",
+    values_to = "Tax"
   ) %>%
 
   plot_ly( 
-    x = ~year, y = ~tax, color = ~factor(state.name),
+    x = ~Year, y = ~Tax, color = ~factor(state.name),
     alpha = .5, type = "scatter", mode = "lines", colors = "viridis",
     hoverinfo = 'text',
     text = ~paste('</br>', state.name,
-                      '</br> Year: ', year,
-                      '</br> Tax: ', tax)) %>%
+                      '</br> Year: ', Year,
+                      '</br> Tax: ', Tax)) %>%
   layout( # adding a title 
     title = "Taxation over Years (In Barrels)")
 

@@ -55,17 +55,17 @@ consumption %>%
   select(!c(3,9)) %>%
   pivot_longer(
     c(`2010`:`2019`),
-    names_to = "year",
-    values_to = "consumption"
+    names_to = "Year",
+    values_to = "Consumption"
   ) %>%
 
   plot_ly( 
-    x = ~year, y = ~consumption, color = ~factor(state),
+    x = ~Year, y = ~Consumption, color = ~factor(state),
     alpha = .5, type = "scatter", mode = "lines", colors = "viridis",
     hoverinfo = 'text',
-    text = ~paste('</br>', state.name,
-                      '</br> Year:', year,
-                      '</br> Consumption:', consumption)) %>%
+    text = ~paste('</br>', state,
+                      '</br> Year:', Year,
+                      '</br> Consumption:', Consumption)) %>%
   layout( # adding a title 
     title = "Consumption over Years ( Per Capita in Barrels)")
 
