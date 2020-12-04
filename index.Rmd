@@ -3,8 +3,6 @@ title: "Beer taxation in the United States - P8105 Data Science I Project"
 output: 
   html_document:
     code_folding: hide
-    toc: true
-    toc_float: true
 ---
 
 <h2 style="text-align: center;" markdown="1">Exploring the consumption, taxation, and production of beer in the United States.  </h2>
@@ -72,7 +70,7 @@ beer = read_csv("./data_import_cleaning/beer.csv")
 ---
 
 ### Beer Tax in U.S. State
-```{r tax map, collapse = T, message = F, warning = F, fig.width = 6, fig.height = 6}
+```{r tax map, collapse = T, message = F, warning = F, fig.width = 6, fig.height = 6, eval=F}
 state_df = # arrange row order
   tibble(
     state = state.abb, # arrange row order according default state.abb
