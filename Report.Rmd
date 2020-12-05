@@ -20,7 +20,7 @@ state_tax_df = read_csv("data_import_cleaning/state_tax_df.csv")
 ```
 
 ### To learn our project
-* A short [review](put screencast link here) of our project
+* A short [review](https://www.youtube.com/watch?v=J4wCIl-7pQU&feature=youtu.be) of our project
 * Explore more on our [website](https://iriswangziyi.github.io/p8105_final_project) 
 * Find our Github [repository ](https://github.com/iriswangziyi/p8105_final_project)
 
@@ -474,9 +474,11 @@ broom::tidy(lm_model) %>%
     target = "row")
 ```
 
----
+
 
 ### Discussion: 
-What were your findings? Are they what you expect? What insights into the data can you make?
+* Cumulative tax for each state will increase as year, consumption and population increase, and it will decrease if shipment increases or it is a state with licensed jurisdiction which means more control on liquor wholesales and retail. These findings are consistent with our common sense. 
 
-Discuss in the meeting.
+* It's interesting to find that states with no or low tax rate while holding a small population, like New Hampshire, Montana, and North Dakota, tend to have higher consumption per capita, as people from neighboring states may drive there to buy alcohol.
+
+* States on coastlines or on the edges of the United States, like California, Colorado, and Ohio, have much more brewery location, therefore they produce more taxable volume.
