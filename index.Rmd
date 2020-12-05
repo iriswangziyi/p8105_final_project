@@ -5,7 +5,7 @@ output:
     code_folding: hide
 ---
 
-<h2 style="text-align: center;" markdown="1"> Exploring the Consumption, Taxation, and Production of Beer in the US. </h2>
+<h2 style="text-align: center;" markdown="1"> Exploring the Consumption, Taxation, and Production of Beer in the US</h2>
 <h6 style="text-align: center;" markdown="1">By: Amy Pitts (ajp2257)| Ruiyang Li (rl3034)| Wenbo Fei (wf2270)| Ziyi Wang (zw2716)</h6>
 
 
@@ -15,7 +15,14 @@ output:
 
 *Image from [The Best Beer By State](https://aleheads.wordpress.com/2012/07/09/the-best-beer-by-state/ )
 </center>
+---
 
+For a brief overview of our website, view our screencast [here](https://www.youtube.com/watch?v=J4wCIl-7pQU).
+
+<center>
+<iframe width="560" height="349" src="https://www.youtube.com/watch?v=J4wCIl-7pQU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</center>
 ---
 
 ## Introduction:
@@ -29,7 +36,7 @@ The US Government continues to control the consumption and production of Beer th
 
 * Open Beer database from [Opendatasoft](https://data.opendatasoft.com/explore/dataset/open-beer-database%40public-us/information/?rows=4588&timezone=&refine.country=United+States&location=2,16.98232,9.498&basemap=jawg.sunny&dataChart=eyJxdWVyaWVzIjpbeyJjb25maWciOnsiZGF0YXNldCI6Im9wZW4tYmVlci1kYXRhYmFzZUBwdWJsaWMtdXMiLCJvcHRpb25zIjp7fX0sImNoYXJ0cyI6W3siYWxpZ25Nb250aCI6dHJ1ZSwidHlwZSI6ImxpbmUiLCJmdW5jIjoiQVZHIiwieUF4aXMiOiJhYnYiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiIjMTQyRTdCIn1dLCJ4QXhpcyI6Imxhc3RfbW9kIiwibWF4cG9pbnRzIjoiIiwidGltZXNjYWxlIjoieWVhciIsInNvcnQiOiIifV0sImRpc3BsYXlMZWdlbmQiOnRydWUsImFsaWduTW9udGgiOnRydWV9). This dataset contains information of each beer product, including product name, universal product code, style, category, brewer along with its address and website, percentage of alcohol by volume, bitterness from hops in a beer, beer color, and description in text.
 
-* This data is gotten from the [American Beer Distributors](https://www.nbwa.org/resources/state-data). This website aims to collect data on beer consumption, taxation and shipment. They have produced a number of there own reports but they have the data they used avaiable in pdf form. The pdf document are [Summary of Effective State Excise Tax Rates by State](https://www.nbwa.org/sites/default/files/Beer%20Excise%20Tax%202019%20-%20Revised%20July%202020.pdf)
+* Data from the [American Beer Distributors](https://www.nbwa.org/resources/state-data). This website aims to collect data on beer consumption, taxation and shipment. They have produced a number of there own reports but they have the data they used available in pdf form. The pdf document are [Summary of Effective State Excise Tax Rates by State](https://www.nbwa.org/sites/default/files/Beer%20Excise%20Tax%202019%20-%20Revised%20July%202020.pdf)
 and [Shipments of Malt Beverages and Per Capita Consumption by State](https://www.nbwa.org/sites/default/files/2003%20and%202019%20State%20data%20Per%20Capita%20Sheets_1.pdf). Due to the difficult of working with pdf documents in R and pdf to excel online file converter was used to access this data. These files include data on taxation rate per barrel, shipment of beer, consumption of beer per capita, and population over the age of 21. 
 
 ---
@@ -63,8 +70,8 @@ beer = read_csv("./data_import_cleaning/beer.csv")
 
 
 
-### U.S. Brewery locations
-Map location of each US brewer with category/style, size of marker showing ABV (Alcohol by volume) and interactive label showing the tax info by state.
+### US Brewery locations
+Map location of each US Brewery with their location information, beer style, and ABV (Alcohol by volume).
 ```{r brewer map, collapse = T, message = F, warning = F, fig.width = 6, fig.height = 6}
 #install.packages("leaflet")
 library(leaflet)
@@ -92,16 +99,36 @@ beer %>%
 
 ## Website Overview
 - Taxation
-  - Taxation Analysis
-  - Data Exploration
+  - Taxation Analysis: Explores how Beer **Taxation** differ by state
+  - Data Exploration:
+    - Dashboard - Beer Taxation of each state over years 
+    - Dashboard - Beer Taxation Choropleth of each state over years 
 - Consumption
-  - Consumption Analysis
+  - Consumption Analysis: Explores how Beer **Consumption** differ by state
   - Data Exploration
+    - Dashboard - Beer Consumption of each state over years 
+    - Dashboard - Beer Consumption Choropleth of each state over years 
 - Production
-  - Production Analysis
+  - Production Analysis: Explores how Beer **Production** differ by state
   - Data Exploration
-- Analysis
+    - Dashboard - Beer Production of each state over years
+- Statistical Analysis
+  - **T-test:** Compare Tax differences by jurisdiction group
+  - **Regression Analysis:** Explore the relationship between taxation and jurisdiction group, year, shipments, population, and consumption. 
+
 
 ---
 
 ## Key Findings
+
+1. **Taxation**: Alabama has the highest tax per barrel, while Wyoming has the lowest tax per barrel. The South and the West states seem to be the states with higher tax per barrel. The population contribute to the difference in the accumulated taxation for each states.
+
+2. **Consumption**: Delaware produces the strongest alcoholic beer with Alcohol by volume (ABV) way above the national average. Most states produce beer within the 5%-7% national average of beer alcohol content.
+
+3. **Production**: California has the most barrel production, while North Dakota and South Dakota produces the least.
+
+4. **T-test:**: * Our data suggested that **tax per barrel** does **not differ significantly by jurisdiction groups** from 2010 to 2019. 
+
+5. **Regression Analysis:**: **Cumulative tax collected** is estimate to **increase** with **year, consumption per capita and population** but **decrease** with **shipments**. 
+
+
