@@ -38,7 +38,7 @@ navbar:
         - text: "Ziyi (Iris) Wang"
           href: mailto:<ziyi.w@columbia.edu>
     - icon: fa-youtube fa-lg
-      href: https://www.youtube.com/
+      href: https://www.youtube.com/watch?v=J4wCIl-7pQU&feature=youtu.be
     - icon: fa-github fa-lg
       href: https://github.com/iriswangziyi/p8105_final_project
       
