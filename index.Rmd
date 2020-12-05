@@ -127,8 +127,8 @@ beer %>%
 
 3. **Production**: California has the most barrel production, while North Dakota and South Dakota produces the least.
 
-4. **T-test:**: * Our data suggested that **tax per barrel** does **not differ significantly by jurisdiction groups** from 2010 to 2019. 
-
-5. **Regression Analysis:**: **Cumulative tax collected** is estimate to **increase** with **year, consumption per capita and population** but **decrease** with **shipments**. 
+4. **Statistical Analysis**: 
+  * Our data suggested that tax per barrel does not differ significantly by jurisdiction groups from 2010 to 2019. 
+  * Cumulative tax collected is estimate to increase with year, consumption per capita and population but decrease with shipments. 
 
 
