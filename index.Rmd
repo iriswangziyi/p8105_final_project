@@ -61,7 +61,7 @@ tax_df = read_csv("./data_import_cleaning/tax.csv")
 beer = read_csv("./data_import_cleaning/beer.csv")
 ```
 
----
+
 
 ### U.S. Brewery locations
 Map location of each US brewer with category/style, size of marker showing ABV (Alcohol by volume) and interactive label showing the tax info by state.
