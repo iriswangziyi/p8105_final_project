@@ -475,8 +475,9 @@ broom::tidy(lm_model) %>%
 ```
 
 
+---
 
-### Discussion: 
+### Discussion
 * Cumulative tax for each state will increase as year, consumption and population increase, and it will decrease if shipment increases or it is a state with licensed jurisdiction which means more control on liquor wholesales and retail. These findings are consistent with our common sense. 
 
 * It's interesting to find that states with no or low tax rate while holding a small population, like New Hampshire, Montana, and North Dakota, tend to have higher consumption per capita, as people from neighboring states may drive there to buy alcohol.

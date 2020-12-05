@@ -27,7 +27,7 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<script src="site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
 <script src="site_libs/datatables-binding-0.15/datatables.js"></script>
 <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -922,11 +922,12 @@ broom::tidy(lm_model) %&gt;%
     target = &quot;row&quot;)</code></pre>
 <div id="htmlwidget-1093b3cbc31611d4583d" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1093b3cbc31611d4583d">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],["-1.4e+07","-7.6e+03"," 7.0e+03","-9.5e-03"," 1.4e-02"," 1.2e+03"],["9.8e+05","3.0e+03","4.9e+02","2.3e-03","2.0e-03","3.4e+02"],["-14.4"," -2.5"," 14.4"," -4.2","  6.7","  3.5"],["9.7e-40","1.1e-02","9.9e-40","3.5e-05","5.2e-11","5.0e-04"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<hr />
 </div>
 </div>
 </div>
 <div id="discussion" class="section level3">
-<h3>Discussion:</h3>
+<h3>Discussion</h3>
 <ul>
 <li><p>Cumulative tax for each state will increase as year, consumption and population increase, and it will decrease if shipment increases or it is a state with licensed jurisdiction which means more control on liquor wholesales and retail. These findings are consistent with our common sense.</p></li>
 <li><p>It’s interesting to find that states with no or low tax rate while holding a small population, like New Hampshire, Montana, and North Dakota, tend to have higher consumption per capita, as people from neighboring states may drive there to buy alcohol.</p></li>
