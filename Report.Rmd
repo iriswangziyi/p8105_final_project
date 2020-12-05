@@ -49,7 +49,6 @@ There has been a lot of research into overall how the United States economy is p
 * Map location of each US brewer with interactive label showing category/style, size of marker showing ABV.
 
 What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
-Discuss this in the meeting.
 
 * What is the cumulative/average taxation over time in each state?
 * What is the beer consumption per capita over time in each state?
@@ -213,18 +212,15 @@ for( i in 2:11) { # years are (2009+1, 2019)
 # )
 ```
 
-
-
 ### Exploratory analysis: 
 Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
 Each of us add our part, should include code that can generate the plot(please note file path), comment on the plots and answer the above corresponding initial questions part.
 I will try to revise them in a reasonable order.
 
-#### Amy:
 
-## Taxation:
+#### Taxation:
 
-### Tax per Barrel Averages
+##### Tax per Barrel Averages
 The American Beer Distributors also collected information tax per barrel unit.  This measurement focuses on more than just breweries but rather taxation of beer sold anywhere. The measurement that we are displaying is an effective excise tax with a volume adjustment. In the dataset, there were two other similar variables about tax one adjusting for state tax and another for local laws about tax.  However, we chose to go with the volume adjusted measurement since they all reported very similar number. his graph also shows the effective excise tax volume adjusted measurement from the year 2010 to 2019 with the corresponding confidence intervals. This can help show which states are different from each other when it comes to tax per barrel collected. 
 
 ```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 4.5, cache=TRUE}
@@ -265,10 +261,19 @@ perbarrel_tax %>%  # plotting!!
 
 Wyoming has the lowest tax per barrel average of `r round(perbarrel_tax$mean_tax[perbarrel_tax$state == "Wyoming"],2)` dollars, while Alabama has the highest tax per barrel average of `r round(perbarrel_tax$mean_tax[perbarrel_tax$state == "Alabama"],2)` dollars. The biggest ranges of values go to Tennessee with Washington and Delaware also having a range of values. These big ranges of value make sense because in the moving graph before these states had the most motion in moving ranks. The states that have no confidence intervals are the states that did not see changes to their tax per barrel between the  years 2010-2019. Just like in the graph above we see that the South and West seem to be the dominant states in the higher tax per barrel rates with the North Central state tending to have lower tax per barrel. 
 
+##### Cumulative Tax
+For detailed visualization of cumulative tax for each state over the years, you can have a look at our [data exploration](https://iriswangziyi.github.io/p8105_final_project/viz_tax_statemap/dashboard_tax_state_map.html) dashboard under "Taxation" tab. For the first page of the dashboard, we provided interactive tax trend and choropleth plots for each year, click on the point or state you can see hover information. Besides, tax data table is attached on the second page of the dashboard. Here is a  sample page of dashboard. 
+![Taxation Dashboard](viz_tax_statemap/dashboard1.png).
 
-## Consumption:
+Code for generating all the dashboards can be found [here](https://github.com/iriswangziyi/p8105_final_project/tree/main/viz_tax_statemap)
 
-### Average Alcohol by volume by State 
+The state with the lowest amount of taxes collected from breweries is North Dakota and South Dakota is a close second for the lowest amount of taxes. Both of these states are located in the North Central part of America. The state with the largest amount in cumulative taxes collected from breweries is California it also has most increase over the years. In second place for top cumulative tax is Colorado. These top two states are in the West part of the United States. This measurement of tax does not account for the population base or size of the state. It makes sense that California is at the top because it a state with a lot of people and that North and South Dakota is at the bottom because the population mass is much less. Overall, looking at the states, the states with a smaller population has a smaller cumulative beer tax rate.
+
+More interesting and supporting plots can be found on [Taxation](https://iriswangziyi.github.io/p8105_final_project/taxation.html) tab on our website.
+
+#### Consumption:
+
+##### Average Alcohol by volume by State 
 
 Alcohol by volume (ABV) is defined to be the volume percent of alcohol (ethanol) contained in a given volume of an alcoholic beverage. In our project, we are interested in exploring the pattern of ABV in beer produced in each state. This average is considering all beer that do have alcohol content. Zero values were excluded because they represented non-alcoholic beer. The color of the state represents the state region. The data we are using is of course not a complete list of every single beer made in each state but rather a sample. 
 
@@ -311,12 +316,18 @@ beer %>%
 
 The dotted lines at 5% and 7% represent the national average of Alcohol content in beer according to the [National Consumers League](https://nclnet.org/alcohol_how_it_all_adds_up/#:~:text=One%20ounce%20of%20beer%20contains,5%20percent%20alcohol%20by%20volume). From this graph, we see that 5 states have averages well below that range (Idaho, Utah, Mississippi, Iowa and Tennessee) and 6 states have an average well above that range (Maryland, Wyoming, Alaska, Illinois, Flordia and Deleware). Looking specifically at Delaware the 95% lower bound of its confidence interval is well above 7% implying that this state produces beer that has an alcohol content larger than the national average in a regular beer.  
 
+##### Consumption per Capita
+For detailed visualization of consumption per Capita for each state, you can have a look at our [data exploration](https://iriswangziyi.github.io/p8105_final_project/viz_tax_statemap/dashboard_comsum_statemap.html) dashboard under "consumption" tab. For the first page of the dashboard, we provided interactive consumption trend and choropleth plots for each year, click on the point or state you can see hover information. Besides, consumption data table is attached on the second page of the dashboard. Here is a  sample page of dashboard. 
+![Consumption Dashboard](viz_tax_statemap/dashboard2.png).
 
+First, we see Utah constantly at the bottom throughout all years. The top per Capita consumption rates are from New Hampshire, Montana, and North Dakota. These three states are very interesting because they have been towards the bottom of the list on the taxation and production page. One explanation is that these three states do not have very big populations so consumption is divided by a smaller number making the measurement look larger. The second explanation is that all these states have a low tax per barrel cost therefore people from out of state might travel to purchase alcohol. Interviewing friends and family from the North East traveling to New Hampshire to buy alcohol common because they do not have sales tax. There are 5 states that do not have sales tax as of 2019 Alaska, Delaware, Montana, New Hampshire, and Oregon. This helps explain why New Hampshire and Montana are so high up on the list, not only do they have no sales tax but they also have small populations making their consumption per capita large. According to the same source, California has the highest state-level sales tax which helps explain why it is so low on our rankings here but high up in the ranking on the Taxation and Production page. 
 
-## Production: 
+More interesting and supporting plots can be found on [Consumption](https://iriswangziyi.github.io/p8105_final_project/consumption.html) tab on our website.
 
-### Production of Barrels 
-This graph looks at the taxable volume of beer Barrels produced by state recorded in barrel units. The points represent the mean barrel production from 2010-2019 and the lines show corresponding confidence intervals. The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. This visualization helps us see the difference in barrel production of each state. The colors represent the state's region and they will stay consistent through this page. 
+#### Production: 
+
+##### Production of Barrels and Kegs
+This graph looks at the taxable volume of beer Barrels and Kegs produced by state recorded in barrel units. The points represent the mean production from 2010-2019 and the lines show corresponding confidence intervals. The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. This visualization helps us see the difference in barrel and kegs production of each state. The colors represent the state's region and they will stay consistent through this page. 
 
 ```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 4.5, cache=TRUE}
 # setting up the regions
@@ -364,20 +375,14 @@ barrel %>%  # plotting!!
 The state with the least amount of taxable barrel volume is North Dakota (`r round(barrel$mean_barrel[barrel$state == "North Dakota"],2)`)
 with South Dakota (`r round(barrel$mean_barrel[barrel$state == "South Dakota"],2)`) very close by. The state with the most barrel production in California (2,195,187) with Colorado (1,994,354) in second place. The trend in this graph appears to be exponential growth. The upper half of the states seem to produce a significant amount more barrels compare to the lower states. This cut off seem to be around Washington. There is a huge gap between Florida and Ohio. The states Ohio, Colorado, and California seem to make an exponential amount more of taxable barrels than the other states. 
 
-These findings also make sense comparing the locations of the top states to the bottom states. On the consumption page the interactive state map showed that states on coastlines or on the edges of the United States has more brewery location, therefore they produce more taxable volume of cans and bottles. The states in middle America did not have a lot of brewery location so it makes sense that they don't produce a lot of taxable volume of beer.
+These findings also make sense comparing the locations of the top states to the bottom states. The [brewery location](https://iriswangziyi.github.io/p8105_final_project/consumption.html#Brewery_locations) interactive map showed that states on coastlines or on the edges of the United States has more brewery location, therefore they produce more taxable volume. The states in middle America did not have a lot of brewery location so it makes sense that they don't produce a lot of taxable volume of beer.
 
+For detailed visualization of production trend for each state, you can have a look at our [data exploration](https://iriswangziyi.github.io/p8105_final_project/viz_tax_statemap/dashboard_production.html) dashboard under "production" tab. For the first page of the dashboard, we provided interactive production trend plots for “Barrels and Kegs” and “Bottles and Cans”, click on the point you can see hover information. Besides, production data table is attached on the second page of the dashboard. Besides, production data table is attached on the second page of the dashboard. Here is a sample page of dashboard. 
+![Production Dashboard](viz_tax_statemap/dashboard3.png).
 
-#### Ruiyang:
+More interesting and supporting plots can be found on [Production](https://iriswangziyi.github.io/p8105_final_project/production.html) tab on our website.
 
-#### Wenbo:
-
-#### Iris:
-
-
-### Additional analysis: Regression -- Ruiyang?
-If you undertake formal statistical analyses, describe these in detail
-
-[starts here]
+### Additional analysis: Regression
 
 We focus on two analyses in our project. One is to compare tax differences by jurisdiction group over time. The other is to model taxation under the regression analysis framework. More details can be found in the Analysis section on our website (link to be inserted here). 
 
@@ -426,7 +431,7 @@ In the model of **cumulative tax collected**, we found that:
 * Our model fit is acceptable with an adjusted $R^2 = 0.55$. 
 * Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that **licensed states** are estimated to have approximately **7.5k less cumulative tax collected** than the control states.
 * **Cumulative tax collected** is estimate to **increase approximately 7k per year**, holding the group, shipments, population and consumption unchanged. 
-* Cumulative tax collected is estimated to **increase approximately 1k for one unit increase in consumption per capital**, holding the group, year, shipments, and population unchanged. 
+* Cumulative tax collected is estimated to **increase approximately 1k for one unit increase in consumption per capita**, holding the group, year, shipments, and population unchanged. 
 * Population and shipments have estimated coefficients close to 0, though they have significant p-values. 
 
 ```{r reg_df,collapse=T,message=FALSE,warning=FALSE}
@@ -501,11 +506,6 @@ broom::tidy(lm_model) %>%
     background = DT::styleInterval(c(0.05),c("lightsteelblue","white")), 
     target = "row")
 ```
-
-
-[ends here]
-
-
 
 ### Discussion: 
 What were your findings? Are they what you expect? What insights into the data can you make?
