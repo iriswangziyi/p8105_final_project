@@ -251,7 +251,7 @@ Our explaining variables of interest include jurisdiction group, year, shipments
 * group: jurisdiction group (control vs licensed)
 * shipments: amount of barrels shipped
 * population: the number of individuals who are 21 years old or older
-* consumption: consumption of barrels per capital
+* consumption: consumption of barrels per capita
 
 $~$ 
 
@@ -321,7 +321,7 @@ $~$
 * Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that **licensed states** are estimated to have approximately **$7.6k less cumulative tax collected** than the control states.
 * **Cumulative tax collected** is estimate to 
   * **increase approximately $7k per year**, holding the group, shipments, population and consumption unchanged. 
-  * **increase approximately $1.2k for one unit increase in consumption per capital**, holding the group, year, shipments, and population unchanged. 
+  * **increase approximately $1.2k for one unit increase in consumption per capita**, holding the group, year, shipments, and population unchanged. 
   * **increase approximately $14 for each 1k increase in population**, holding the group, year, shipments, and consumption unchanged. 
   * **decrease approximately $9.6 for each 1k increase in shipments**, holding the group, year, population, and consumption unchanged. 
 
@@ -394,8 +394,8 @@ $~$
 # Highlights
 
 * Our data suggested that **tax per barrel** does **not differ significantly by jurisdiction groups** from 2010 to 2019. 
-* After controlling for year, amount of barrels shipped, population above 21 years old and consumption of barrels per capital, we found that **licensed states** are estimated to have **less cumulative tax collected** than the control states from 2010 to 2019. 
-  * In addition, **Cumulative tax collected** is estimate to **increase** with **year, consumption per capital and population** but **decrease** with **shipments**.  
+* After controlling for year, amount of barrels shipped, population above 21 years old and consumption of barrels per capita, we found that **licensed states** are estimated to have **less cumulative tax collected** than the control states from 2010 to 2019. 
+  * In addition, **Cumulative tax collected** is estimate to **increase** with **year, consumption per capita and population** but **decrease** with **shipments**.  
 
 $~$
 
