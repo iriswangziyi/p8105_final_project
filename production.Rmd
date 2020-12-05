@@ -35,8 +35,8 @@ This page concentrates on data collected from the Alcohol and Tobacco Tax and Tr
 
 ---
 
-## Production of Barrels 
-This graph looks at the taxable volume of beer Barrels produced by state recorded in barrel units. The points represent the mean barrel production from 2010-2019 and the lines show corresponding confidence intervals. The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. This visualization helps us see the difference in barrel production of each state. The colors represent the state's region and they will stay consistent through this page.  
+## Production of Barrels and Kegs
+This graph looks at the taxable volume of beer Barrels and kegs produced by state recorded in barrel units. The points represent the mean barrel production from 2010-2019 and the lines show corresponding confidence intervals. The data comes from the Alcohol and Tobacco Tax and Trade Bureau data set. This visualization helps us see the difference in barrel production of each state. The colors represent the state's region and they will stay consistent through this page.  
 
 ```{r warning = FALSE, message =FALSE, fig.width = 8, fig.height = 5, cache=TRUE}
 barrel = tax_barrels_df %>% # first we need to pivot the data 
@@ -69,7 +69,7 @@ barrel %>%  # plotting!!
   geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper)) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
   labs(
-    title = "Taxable Volume of Barrel Production by State",
+    title = "Taxable Volume of Barrels and Kegs Production by State",
     subtitle = "Data from years 2010-2019",
     y = "Taxable Volume (in Barrels)",
     x = "State"
@@ -77,7 +77,7 @@ barrel %>%  # plotting!!
 
 ```
 
-### Production of Barrels interpretation:
+### Production of Barrels and Kegs interpretation:
 The state with the least amount of taxable barrel volume is North Dakota (`r round(barrel$mean_barrel[barrel$state == "North Dakota"],2)`)
 with South Dakota (`r round(barrel$mean_barrel[barrel$state == "South Dakota"],2)`) very close by. The state with the most barrel production in California (2,195,187) with Colorado (1,994,354) in second place. The trend in this graph appears to be exponential growth. The upper half of the states seem to produce a significant amount more barrels compare to the lower states. This cut off seem to be around Washington. There is a huge gap between Florida and Ohio. The states Ohio, Colorado, and California seem to make an exponential amount more of taxable barrels than the other states. 
 
