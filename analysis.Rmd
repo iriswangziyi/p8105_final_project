@@ -238,7 +238,7 @@ $~$
 --- 
 
   
-# Regression Anlaysis
+# Regression Analysis
   
 In this part, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption. To be consistent with our focus in the previous section, we fit two regression models -- one for the cumulative tax collected and the other for the tax per barrel.  
 
