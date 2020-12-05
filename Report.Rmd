@@ -213,10 +213,6 @@ for( i in 2:11) { # years are (2009+1, 2019)
 ```
 
 ### Exploratory analysis: 
-Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
-Each of us add our part, should include code that can generate the plot(please note file path), comment on the plots and answer the above corresponding initial questions part.
-I will try to revise them in a reasonable order.
-
 
 #### Taxation:
 
@@ -263,9 +259,9 @@ Wyoming has the lowest tax per barrel average of `r round(perbarrel_tax$mean_tax
 
 ##### Cumulative Tax
 For detailed visualization of cumulative tax for each state over the years, you can have a look at our [data exploration](https://iriswangziyi.github.io/p8105_final_project/viz_tax_statemap/dashboard_tax_state_map.html) dashboard under "Taxation" tab. For the first page of the dashboard, we provided interactive tax trend and choropleth plots for each year, click on the point or state you can see hover information. Besides, tax data table is attached on the second page of the dashboard. Here is a  sample page of dashboard. 
-![Taxation Dashboard](viz_tax_statemap/dashboard1.png).
+![Taxation Dashboard](viz_tax_statemap/dashboard1.png)
 
-Code for generating all the dashboards can be found [here](https://github.com/iriswangziyi/p8105_final_project/tree/main/viz_tax_statemap)
+Code for generating all the dashboards can be found [here](https://github.com/iriswangziyi/p8105_final_project/tree/main/viz_tax_statemap).
 
 The state with the lowest amount of taxes collected from breweries is North Dakota and South Dakota is a close second for the lowest amount of taxes. Both of these states are located in the North Central part of America. The state with the largest amount in cumulative taxes collected from breweries is California it also has most increase over the years. In second place for top cumulative tax is Colorado. These top two states are in the West part of the United States. This measurement of tax does not account for the population base or size of the state. It makes sense that California is at the top because it a state with a lot of people and that North and South Dakota is at the bottom because the population mass is much less. Overall, looking at the states, the states with a smaller population has a smaller cumulative beer tax rate.
 
@@ -318,7 +314,7 @@ The dotted lines at 5% and 7% represent the national average of Alcohol content 
 
 ##### Consumption per Capita
 For detailed visualization of consumption per Capita for each state, you can have a look at our [data exploration](https://iriswangziyi.github.io/p8105_final_project/viz_tax_statemap/dashboard_comsum_statemap.html) dashboard under "consumption" tab. For the first page of the dashboard, we provided interactive consumption trend and choropleth plots for each year, click on the point or state you can see hover information. Besides, consumption data table is attached on the second page of the dashboard. Here is a  sample page of dashboard. 
-![Consumption Dashboard](viz_tax_statemap/dashboard2.png).
+![Consumption Dashboard](viz_tax_statemap/dashboard2.png)
 
 First, we see Utah constantly at the bottom throughout all years. The top per Capita consumption rates are from New Hampshire, Montana, and North Dakota. These three states are very interesting because they have been towards the bottom of the list on the taxation and production page. One explanation is that these three states do not have very big populations so consumption is divided by a smaller number making the measurement look larger. The second explanation is that all these states have a low tax per barrel cost therefore people from out of state might travel to purchase alcohol. Interviewing friends and family from the North East traveling to New Hampshire to buy alcohol common because they do not have sales tax. There are 5 states that do not have sales tax as of 2019 Alaska, Delaware, Montana, New Hampshire, and Oregon. This helps explain why New Hampshire and Montana are so high up on the list, not only do they have no sales tax but they also have small populations making their consumption per capita large. According to the same source, California has the highest state-level sales tax which helps explain why it is so low on our rankings here but high up in the ranking on the Taxation and Production page. 
 
@@ -378,13 +374,13 @@ with South Dakota (`r round(barrel$mean_barrel[barrel$state == "South Dakota"],2
 These findings also make sense comparing the locations of the top states to the bottom states. The [brewery location](https://iriswangziyi.github.io/p8105_final_project/consumption.html#Brewery_locations) interactive map showed that states on coastlines or on the edges of the United States has more brewery location, therefore they produce more taxable volume. The states in middle America did not have a lot of brewery location so it makes sense that they don't produce a lot of taxable volume of beer.
 
 For detailed visualization of production trend for each state, you can have a look at our [data exploration](https://iriswangziyi.github.io/p8105_final_project/viz_tax_statemap/dashboard_production.html) dashboard under "production" tab. For the first page of the dashboard, we provided interactive production trend plots for “Barrels and Kegs” and “Bottles and Cans”, click on the point you can see hover information. Besides, production data table is attached on the second page of the dashboard. Besides, production data table is attached on the second page of the dashboard. Here is a sample page of dashboard. 
-![Production Dashboard](viz_tax_statemap/dashboard3.png).
+![Production Dashboard](viz_tax_statemap/dashboard3.png)
 
 More interesting and supporting plots can be found on [Production](https://iriswangziyi.github.io/p8105_final_project/production.html) tab on our website.
 
 ### Additional analysis: Regression
 
-We focus on two analyses in our project. One is to compare tax differences by jurisdiction group over time. The other is to model taxation under the regression analysis framework. More details can be found in the Analysis section on our website (link to be inserted here). 
+We focus on two analyses in our project. One is to compare tax differences by jurisdiction group over time. The other is to model taxation under the regression analysis framework. More details can be found in the [Statistical Analysis](https://iriswangziyi.github.io/p8105_final_project/analysis.html) section on our website. 
 
 **1. Preliminary Analysis** -- Tax differences by jurisdiction group
 
@@ -394,13 +390,13 @@ Differing on the degree of control on liquor wholesales and retail, states can b
 
 **Procedures**
 
-We performed t-test for each year from 2010 to 2019 and would like to see if there is any significant difference in the cumulative tax between control states and licensed states. 
+We performed t-test for each year from 2010 to 2019 and would like to see if 1) the cumulative taxes collected differ significantly between the control states and the licensed states, and 2) the tax per barrel differ significantly between the control states and the licensed states. 
 
 **Findings**
 
 Based on the test results, however, we did not find sufficient evidence showing any significant difference between two jurisdiction groups in both the cumulative tax collected and the tax per barrel from 2010 to 2019. 
 
-We speculated that there may be some confounding variables that could potentially affect the relationship between taxation and the jurisdiction group. Therefore, we decided to further perform regression analysis. Specifically, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption.
+We speculated that there may be some confounding variables that could potentially affect the relationship between taxation and jurisdiction groups. Therefore, we decided to further perform regression analysis. Specifically, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption.
 
 **2. Regression Analysis**
 
@@ -411,7 +407,7 @@ Our explaining variables of interest include jurisdiction group, year, shipments
 * group: jurisdiction group (control vs licensed)
 * shipments: amount of barrels shipped
 * population: the number of individuals who are 21 years old or older
-* consumption: consumption of barrels per capital
+* consumption: consumption of barrels per capita
 
 **Model**
 
@@ -423,16 +419,11 @@ We looked at both the cumulative tax collected and the tax per barrel.
 
 **Results & Findings**
 
-In the model of the **tax per barrel**, all the variables are **not significant** at the 5% significance level; further the model is poorly fitted as the adjusted $R^2$ is approximately 0. Therefore, we will mostly focus on the cumulative tax collected. 
+In the model of the tax per barrel, all the variables are not significant at the 5% significance level. Further, the model is poorly fitted as the adjusted $R^2$ is approximately 0. Therefore, we will mostly focus on the cumulative tax collected. 
 
-In the model of **cumulative tax collected**, we found that: 
+In the model of cumulative tax collected, all variables in our model are significant at the 5% significance level. Our model fit is acceptable with an adjusted $R^2 = 0.55$. Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that licensed states are estimated to have approximately $7.6k less cumulative tax collected than the control states. Additionally, cumulative tax collected is estimate to increase approximately $7k per year, holding the group, shipments, population and consumption unchanged, increase approximately $1.2k for one unit increase in consumption per capita, holding the group, year, shipments, and population unchanged, increase approximately $14 for each 1k increase in population, holding the group, year, shipments, and consumption unchanged, but decrease approximately $9.6 for each 1k increase in shipments, holding the group, year, population, and consumption unchanged. 
 
-* All variables in our model are **significant** at the 5% significance level. 
-* Our model fit is acceptable with an adjusted $R^2 = 0.55$. 
-* Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that **licensed states** are estimated to have approximately **7.5k less cumulative tax collected** than the control states.
-* **Cumulative tax collected** is estimate to **increase approximately 7k per year**, holding the group, shipments, population and consumption unchanged. 
-* Cumulative tax collected is estimated to **increase approximately 1k for one unit increase in consumption per capita**, holding the group, year, shipments, and population unchanged. 
-* Population and shipments have estimated coefficients close to 0, though they have significant p-values. 
+Below is the detailed output of our model. 
 
 ```{r reg_df,collapse=T,message=FALSE,warning=FALSE}
 # Load datasets
@@ -486,7 +477,7 @@ lm_model = lm(total_tax ~ group + year + shipments + population + consumption, d
 summary(lm_model)
 
 broom::tidy(lm_model) %>% 
-  mutate_at(2:5, round, 2) %>% 
+  mutate_at(2:5, format, digits = 2, nsmall = 1) %>% 
   janitor::clean_names() %>% 
   rename(
     Variable = term,

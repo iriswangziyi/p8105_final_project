@@ -27,9 +27,9 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<script src="site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="site_libs/datatables-binding-0.15/datatables.js"></script>
+<script src="site_libs/datatables-binding-0.16/datatables.js"></script>
 <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -656,7 +656,6 @@ for( i in 2:11) { # years are (2009+1, 2019)
 </div>
 <div id="exploratory-analysis" class="section level3">
 <h3>Exploratory analysis:</h3>
-<p>Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas. Each of us add our part, should include code that can generate the plot(please note file path), comment on the plots and answer the above corresponding initial questions part. I will try to revise them in a reasonable order.</p>
 <div id="taxation" class="section level4">
 <h4>Taxation:</h4>
 <div id="tax-per-barrel-averages" class="section level5">
@@ -699,8 +698,8 @@ perbarrel_tax %&gt;%  # plotting!!
 </div>
 <div id="cumulative-tax" class="section level5">
 <h5>Cumulative Tax</h5>
-<p>For detailed visualization of cumulative tax for each state over the years, you can have a look at our <a href="https://iriswangziyi.github.io/p8105_final_project/viz_tax_statemap/dashboard_tax_state_map.html">data exploration</a> dashboard under “Taxation” tab. For the first page of the dashboard, we provided interactive tax trend and choropleth plots for each year, click on the point or state you can see hover information. Besides, tax data table is attached on the second page of the dashboard. Here is a sample page of dashboard. <img src="viz_tax_statemap/dashboard1.png" alt="Taxation Dashboard" />.</p>
-<p>Code for generating all the dashboards can be found <a href="https://github.com/iriswangziyi/p8105_final_project/tree/main/viz_tax_statemap">here</a></p>
+<p>For detailed visualization of cumulative tax for each state over the years, you can have a look at our <a href="https://iriswangziyi.github.io/p8105_final_project/viz_tax_statemap/dashboard_tax_state_map.html">data exploration</a> dashboard under “Taxation” tab. For the first page of the dashboard, we provided interactive tax trend and choropleth plots for each year, click on the point or state you can see hover information. Besides, tax data table is attached on the second page of the dashboard. Here is a sample page of dashboard. <img src="viz_tax_statemap/dashboard1.png" alt="Taxation Dashboard" /></p>
+<p>Code for generating all the dashboards can be found <a href="https://github.com/iriswangziyi/p8105_final_project/tree/main/viz_tax_statemap">here</a>.</p>
 <p>The state with the lowest amount of taxes collected from breweries is North Dakota and South Dakota is a close second for the lowest amount of taxes. Both of these states are located in the North Central part of America. The state with the largest amount in cumulative taxes collected from breweries is California it also has most increase over the years. In second place for top cumulative tax is Colorado. These top two states are in the West part of the United States. This measurement of tax does not account for the population base or size of the state. It makes sense that California is at the top because it a state with a lot of people and that North and South Dakota is at the bottom because the population mass is much less. Overall, looking at the states, the states with a smaller population has a smaller cumulative beer tax rate.</p>
 <p>More interesting and supporting plots can be found on <a href="https://iriswangziyi.github.io/p8105_final_project/taxation.html">Taxation</a> tab on our website.</p>
 </div>
@@ -748,7 +747,7 @@ beer %&gt;%
 </div>
 <div id="consumption-per-capita" class="section level5">
 <h5>Consumption per Capita</h5>
-<p>For detailed visualization of consumption per Capita for each state, you can have a look at our <a href="https://iriswangziyi.github.io/p8105_final_project/viz_tax_statemap/dashboard_comsum_statemap.html">data exploration</a> dashboard under “consumption” tab. For the first page of the dashboard, we provided interactive consumption trend and choropleth plots for each year, click on the point or state you can see hover information. Besides, consumption data table is attached on the second page of the dashboard. Here is a sample page of dashboard. <img src="viz_tax_statemap/dashboard2.png" alt="Consumption Dashboard" />.</p>
+<p>For detailed visualization of consumption per Capita for each state, you can have a look at our <a href="https://iriswangziyi.github.io/p8105_final_project/viz_tax_statemap/dashboard_comsum_statemap.html">data exploration</a> dashboard under “consumption” tab. For the first page of the dashboard, we provided interactive consumption trend and choropleth plots for each year, click on the point or state you can see hover information. Besides, consumption data table is attached on the second page of the dashboard. Here is a sample page of dashboard. <img src="viz_tax_statemap/dashboard2.png" alt="Consumption Dashboard" /></p>
 <p>First, we see Utah constantly at the bottom throughout all years. The top per Capita consumption rates are from New Hampshire, Montana, and North Dakota. These three states are very interesting because they have been towards the bottom of the list on the taxation and production page. One explanation is that these three states do not have very big populations so consumption is divided by a smaller number making the measurement look larger. The second explanation is that all these states have a low tax per barrel cost therefore people from out of state might travel to purchase alcohol. Interviewing friends and family from the North East traveling to New Hampshire to buy alcohol common because they do not have sales tax. There are 5 states that do not have sales tax as of 2019 Alaska, Delaware, Montana, New Hampshire, and Oregon. This helps explain why New Hampshire and Montana are so high up on the list, not only do they have no sales tax but they also have small populations making their consumption per capita large. According to the same source, California has the highest state-level sales tax which helps explain why it is so low on our rankings here but high up in the ranking on the Taxation and Production page.</p>
 <p>More interesting and supporting plots can be found on <a href="https://iriswangziyi.github.io/p8105_final_project/consumption.html">Consumption</a> tab on our website.</p>
 </div>
@@ -799,22 +798,22 @@ barrel %&gt;%  # plotting!!
 <p><img src="Report_files/figure-html/unnamed-chunk-5-1.png" width="768" /></p>
 <p>The state with the least amount of taxable barrel volume is North Dakota (1740.12) with South Dakota (2033.03) very close by. The state with the most barrel production in California (2,195,187) with Colorado (1,994,354) in second place. The trend in this graph appears to be exponential growth. The upper half of the states seem to produce a significant amount more barrels compare to the lower states. This cut off seem to be around Washington. There is a huge gap between Florida and Ohio. The states Ohio, Colorado, and California seem to make an exponential amount more of taxable barrels than the other states.</p>
 <p>These findings also make sense comparing the locations of the top states to the bottom states. The <a href="https://iriswangziyi.github.io/p8105_final_project/consumption.html#Brewery_locations">brewery location</a> interactive map showed that states on coastlines or on the edges of the United States has more brewery location, therefore they produce more taxable volume. The states in middle America did not have a lot of brewery location so it makes sense that they don’t produce a lot of taxable volume of beer.</p>
-<p>For detailed visualization of production trend for each state, you can have a look at our <a href="https://iriswangziyi.github.io/p8105_final_project/viz_tax_statemap/dashboard_production.html">data exploration</a> dashboard under “production” tab. For the first page of the dashboard, we provided interactive production trend plots for “Barrels and Kegs” and “Bottles and Cans”, click on the point you can see hover information. Besides, production data table is attached on the second page of the dashboard. Besides, production data table is attached on the second page of the dashboard. Here is a sample page of dashboard. <img src="viz_tax_statemap/dashboard3.png" alt="Production Dashboard" />.</p>
+<p>For detailed visualization of production trend for each state, you can have a look at our <a href="https://iriswangziyi.github.io/p8105_final_project/viz_tax_statemap/dashboard_production.html">data exploration</a> dashboard under “production” tab. For the first page of the dashboard, we provided interactive production trend plots for “Barrels and Kegs” and “Bottles and Cans”, click on the point you can see hover information. Besides, production data table is attached on the second page of the dashboard. Besides, production data table is attached on the second page of the dashboard. Here is a sample page of dashboard. <img src="viz_tax_statemap/dashboard3.png" alt="Production Dashboard" /></p>
 <p>More interesting and supporting plots can be found on <a href="https://iriswangziyi.github.io/p8105_final_project/production.html">Production</a> tab on our website.</p>
 </div>
 </div>
 </div>
 <div id="additional-analysis-regression" class="section level3">
 <h3>Additional analysis: Regression</h3>
-<p>We focus on two analyses in our project. One is to compare tax differences by jurisdiction group over time. The other is to model taxation under the regression analysis framework. More details can be found in the Analysis section on our website (link to be inserted here).</p>
+<p>We focus on two analyses in our project. One is to compare tax differences by jurisdiction group over time. The other is to model taxation under the regression analysis framework. More details can be found in the <a href="https://iriswangziyi.github.io/p8105_final_project/analysis.html">Statistical Analysis</a> section on our website.</p>
 <p><strong>1. Preliminary Analysis</strong> – Tax differences by jurisdiction group</p>
 <p><strong>Motivation</strong></p>
 <p>Differing on the degree of control on liquor wholesales and retail, states can be categorized into two <a href="https://www.ncsla.org/State-Officials.html">types</a> – control jurisdiction and licensed jurisdiction, with licensed states having more control. Such categorization may lead to difference in taxation. Therefore, we are interested in examining if there is any difference in taxation by these two groups of states.</p>
 <p><strong>Procedures</strong></p>
-<p>We performed t-test for each year from 2010 to 2019 and would like to see if there is any significant difference in the cumulative tax between control states and licensed states.</p>
+<p>We performed t-test for each year from 2010 to 2019 and would like to see if 1) the cumulative taxes collected differ significantly between the control states and the licensed states, and 2) the tax per barrel differ significantly between the control states and the licensed states.</p>
 <p><strong>Findings</strong></p>
 <p>Based on the test results, however, we did not find sufficient evidence showing any significant difference between two jurisdiction groups in both the cumulative tax collected and the tax per barrel from 2010 to 2019.</p>
-<p>We speculated that there may be some confounding variables that could potentially affect the relationship between taxation and the jurisdiction group. Therefore, we decided to further perform regression analysis. Specifically, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption.</p>
+<p>We speculated that there may be some confounding variables that could potentially affect the relationship between taxation and jurisdiction groups. Therefore, we decided to further perform regression analysis. Specifically, we would like to explore more regarding the relationship between taxation and jurisdiction group, year, shipments, population, and consumption.</p>
 <p><strong>2. Regression Analysis</strong></p>
 <p><strong>Variables of interest</strong></p>
 <p>Our explaining variables of interest include jurisdiction group, year, shipments, population, and consumption. Their detailed explanation are as below.</p>
@@ -822,23 +821,16 @@ barrel %&gt;%  # plotting!!
 <li>group: jurisdiction group (control vs licensed)</li>
 <li>shipments: amount of barrels shipped</li>
 <li>population: the number of individuals who are 21 years old or older</li>
-<li>consumption: consumption of barrels per capital</li>
+<li>consumption: consumption of barrels per capita</li>
 </ul>
 <p><strong>Model</strong></p>
 <p>Our intended model is</p>
 <p><span class="math display">\[Tax = \beta_0 + \beta_1 \ Group + \beta_2 Year + \beta_3 \ Shipments + \beta_4 \ Population+ \beta_5 \ Consumption\]</span></p>
 <p>We looked at both the cumulative tax collected and the tax per barrel.</p>
 <p><strong>Results &amp; Findings</strong></p>
-<p>In the model of the <strong>tax per barrel</strong>, all the variables are <strong>not significant</strong> at the 5% significance level; further the model is poorly fitted as the adjusted <span class="math inline">\(R^2\)</span> is approximately 0. Therefore, we will mostly focus on the cumulative tax collected.</p>
-<p>In the model of <strong>cumulative tax collected</strong>, we found that:</p>
-<ul>
-<li>All variables in our model are <strong>significant</strong> at the 5% significance level.</li>
-<li>Our model fit is acceptable with an adjusted <span class="math inline">\(R^2 = 0.55\)</span>.</li>
-<li>Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that <strong>licensed states</strong> are estimated to have approximately <strong>7.5k less cumulative tax collected</strong> than the control states.</li>
-<li><strong>Cumulative tax collected</strong> is estimate to <strong>increase approximately 7k per year</strong>, holding the group, shipments, population and consumption unchanged.</li>
-<li>Cumulative tax collected is estimated to <strong>increase approximately 1k for one unit increase in consumption per capita</strong>, holding the group, year, shipments, and population unchanged.</li>
-<li>Population and shipments have estimated coefficients close to 0, though they have significant p-values.</li>
-</ul>
+<p>In the model of the tax per barrel, all the variables are not significant at the 5% significance level. Further, the model is poorly fitted as the adjusted <span class="math inline">\(R^2\)</span> is approximately 0. Therefore, we will mostly focus on the cumulative tax collected.</p>
+<p>In the model of cumulative tax collected, all variables in our model are significant at the 5% significance level. Our model fit is acceptable with an adjusted <span class="math inline">\(R^2 = 0.55\)</span>. Previously, we did not find any significant difference in the cumulative tax between two jurisdiction groups. However, after controlling for year, shipments, population and consumption, we found that licensed states are estimated to have approximately $7.6k less cumulative tax collected than the control states. Additionally, cumulative tax collected is estimate to increase approximately $7k per year, holding the group, shipments, population and consumption unchanged, increase approximately $1.2k for one unit increase in consumption per capita, holding the group, year, shipments, and population unchanged, increase approximately $14 for each 1k increase in population, holding the group, year, shipments, and consumption unchanged, but decrease approximately $9.6 for each 1k increase in shipments, holding the group, year, population, and consumption unchanged.</p>
+<p>Below is the detailed output of our model.</p>
 <pre class="r"><code># Load datasets
 state_df = read_csv(&quot;data_import_cleaning/state_df.csv&quot;)
 tax_df = read_csv( &quot;data_import_cleaning/tax.csv&quot;)
@@ -914,7 +906,7 @@ summary(lm_model)
 ## F-statistic: 124.6 on 5 and 500 DF,  p-value: &lt; 2.2e-16
 
 broom::tidy(lm_model) %&gt;% 
-  mutate_at(2:5, round, 2) %&gt;% 
+  mutate_at(2:5, format, digits = 2, nsmall = 1) %&gt;% 
   janitor::clean_names() %&gt;% 
   rename(
     Variable = term,
@@ -934,7 +926,7 @@ broom::tidy(lm_model) %&gt;%
     background = DT::styleInterval(c(0.05),c(&quot;lightsteelblue&quot;,&quot;white&quot;)), 
     target = &quot;row&quot;)</code></pre>
 <div id="htmlwidget-486ad51ffd16a56691da" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-486ad51ffd16a56691da">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],[-14148057.06,-7551.04,7011.78,-0.01,0.01,1188.99],[980018.67,2972.68,485.77,0,0,339.58],[-14.44,-2.54,14.43,-4.18,6.71,3.5],[0,0.01,0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-486ad51ffd16a56691da">{"x":{"filter":"none","data":[["(Intercept)","Licensed Group","Year","Shipments","Population","Consumption"],["-1.4e+07","-7.6e+03"," 7.0e+03","-9.5e-03"," 1.4e-02"," 1.2e+03"],["9.8e+05","3.0e+03","4.9e+02","2.3e-03","2.0e-03","3.4e+02"],["-14.4"," -2.5"," 14.4"," -4.2","  6.7","  3.5"],["9.7e-40","1.1e-02","9.9e-40","3.5e-05","5.2e-11","5.0e-04"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Variable<\/th>\n      <th>Coefficient<\/th>\n      <th>Standard Error<\/th>\n      <th>t-Statistic<\/th>\n      <th>P-value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[4]; $(row).css({'background':isNaN(parseFloat(value)) ? '' : value <= 0.05 ? \"lightsteelblue\" : \"white\"});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 </div>
 <div id="discussion" class="section level3">
 <h3>Discussion:</h3>
