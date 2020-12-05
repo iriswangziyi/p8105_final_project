@@ -420,7 +420,7 @@ div.tocify {
   </ul>
 </li>
 <li>
-  <a href="analysis.html">Analysis</a>
+  <a href="analysis.html">Statistical Analysis</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -601,7 +601,7 @@ beer %&gt;%
 <p><img src="consumption_files/figure-html/unnamed-chunk-2-1.png" width="768" /></p>
 <div id="average-abv-interpretation" class="section level3">
 <h3>Average ABV interpretation:</h3>
-<p>The dotted lines at 5% and 7% represent the national average of Alchol content in beer according to the <a href="https://nclnet.org/alcohol_how_it_all_adds_up/#:~:text=One%20ounce%20of%20beer%20contains,5%20percent%20alcohol%20by%20volume">National Consumers League</a>. From this graph, we see that 5 states have averages well below that range (Idaho, Utah, Mississippi, Iowa and Tennessee) and 6 states have an average well above that range (Maryland, Wyoming, Alaska, Illinois, Flordia and Deleware). Looking specifically at Delaware the 95% lower bound of its confidence interval is well above 7% implying that this state produces beer that has an alcohol content larger than the national average in a regular beer.</p>
+<p>The dotted lines at 5% and 7% represent the national average of Alcohol content in beer according to the <a href="https://nclnet.org/alcohol_how_it_all_adds_up/#:~:text=One%20ounce%20of%20beer%20contains,5%20percent%20alcohol%20by%20volume">National Consumers League</a>. From this graph, we see that 5 states have averages well below that range (Idaho, Utah, Mississippi, Iowa and Tennessee) and 6 states have an average well above that range (Maryland, Wyoming, Alaska, Illinois, Flordia and Deleware). Looking specifically at Delaware the 95% lower bound of its confidence interval is well above 7% implying that this state produces beer that has an alcohol content larger than the national average in a regular beer.</p>
 <hr />
 </div>
 </div>
@@ -641,8 +641,8 @@ top_styles %&gt;%
 <hr />
 </div>
 </div>
-<div id="abi-by-our-top-8-styles" class="section level2">
-<h2>ABI by our top 8 styles</h2>
+<div id="abv-by-our-top-8-styles" class="section level2">
+<h2>ABV by our top 8 styles</h2>
 <p>Finally, we looked at the pattern of ABV by beer’s style. There are 62 different styles listed in our dataset, and we will show the <strong>top 8</strong> from the table above. The colors are similar to the table above as well.</p>
 <pre class="r"><code>style_abv = 
   beer %&gt;% 

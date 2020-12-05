@@ -21,7 +21,7 @@ navbar:
           href: production.html
         - text: "Data Exploration"
           href: viz_tax_statemap/dashboard_production.html
-    - text: "Analysis"
+    - text: "Statistical Analysis"
       href: analysis.html
   right:
     - text: "Project Report"

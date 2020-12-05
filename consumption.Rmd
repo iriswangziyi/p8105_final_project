@@ -203,7 +203,7 @@ Sorting by the counts the three top states are California (count of 97) with win
 
 ---
 
-## ABI by our top 8 styles
+## ABV by our top 8 styles
 
 Finally, we looked at the pattern of ABV by beer's style. There are 62 different styles listed in our dataset, and we will show the **top 8** from the table above.  The colors are similar to the table above as well. 
 
